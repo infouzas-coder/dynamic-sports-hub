@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
       quote_requests: {
         Row: {
           created_at: string
@@ -47,6 +77,42 @@ export type Database = {
           phone?: string | null
           product?: string
           quantity?: number | null
+        }
+        Relationships: []
+      }
+      wholesale_inquiries: {
+        Row: {
+          business_name: string
+          contact_name: string
+          created_at: string
+          email: string
+          estimated_quantity: string | null
+          id: string
+          message: string | null
+          phone: string | null
+          product_interest: string
+        }
+        Insert: {
+          business_name: string
+          contact_name: string
+          created_at?: string
+          email: string
+          estimated_quantity?: string | null
+          id?: string
+          message?: string | null
+          phone?: string | null
+          product_interest: string
+        }
+        Update: {
+          business_name?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          estimated_quantity?: string | null
+          id?: string
+          message?: string | null
+          phone?: string | null
+          product_interest?: string
         }
         Relationships: []
       }

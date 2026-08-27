@@ -3,83 +3,62 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import heroArena from "@/assets/hero-arena.jpg";
 import heroLoop from "@/assets/hero-loop.mp4.asset.json";
-import fightShorts from "@/assets/fight-shorts.jpg";
-import rashGuard from "@/assets/rash-guard.jpg";
-import teamwear from "@/assets/teamwear.jpg";
+import { CATEGORIES } from "@/lib/site-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Uzas Sports — Martial Arts Gear & Sublimation Apparel Manufacturer" },
+      { title: "Uzas Sports — Sportswear & Combat Gear Manufacturer Since 2005" },
       {
         name: "description",
         content:
-          "Uzas Sports builds custom fight shorts, rash guards, gi and sublimated teamwear — fully in-house, from scratch to finish, in any quantity.",
+          "Uzas Sports is a Sialkot-based manufacturer established in 2005 — apparel, paintball, martial arts gear, gloves, custom patches and sublimation clothing, all made in-house.",
       },
-      {
-        property: "og:title",
-        content: "Uzas Sports — Built Scratch to Finish",
-      },
+      { property: "og:title", content: "Uzas Sports — Six Product Lines, One Factory" },
       {
         property: "og:description",
         content:
-          "In-house manufacturer of martial arts gear and custom sublimation apparel. Any quantity, one facility, no hand-offs.",
+          "Manufacturer of performance apparel, paintball gear, martial arts uniforms, gloves, custom patches and sublimated teamwear. Sialkot, Pakistan since 2005.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Uzas Sports",
+          url: "https://www.uzassports.com",
+          foundingDate: "2005",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Sialkot",
+            addressCountry: "PK",
+          },
+          sameAs: [
+            "https://www.instagram.com/uzas_sports/",
+            "https://www.facebook.com/uzalabel",
+            "https://pk.linkedin.com/in/uzas-sports",
+          ],
+        }),
+      },
     ],
   }),
   component: HomePage,
 });
 
 const MARQUEE_ITEMS =
-  "In-house production\u2003·\u2003Any quantity\u2003·\u2003Fast turnaround\u2003·\u2003Scratch to finish\u2003·\u2003Sublimation apparel\u2003·\u2003";
+  "Apparel\u2003·\u2003Paintball\u2003·\u2003Martial arts\u2003·\u2003Gloves\u2003·\u2003Custom patches\u2003·\u2003Sublimation\u2003·\u2003";
 
-const CATEGORIES = [
-  {
-    image: fightShorts,
-    title: "FIGHT SHORTS",
-    desc: "Sublimated patterns, reinforced waist, fight-spec sizing.",
-  },
-  {
-    image: rashGuard,
-    title: "RASH GUARDS",
-    desc: "All-over print, 4-way stretch, no bleeding — ever.",
-  },
-  {
-    image: teamwear,
-    title: "TEAM APPAREL",
-    desc: "Rosters, academies and clubs. One sample to full run.",
-  },
-];
-
-const PROCESS = [
-  {
-    step: "01",
-    title: "Design",
-    desc: "Your artwork, refined for sublimation and print-proofed before a single thread is cut.",
-  },
-  {
-    step: "02",
-    title: "Cut",
-    desc: "Precision cutting on performance fabrics, spec-matched to your size run.",
-  },
-  {
-    step: "03",
-    title: "Sublimate",
-    desc: "Full-transfer heat press locks the print into the fibre. Wash-proof, edge to edge.",
-  },
-  {
-    step: "04",
-    title: "Sew & QA",
-    desc: "Stitched, pressed and inspected in-house. We ship finished product, not panels.",
-  },
-];
-
-const STATS = [
-  { value: "1", suffix: "–∞", desc: "Any quantity. One unit to a full team run — same in-house quality on both." },
-  { value: "100", suffix: "%", desc: "In-house. Nothing outsourced, nothing subcontracted, nothing left to chance." },
-  { value: "7–12", suffix: "d", desc: "Turnaround from approved artwork to deliverable, finished product." },
+const TRUST = [
+  { value: "2005", label: "Established", desc: "Two decades manufacturing in Sialkot, Pakistan." },
+  { value: "100%", label: "In-house", desc: "Design, print, cut, stitch and QA under one roof." },
+  { value: "6", label: "Product lines", desc: "One supplier for everything your athletes wear." },
+  { value: "B2B", label: "Wholesale ready", desc: "Low MOQs, private label and repeat programmes." },
 ];
 
 function HomePage() {
@@ -105,46 +84,40 @@ function HomePage() {
         <div className="relative mx-auto flex min-h-[88vh] max-w-7xl flex-col justify-center px-6">
           <Reveal>
             <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              MMA & martial arts gear · in-house sublimation
+              Established 2005 · Sialkot, Pakistan · Six specialist lines
             </p>
           </Reveal>
           <Reveal delay={80}>
-            <h1 className="font-display text-[clamp(3.5rem,11vw,10rem)] leading-[0.82] tracking-tight text-bone">
-              BUILT
+            <h1 className="font-display text-[clamp(3.25rem,10vw,9rem)] leading-[0.82] tracking-tight text-bone">
+              ONE FACTORY.
               <br />
-              SCRATCH
+              SIX WAYS TO
               <br />
-              <span className="text-crimson">TO FINISH</span>
+              <span className="text-crimson">OUTFIT A TEAM</span>
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="mt-8 max-w-[46ch] text-pretty text-base text-bone/70 md:text-lg">
-              Fight shorts, rash guards, gi and fully custom sublimated teamwear
-              — designed, cut, printed and sewn by one floor. Any order
-              quantity, from one fighter to one whole roster.
+            <p className="mt-8 max-w-[50ch] text-pretty text-base text-bone/70 md:text-lg">
+              Uzas Sports manufactures performance apparel, paintball gear,
+              martial arts uniforms, gloves, custom patches and sublimated
+              clothing — designed, printed, cut and stitched entirely in-house
+              since 2005.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
-                to="/studio"
+                to="/wholesale"
                 className="bg-crimson px-7 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
               >
-                Try the AI Studio
+                For gyms & teams
               </Link>
-              <a
-                href="#process"
+              <Link
+                to="/catalogues"
                 className="border border-bone/30 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
               >
-                See the process
-              </a>
-            </div>
-          </Reveal>
-          <Reveal delay={340}>
-            <div className="mt-14 flex flex-wrap gap-x-10 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
-              <span>In-house only</span>
-              <span>Any quantity</span>
-              <span>7–12 day turnaround</span>
+                Browse catalogues
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -158,110 +131,124 @@ function HomePage() {
         </div>
       </div>
 
-      {/* CATALOG */}
+      {/* SIX LINES */}
       <section id="products" className="bg-coal py-24">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <div className="mb-12 flex items-end justify-between">
               <div>
                 <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                  (a) — Catalog
+                  (a) — Product lines
                 </p>
                 <h2 className="font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-6xl">
-                  BUILD YOUR
+                  SIX LINES,
                   <br />
-                  GEAR
+                  ONE STANDARD
                 </h2>
               </div>
               <Link
-                to="/studio"
+                to="/catalogues"
                 className="hidden font-mono text-[11px] uppercase tracking-[0.2em] text-smoke transition-colors hover:text-bone md:inline"
               >
-                Design yours →
+                All catalogues →
               </Link>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 gap-px bg-bone/10 md:grid-cols-3">
-            {CATEGORIES.map((cat, i) => (
-              <Reveal key={cat.title} delay={i * 100}>
-                <div className="group h-full bg-coal">
+          <div className="grid grid-cols-1 gap-px bg-bone/10 md:grid-cols-2 lg:grid-cols-3">
+            {CATEGORIES.map((c, i) => (
+              <Reveal key={c.slug} delay={i * 80}>
+                <Link to={c.slug} className="group block h-full bg-coal">
                   <div className="overflow-hidden">
                     <img
-                      src={cat.image}
-                      alt={cat.title}
+                      src={c.image}
+                      alt={`${c.name} — ${c.tagline}`}
                       loading="lazy"
-                      width={800}
+                      width={1600}
                       height={1000}
-                      className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="font-display text-2xl tracking-tight text-bone">
-                      {cat.title}
+                    <h3 className="font-display text-2xl tracking-tight text-bone group-hover:text-crimson">
+                      {c.name.toUpperCase()}
                     </h3>
-                    <p className="mt-2 text-sm text-smoke">{cat.desc}</p>
-                    <Link
-                      to="/studio"
-                      className="mt-4 inline-block font-mono text-[11px] uppercase tracking-[0.2em] text-crimson hover:text-bone"
-                    >
-                      Customise →
-                    </Link>
+                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-crimson">
+                      {c.tagline}
+                    </p>
+                    <p className="mt-3 text-sm text-smoke">{c.intro}</p>
+                    <span className="mt-4 inline-block font-mono text-[11px] uppercase tracking-[0.2em] text-bone">
+                      Explore line →
+                    </span>
                   </div>
-                </div>
+                </Link>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section id="process" className="border-t border-bone/10 bg-background py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <Reveal>
-            <div className="mb-14">
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                (b) — In-house
-              </p>
-              <h2 className="max-w-[16ch] font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-6xl">
-                ONE FLOOR, NO HAND-OFFS
-              </h2>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-px bg-bone/10 md:grid-cols-4">
-            {PROCESS.map((p, i) => (
-              <Reveal key={p.step} delay={i * 90}>
-                <div className="h-full bg-background p-7 transition-colors hover:bg-coal">
-                  <span className="font-display text-5xl text-crimson">{p.step}</span>
-                  <h3 className="mt-4 text-lg font-semibold text-bone">{p.title}</h3>
-                  <p className="mt-2 text-sm text-smoke">{p.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+      {/* TRUST BAR */}
+      <section className="border-t border-bone/10 bg-background py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-px bg-bone/10 sm:grid-cols-2 lg:grid-cols-4">
+          {TRUST.map((t, i) => (
+            <Reveal key={t.label} delay={i * 80}>
+              <div className="h-full bg-background p-8 transition-colors hover:bg-coal">
+                <p className="font-display text-[3.5rem] leading-none tracking-tight text-bone">
+                  {t.value}
+                </p>
+                <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
+                  {t.label}
+                </p>
+                <p className="mt-2 max-w-[26ch] text-sm text-smoke">{t.desc}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* STATS */}
-      <section id="terms" className="border-t border-bone/10 bg-coal py-24">
+      {/* SOCIAL PROOF / INSTAGRAM */}
+      <section className="border-t border-bone/10 bg-coal py-24">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
-            <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (c) — The terms
+            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
+              (b) — Off the line
+            </p>
+            <h2 className="max-w-[18ch] font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-6xl">
+              LIVE FROM THE FACTORY FLOOR
+            </h2>
+            <p className="mt-5 max-w-[52ch] text-sm text-smoke">
+              Real orders, real teams, shipped worldwide. Follow{" "}
+              <a
+                href="https://www.instagram.com/uzas_sports/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-crimson hover:text-bone"
+              >
+                @uzas_sports
+              </a>{" "}
+              for daily production shots.
             </p>
           </Reveal>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-            {STATS.map((s, i) => (
-              <Reveal key={s.value} delay={i * 100}>
-                <div>
-                  <p className="font-display text-[5rem] leading-none tracking-tight text-bone">
-                    {s.value}
-                    <span className="text-crimson">{s.suffix}</span>
-                  </p>
-                  <p className="mt-3 max-w-[24ch] text-sm text-smoke">{s.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={120}>
+            <div className="mt-10 border border-bone/10 bg-background">
+              <iframe
+                title="Uzas Sports Instagram feed"
+                src="https://www.instagram.com/uzas_sports/embed"
+                loading="lazy"
+                className="h-[620px] w-full"
+                frameBorder={0}
+                scrolling="no"
+              />
+            </div>
+            <a
+              href="https://www.instagram.com/uzas_sports/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-block border border-bone/25 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-bone transition-colors hover:border-crimson hover:text-crimson"
+            >
+              View full Instagram ↗
+            </a>
+          </Reveal>
         </div>
       </section>
 
@@ -277,29 +264,29 @@ function HomePage() {
             <h2 className="text-balance font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-7xl">
               LET'S BUILD
               <br />
-              YOUR NEXT ROSTER
+              YOUR NEXT ORDER
             </h2>
           </Reveal>
           <Reveal delay={160}>
             <p className="mx-auto mt-8 max-w-[52ch] text-pretty text-base text-smoke">
-              Drop your design in the AI Studio, see it on real gear, and send
-              it straight to a quote — no middlemen, no markup games.
+              Wholesale programmes for gyms, academies, clubs and brands — plus
+              an AI mockup studio if you want to see your artwork on gear first.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Link
-                to="/studio"
+                to="/wholesale"
                 className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
               >
-                Open the AI Studio
+                For gyms & teams
               </Link>
-              <a
-                href="mailto:info@uzassports.com"
+              <Link
+                to="/studio"
                 className="border border-bone/30 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
               >
-                info@uzassports.com
-              </a>
+                AI mockup studio
+              </Link>
             </div>
           </Reveal>
         </div>

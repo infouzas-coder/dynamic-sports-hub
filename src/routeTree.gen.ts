@@ -10,11 +10,61 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ApparelRouteImport } from './routes/apparel'
+import { Route as CataloguesRouteImport } from './routes/catalogues'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CustomPatchesRouteImport } from './routes/custom-patches'
+import { Route as GlovesRouteImport } from './routes/gloves'
+import { Route as MartialArtsCombatSportsRouteImport } from './routes/martial-arts-combat-sports'
+import { Route as PaintballRouteImport } from './routes/paintball'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as SublimationClothingRouteImport } from './routes/sublimation-clothing'
+import { Route as WholesaleRouteImport } from './routes/wholesale'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApparelRoute = ApparelRouteImport.update({
+  id: '/apparel',
+  path: '/apparel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CataloguesRoute = CataloguesRouteImport.update({
+  id: '/catalogues',
+  path: '/catalogues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomPatchesRoute = CustomPatchesRouteImport.update({
+  id: '/custom-patches',
+  path: '/custom-patches',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GlovesRoute = GlovesRouteImport.update({
+  id: '/gloves',
+  path: '/gloves',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MartialArtsCombatSportsRoute = MartialArtsCombatSportsRouteImport.update({
+  id: '/martial-arts-combat-sports',
+  path: '/martial-arts-combat-sports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaintballRoute = PaintballRouteImport.update({
+  id: '/paintball',
+  path: '/paintball',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudioRoute = StudioRouteImport.update({
@@ -22,31 +72,118 @@ const StudioRoute = StudioRouteImport.update({
   path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SublimationClothingRoute = SublimationClothingRouteImport.update({
+  id: '/sublimation-clothing',
+  path: '/sublimation-clothing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WholesaleRoute = WholesaleRouteImport.update({
+  id: '/wholesale',
+  path: '/wholesale',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/apparel': typeof ApparelRoute
+  '/catalogues': typeof CataloguesRoute
+  '/contact': typeof ContactRoute
+  '/custom-patches': typeof CustomPatchesRoute
+  '/gloves': typeof GlovesRoute
+  '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
+  '/paintball': typeof PaintballRoute
   '/studio': typeof StudioRoute
+  '/sublimation-clothing': typeof SublimationClothingRoute
+  '/wholesale': typeof WholesaleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/apparel': typeof ApparelRoute
+  '/catalogues': typeof CataloguesRoute
+  '/contact': typeof ContactRoute
+  '/custom-patches': typeof CustomPatchesRoute
+  '/gloves': typeof GlovesRoute
+  '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
+  '/paintball': typeof PaintballRoute
   '/studio': typeof StudioRoute
+  '/sublimation-clothing': typeof SublimationClothingRoute
+  '/wholesale': typeof WholesaleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/apparel': typeof ApparelRoute
+  '/catalogues': typeof CataloguesRoute
+  '/contact': typeof ContactRoute
+  '/custom-patches': typeof CustomPatchesRoute
+  '/gloves': typeof GlovesRoute
+  '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
+  '/paintball': typeof PaintballRoute
   '/studio': typeof StudioRoute
+  '/sublimation-clothing': typeof SublimationClothingRoute
+  '/wholesale': typeof WholesaleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/studio'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/apparel'
+    | '/catalogues'
+    | '/contact'
+    | '/custom-patches'
+    | '/gloves'
+    | '/martial-arts-combat-sports'
+    | '/paintball'
+    | '/studio'
+    | '/sublimation-clothing'
+    | '/wholesale'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/studio'
-  id: '__root__' | '/' | '/studio'
+  to:
+    | '/'
+    | '/about'
+    | '/apparel'
+    | '/catalogues'
+    | '/contact'
+    | '/custom-patches'
+    | '/gloves'
+    | '/martial-arts-combat-sports'
+    | '/paintball'
+    | '/studio'
+    | '/sublimation-clothing'
+    | '/wholesale'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/apparel'
+    | '/catalogues'
+    | '/contact'
+    | '/custom-patches'
+    | '/gloves'
+    | '/martial-arts-combat-sports'
+    | '/paintball'
+    | '/studio'
+    | '/sublimation-clothing'
+    | '/wholesale'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ApparelRoute: typeof ApparelRoute
+  CataloguesRoute: typeof CataloguesRoute
+  ContactRoute: typeof ContactRoute
+  CustomPatchesRoute: typeof CustomPatchesRoute
+  GlovesRoute: typeof GlovesRoute
+  MartialArtsCombatSportsRoute: typeof MartialArtsCombatSportsRoute
+  PaintballRoute: typeof PaintballRoute
   StudioRoute: typeof StudioRoute
+  SublimationClothingRoute: typeof SublimationClothingRoute
+  WholesaleRoute: typeof WholesaleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +195,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apparel': {
+      id: '/apparel'
+      path: '/apparel'
+      fullPath: '/apparel'
+      preLoaderRoute: typeof ApparelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogues': {
+      id: '/catalogues'
+      path: '/catalogues'
+      fullPath: '/catalogues'
+      preLoaderRoute: typeof CataloguesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-patches': {
+      id: '/custom-patches'
+      path: '/custom-patches'
+      fullPath: '/custom-patches'
+      preLoaderRoute: typeof CustomPatchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gloves': {
+      id: '/gloves'
+      path: '/gloves'
+      fullPath: '/gloves'
+      preLoaderRoute: typeof GlovesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/martial-arts-combat-sports': {
+      id: '/martial-arts-combat-sports'
+      path: '/martial-arts-combat-sports'
+      fullPath: '/martial-arts-combat-sports'
+      preLoaderRoute: typeof MartialArtsCombatSportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paintball': {
+      id: '/paintball'
+      path: '/paintball'
+      fullPath: '/paintball'
+      preLoaderRoute: typeof PaintballRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studio': {
       id: '/studio'
       path: '/studio'
@@ -65,12 +258,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sublimation-clothing': {
+      id: '/sublimation-clothing'
+      path: '/sublimation-clothing'
+      fullPath: '/sublimation-clothing'
+      preLoaderRoute: typeof SublimationClothingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wholesale': {
+      id: '/wholesale'
+      path: '/wholesale'
+      fullPath: '/wholesale'
+      preLoaderRoute: typeof WholesaleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ApparelRoute: ApparelRoute,
+  CataloguesRoute: CataloguesRoute,
+  ContactRoute: ContactRoute,
+  CustomPatchesRoute: CustomPatchesRoute,
+  GlovesRoute: GlovesRoute,
+  MartialArtsCombatSportsRoute: MartialArtsCombatSportsRoute,
+  PaintballRoute: PaintballRoute,
   StudioRoute: StudioRoute,
+  SublimationClothingRoute: SublimationClothingRoute,
+  WholesaleRoute: WholesaleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
