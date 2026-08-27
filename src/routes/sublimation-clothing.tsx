@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CategoryTemplate, categoryHead } from "@/components/CategoryTemplate";
 import { CATEGORIES } from "@/lib/site-data";
 
-const category = CATEGORIES[5];
+const category = CATEGORIES[5]!;
 
 export const Route = createFileRoute("/sublimation-clothing")({
   head: categoryHead(category),
