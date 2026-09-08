@@ -80,11 +80,18 @@ export const generateMockup = createServerFn({ method: "POST" })
       );
     }
 
-    const json = await res.json();
+    const json = (await res.json()) as {
+      candidates?: Array<{
+        content?: {
+          parts?: Array<{
+            inlineData?: { mimeType?: string; mime_type?: string; data?: string };
+            inline_data?: { mimeType?: string; mime_type?: string; data?: string };
+          }>;
+        };
+      }>;
+    };
     const parts = json.candidates?.[0]?.content?.parts ?? [];
-    const imagePart = parts.find(
-      (p: Record<string, unknown>) => p.inlineData ?? p.inline_data,
-    );
+    const imagePart = parts.find((p) => p.inlineData ?? p.inline_data);
     const inline = imagePart?.inlineData ?? imagePart?.inline_data;
     if (!inline?.data) {
       throw new Error("The AI did not return an image. Try again.");
