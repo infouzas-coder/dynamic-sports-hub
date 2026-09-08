@@ -3,8 +3,10 @@ import { z } from "zod";
 
 function parseDataUrl(dataUrl: string): { mimeType: string; data: string } {
   const match = /^data:([^;]+);base64,(.+)$/s.exec(dataUrl);
-  if (!match) throw new Error("Invalid image data URL");
-  return { mimeType: match[1], data: match[2] };
+  const mimeType = match?.[1];
+  const base64 = match?.[2];
+  if (!mimeType || !base64) throw new Error("Invalid image data URL");
+  return { mimeType, data: base64 };
 }
 
 export const generateMockup = createServerFn({ method: "POST" })
