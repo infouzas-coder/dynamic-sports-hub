@@ -1,6 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
+function parseDataUrl(dataUrl: string): { mimeType: string; data: string } {
+  const match = /^data:([^;]+);base64,(.+)$/s.exec(dataUrl);
+  if (!match) throw new Error("Invalid image data URL");
+  return { mimeType: match[1], data: match[2] };
+}
+
 export const generateMockup = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z
@@ -13,8 +19,8 @@ export const generateMockup = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data }) => {
-    const key = process.env["LOVABLE_API_KEY"];
-    if (!key) throw new Error("Missing LOVABLE_API_KEY");
+    const key = process.env["GEMINI_API_KEY"];
+    if (!key) throw new Error("Missing GEMINI_API_KEY");
 
     const prompt =
       `You are a professional apparel mockup renderer for a sublimation manufacturer. ` +
@@ -26,27 +32,41 @@ export const generateMockup = createServerFn({ method: "POST" })
       (data.notes ? ` Customer notes: ${data.notes}.` : "") +
       ` Return only the finished mockup image.`;
 
+    const design = parseDataUrl(data.designDataUrl);
+    const base = parseDataUrl(data.baseDataUrl);
+
     const res = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${key}`,
+          "x-goog-api-key": key,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-3.1-flash-image",
-          messages: [
+          contents: [
             {
               role: "user",
-              content: [
-                { type: "text", text: prompt },
-                { type: "image_url", image_url: { url: data.designDataUrl } },
-                { type: "image_url", image_url: { url: data.baseDataUrl } },
+              parts: [
+                { text: prompt },
+                {
+                  inline_data: {
+                    mime_type: design.mimeType,
+                    data: design.data,
+                  },
+                },
+                {
+                  inline_data: {
+                    mime_type: base.mimeType,
+                    data: base.data,
+                  },
+                },
               ],
             },
           ],
-          modalities: ["image", "text"],
+          generationConfig: {
+            responseModalities: ["IMAGE"],
+          },
         }),
       },
     );
@@ -59,7 +79,14 @@ export const generateMockup = createServerFn({ method: "POST" })
     }
 
     const json = await res.json();
-    const image = json.choices?.[0]?.message?.images?.[0]?.image_url?.url;
-    if (!image) throw new Error("The AI did not return an image. Try again.");
-    return { image };
+    const parts = json.candidates?.[0]?.content?.parts ?? [];
+    const imagePart = parts.find(
+      (p: Record<string, unknown>) => p.inlineData ?? p.inline_data,
+    );
+    const inline = imagePart?.inlineData ?? imagePart?.inline_data;
+    if (!inline?.data) {
+      throw new Error("The AI did not return an image. Try again.");
+    }
+    const mimeType = inline.mimeType ?? inline.mime_type ?? "image/png";
+    return { image: `data:${mimeType};base64,${inline.data}` };
   });
