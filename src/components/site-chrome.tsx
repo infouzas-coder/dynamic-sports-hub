@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CATEGORIES, SOCIALS } from "@/lib/site-data";
+import uzasLogo from "@/assets/uzas-logo.png";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -8,11 +9,14 @@ export function SiteHeader() {
   return (
     <nav className="sticky top-0 z-40 border-b border-bone/10 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link
-          to="/"
-          className="font-display text-2xl leading-none tracking-tight text-bone"
-        >
-          UZAS<span className="text-crimson">.</span>
+        <Link to="/" className="flex items-center" aria-label="UZAS Sports home">
+          <img
+            src={uzasLogo}
+            alt="UZAS Sports"
+            className="h-11 w-auto sm:h-12"
+            width={600}
+            height={489}
+          />
         </Link>
 
         <div className="hidden items-center gap-8 font-mono text-[11px] uppercase tracking-[0.22em] text-smoke lg:flex">
@@ -68,9 +72,14 @@ export function SiteFooter() {
     <footer className="border-t border-bone/10 bg-background">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4">
         <div>
-          <span className="font-display text-2xl tracking-tight text-bone">
-            UZAS<span className="text-crimson">.</span> SPORTS
-          </span>
+          <img
+            src={uzasLogo}
+            alt="UZAS Sports"
+            className="h-24 w-auto"
+            width={600}
+            height={489}
+            loading="lazy"
+          />
           <p className="mt-3 max-w-[30ch] text-sm text-smoke">
             Manufacturer of sportswear, combat sports gear, gloves and patches.
             Established 2005 — Sialkot, Pakistan.
