@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import heroArena from "@/assets/hero-arena.jpg";
-import heroLoop from "@/assets/hero-loop.mp4.asset.json";
 import { CATEGORIES } from "@/lib/site-data";
 import uzasLogo from "@/assets/uzas-logo.png";
 
@@ -78,7 +77,7 @@ function HomePage() {
             playsInline
             poster={heroArena}
           >
-            <source src={heroLoop.url} type="video/mp4" />
+            <source src="/hero-loop.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20" />
@@ -282,7 +281,7 @@ function HomePage() {
 }
 
 /* Instagram profile embed, restyled: Instagram's white header is cropped away and replaced with a
-   branded dark header, and the frame is sized to show a clean 3 x 3 grid of the latest posts. */
+   branded dark header, and the frame is sized to show a clean grid of the latest posts. */
 const IG_URL = "https://www.instagram.com/uzas_sports/";
 const IG_EMBED_HEADER_PX = 158; // height of Instagram's own profile header inside the embed
 
@@ -315,8 +314,9 @@ function InstagramFeed() {
           Follow on Instagram ↗
         </a>
       </div>
-      <div className="mx-auto w-full max-w-[880px]">
-        <div className="relative w-full overflow-hidden bg-coal" style={{ aspectRatio: "1 / 1" }}>
+      <div className="w-full">
+        {/* Instagram's profile embed carries the 6 latest posts: 2 rows of 3 square tiles */}
+        <div className="relative w-full overflow-hidden bg-coal" style={{ aspectRatio: "3 / 2" }}>
           <iframe
             title="Uzas Sports on Instagram"
             src={`${IG_URL}embed`}
