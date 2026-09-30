@@ -1,0 +1,24 @@
+# Uzas Sports
+
+> Uzas Sports is a sportswear and sports equipment manufacturer established in 2005 in Sialkot, Pakistan, with a sales team in Melbourne, Australia. We specialise in custom sublimated team kits and also make performance apparel, paintball gear, martial arts uniforms, gloves and custom patches. Everything is designed, printed, cut and stitched in our own factory.
+
+## What we make
+- Sublimated clothing: team jerseys, singlets, rash guards, compression tops, cycling kits, warm-up jackets, fishing shirts. https://dynamic-sports-hub.vercel.app/sublimation-clothing
+- Martial arts and combat sports: BJJ gis (450 gsm pearl weave), karate and taekwondo uniforms, fight shorts, rash guards, belts. https://dynamic-sports-hub.vercel.app/martial-arts-combat-sports
+- Apparel: training tees, hoodies, joggers, tracksuits, shorts, polos. https://dynamic-sports-hub.vercel.app/apparel
+- Paintball: jerseys, pants, gloves, pod harnesses. https://dynamic-sports-hub.vercel.app/paintball
+- Gloves: boxing, MMA, bag, tactical, work and cycling gloves. https://dynamic-sports-hub.vercel.app/gloves
+- Custom patches: embroidered, woven, PVC, leather and chenille. https://dynamic-sports-hub.vercel.app/custom-patches
+
+## Who we work with
+Gyms, martial arts academies, sports clubs, schools, teams and apparel brands, worldwide. Wholesale and private label orders.
+
+## How to order
+- Wholesale inquiries: https://dynamic-sports-hub.vercel.app/wholesale
+- General contact: https://dynamic-sports-hub.vercel.app/contact
+- Email: info@uzassports.com
+- Preview your design on our garments: https://dynamic-sports-hub.vercel.app/studio
+- Product catalogues (PDF): https://dynamic-sports-hub.vercel.app/catalogues
+
+## Guides
+- https://dynamic-sports-hub.vercel.app/blog

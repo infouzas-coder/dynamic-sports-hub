@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { CATEGORIES, type Category } from "@/lib/site-data";
@@ -227,9 +228,9 @@ export function categoryHead(category: Category) {
       { property: "og:title", content: category.ogTitle },
       { property: "og:description", content: category.description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: category.slug },
+      { property: "og:url", content: absUrl(category.slug) },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: category.slug }],
+    links: [{ rel: "canonical", href: absUrl(category.slug) }],
   });
 }

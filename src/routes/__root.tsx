@@ -1,4 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { absUrl } from "@/lib/seo";
+import heroArena from "@/assets/hero-arena.jpg";
 import {
   Outlet,
   Link,
@@ -85,6 +87,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:site_name", content: "Uzas Sports" },
+      { property: "og:image", content: absUrl(heroArena) },
+      { name: "twitter:image", content: absUrl(heroArena) },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

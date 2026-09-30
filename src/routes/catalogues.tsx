@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { CATEGORIES } from "@/lib/site-data";
@@ -18,10 +19,10 @@ export const Route = createFileRoute("/catalogues")({
         content: "All six product-line catalogues in one place, free to download as PDF.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/catalogues" },
+      { property: "og:url", content: absUrl("/catalogues") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/catalogues" }],
+    links: [{ rel: "canonical", href: absUrl("/catalogues") }],
   }),
   component: CataloguesPage,
 });

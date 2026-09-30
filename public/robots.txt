@@ -1,14 +1,6 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Uzas Sports: all search engines and AI crawlers are welcome to read the public site.
 User-agent: *
 Allow: /
+Disallow: /api/
+
+Sitemap: https://dynamic-sports-hub.vercel.app/sitemap.xml

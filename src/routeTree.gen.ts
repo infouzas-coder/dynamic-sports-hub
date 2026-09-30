@@ -18,9 +18,13 @@ import { Route as CustomPatchesRouteImport } from './routes/custom-patches'
 import { Route as GlovesRouteImport } from './routes/gloves'
 import { Route as MartialArtsCombatSportsRouteImport } from './routes/martial-arts-combat-sports'
 import { Route as PaintballRouteImport } from './routes/paintball'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SublimationClothingRouteImport } from './routes/sublimation-clothing'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
+import { Route as ApiKeepaliveRouteImport } from './routes/api/keepalive'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -67,6 +71,11 @@ const PaintballRoute = PaintballRouteImport.update({
   path: '/paintball',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
   path: '/studio',
@@ -82,6 +91,21 @@ const WholesaleRoute = WholesaleRouteImport.update({
   path: '/wholesale',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiKeepaliveRoute = ApiKeepaliveRouteImport.update({
+  id: '/api/keepalive',
+  path: '/api/keepalive',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -93,9 +117,13 @@ export interface FileRoutesByFullPath {
   '/gloves': typeof GlovesRoute
   '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
   '/paintball': typeof PaintballRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
+  '/api/keepalive': typeof ApiKeepaliveRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -107,9 +135,13 @@ export interface FileRoutesByTo {
   '/gloves': typeof GlovesRoute
   '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
   '/paintball': typeof PaintballRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
+  '/api/keepalive': typeof ApiKeepaliveRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -122,9 +154,13 @@ export interface FileRoutesById {
   '/gloves': typeof GlovesRoute
   '/martial-arts-combat-sports': typeof MartialArtsCombatSportsRoute
   '/paintball': typeof PaintballRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
+  '/api/keepalive': typeof ApiKeepaliveRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -138,9 +174,13 @@ export interface FileRouteTypes {
     | '/gloves'
     | '/martial-arts-combat-sports'
     | '/paintball'
+    | '/sitemap.xml'
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
+    | '/api/keepalive'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -152,9 +192,13 @@ export interface FileRouteTypes {
     | '/gloves'
     | '/martial-arts-combat-sports'
     | '/paintball'
+    | '/sitemap.xml'
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
+    | '/api/keepalive'
+    | '/blog/$slug'
+    | '/blog'
   id:
     | '__root__'
     | '/'
@@ -166,9 +210,13 @@ export interface FileRouteTypes {
     | '/gloves'
     | '/martial-arts-combat-sports'
     | '/paintball'
+    | '/sitemap.xml'
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
+    | '/api/keepalive'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -181,9 +229,13 @@ export interface RootRouteChildren {
   GlovesRoute: typeof GlovesRoute
   MartialArtsCombatSportsRoute: typeof MartialArtsCombatSportsRoute
   PaintballRoute: typeof PaintballRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   SublimationClothingRoute: typeof SublimationClothingRoute
   WholesaleRoute: typeof WholesaleRoute
+  ApiKeepaliveRoute: typeof ApiKeepaliveRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -251,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaintballRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/studio': {
       id: '/studio'
       path: '/studio'
@@ -272,6 +331,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WholesaleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/keepalive': {
+      id: '/api/keepalive'
+      path: '/api/keepalive'
+      fullPath: '/api/keepalive'
+      preLoaderRoute: typeof ApiKeepaliveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -285,9 +365,13 @@ const rootRouteChildren: RootRouteChildren = {
   GlovesRoute: GlovesRoute,
   MartialArtsCombatSportsRoute: MartialArtsCombatSportsRoute,
   PaintballRoute: PaintballRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   SublimationClothingRoute: SublimationClothingRoute,
   WholesaleRoute: WholesaleRoute,
+  ApiKeepaliveRoute: ApiKeepaliveRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

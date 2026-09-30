@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
@@ -22,10 +23,10 @@ export const Route = createFileRoute("/contact")({
         content: "Wholesale inquiries and general questions, straight to our Sialkot factory team.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/contact" },
+      { property: "og:url", content: absUrl("/contact") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: absUrl("/contact") }],
   }),
   component: ContactPage,
 });

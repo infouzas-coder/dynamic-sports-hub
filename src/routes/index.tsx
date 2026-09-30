@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl, ORG } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import heroArena from "@/assets/hero-arena.jpg";
@@ -21,30 +22,14 @@ export const Route = createFileRoute("/")({
           "Manufacturer of performance apparel, paintball gear, martial arts uniforms, gloves, custom patches and sublimated teamwear. Sialkot, Pakistan since 2005.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: absUrl("/") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: absUrl("/") }],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "Uzas Sports",
-          url: "https://www.uzassports.com",
-          foundingDate: "2005",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Sialkot",
-            addressCountry: "PK",
-          },
-          sameAs: [
-            "https://www.instagram.com/uzas_sports/",
-            "https://www.facebook.com/uzalabel",
-            "https://pk.linkedin.com/in/uzas-sports",
-          ],
-        }),
+        children: JSON.stringify({ "@context": "https://schema.org", ...ORG }),
       },
     ],
   }),

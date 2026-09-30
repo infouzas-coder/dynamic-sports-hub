@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
 import { generateMockup } from "@/lib/mockup.functions";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/studio")({
           "Upload your design and see an AI-generated mockup on real Uzas Sports gear: fight shorts, rash guards and team jerseys. Get an instant quote on any quantity.",
       },
       { property: "og:title", content: "AI Mockup Studio | Uzas Sports" },
+      { property: "og:url", content: absUrl("/studio") },
       {
         property: "og:description",
         content:
@@ -28,6 +30,7 @@ export const Route = createFileRoute("/studio")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: absUrl("/studio") }],
   }),
   component: StudioPage,
 });

@@ -75,6 +75,9 @@ export function SiteHeader() {
             <Link to="/about" className="transition-colors hover:text-bone">
               About
             </Link>
+            <Link to="/blog" className="transition-colors hover:text-bone">
+              Blog
+            </Link>
             <Link to="/studio" className="text-crimson transition-colors hover:text-bone">
               AI Studio
             </Link>
@@ -135,6 +138,7 @@ export function SiteHeader() {
               { to: "/catalogues", label: "Catalogues" },
               { to: "/wholesale", label: "Wholesale" },
               { to: "/about", label: "About" },
+              { to: "/blog", label: "Blog" },
             ].map((l) => (
               <Link
                 key={l.to}
@@ -226,6 +230,11 @@ export function SiteFooter() {
             <li>
               <Link to="/about" className="transition-colors hover:text-bone">
                 About the factory
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className="transition-colors hover:text-bone">
+                Blog
               </Link>
             </li>
             <li>

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { absUrl } from "@/lib/seo";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
@@ -23,10 +24,10 @@ export const Route = createFileRoute("/wholesale")({
           "Custom team kit programmes for gyms and academies: MOQs, branding process, turnaround and sample ordering.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/wholesale" },
+      { property: "og:url", content: absUrl("/wholesale") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/wholesale" }],
+    links: [{ rel: "canonical", href: absUrl("/wholesale") }],
   }),
   component: WholesalePage,
 });
