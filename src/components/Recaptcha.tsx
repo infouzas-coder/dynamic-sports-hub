@@ -1,74 +1,69 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { useCallback, useEffect } from "react";
 
-// Google reCAPTCHA v2 ("I'm not a robot" checkbox), dark theme to match the site.
-// Site key comes from the VITE_RECAPTCHA_SITE_KEY build variable; when it's not set the
-// widget renders nothing and the server skips verification (see src/lib/forms.server.ts).
+// Google reCAPTCHA v3 — invisible. The script scores each visitor in the background and we request
+// a token at submit time; the server verifies it and rejects low scores (src/lib/forms.server.ts).
+// Site key comes from the VITE_RECAPTCHA_SITE_KEY build variable; when it's not set nothing loads
+// and the server skips verification.
 export const RECAPTCHA_SITE_KEY: string = import.meta.env["VITE_RECAPTCHA_SITE_KEY"] ?? "";
 
-type Grecaptcha = {
-  render: (el: HTMLElement, opts: Record<string, unknown>) => number;
-  reset: (id?: number) => void;
+type GrecaptchaV3 = {
+  ready: (cb: () => void) => void;
+  execute: (siteKey: string, opts: { action: string }) => Promise<string>;
 };
 declare global {
   interface Window {
-    grecaptcha?: Grecaptcha & { ready?: (cb: () => void) => void };
-    __uzasRecaptchaLoaded?: () => void;
+    grecaptcha?: GrecaptchaV3;
   }
 }
 
 let scriptPromise: Promise<void> | null = null;
 function loadScript(): Promise<void> {
-  if (typeof window === "undefined") return Promise.resolve();
-  if (window.grecaptcha?.render) return Promise.resolve();
-  scriptPromise ??= new Promise((resolve) => {
-    window.__uzasRecaptchaLoaded = () => resolve();
+  if (typeof window === "undefined" || !RECAPTCHA_SITE_KEY) return Promise.resolve();
+  scriptPromise ??= new Promise((resolve, reject) => {
     const s = document.createElement("script");
-    s.src = "https://www.google.com/recaptcha/api.js?onload=__uzasRecaptchaLoaded&render=explicit";
+    s.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(RECAPTCHA_SITE_KEY)}`;
     s.async = true;
     s.defer = true;
+    s.onload = () => window.grecaptcha?.ready(() => resolve());
+    s.onerror = () => {
+      scriptPromise = null;
+      reject(new Error("Couldn't load the spam check — please disable ad-blockers for this site and retry."));
+    };
     document.head.appendChild(s);
   });
   return scriptPromise;
 }
 
-export type RecaptchaHandle = { reset: () => void };
+/**
+ * Loads reCAPTCHA v3 on the page and returns getToken(action), which resolves to a fresh token
+ * (or "" when reCAPTCHA isn't configured). Tokens expire after 2 minutes, so call it on submit.
+ */
+export function useRecaptcha() {
+  useEffect(() => {
+    loadScript().catch(() => {});
+  }, []);
 
-export const Recaptcha = forwardRef<RecaptchaHandle, { onChange: (token: string) => void }>(
-  function Recaptcha({ onChange }, ref) {
-    const el = useRef<HTMLDivElement>(null);
-    const widgetId = useRef<number | null>(null);
-    const cb = useRef(onChange);
-    cb.current = onChange;
+  return useCallback(async (action: string) => {
+    if (!RECAPTCHA_SITE_KEY) return "";
+    await loadScript();
+    return window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, { action });
+  }, []);
+}
 
-    useImperativeHandle(ref, () => ({
-      reset() {
-        if (widgetId.current !== null) window.grecaptcha?.reset(widgetId.current);
-        cb.current("");
-      },
-    }));
-
-    useEffect(() => {
-      if (!RECAPTCHA_SITE_KEY) return;
-      let cancelled = false;
-      loadScript().then(() => {
-        if (cancelled || !el.current || widgetId.current !== null || !window.grecaptcha) return;
-        widgetId.current = window.grecaptcha.render(el.current, {
-          sitekey: RECAPTCHA_SITE_KEY,
-          theme: "dark",
-          callback: (token: string) => cb.current(token),
-          "expired-callback": () => cb.current(""),
-          "error-callback": () => cb.current(""),
-        });
-      });
-      return () => {
-        cancelled = true;
-      };
-    }, []);
-
-    if (!RECAPTCHA_SITE_KEY) return null;
-    return <div ref={el} className="min-h-[78px]" />;
-  },
-);
-
-/** True when the form can be submitted as far as the captcha is concerned. */
-export const captchaReady = (token: string) => !RECAPTCHA_SITE_KEY || token.length > 0;
+/** Google requires this notice when the floating reCAPTCHA badge is hidden (see styles.css). */
+export function RecaptchaNotice({ className = "" }: { className?: string }) {
+  if (!RECAPTCHA_SITE_KEY) return null;
+  return (
+    <p className={`text-[11px] leading-relaxed text-smoke/80 ${className}`}>
+      Protected by reCAPTCHA — Google{" "}
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-bone">
+        Privacy Policy
+      </a>{" "}
+      and{" "}
+      <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-bone">
+        Terms of Service
+      </a>{" "}
+      apply.
+    </p>
+  );
+}

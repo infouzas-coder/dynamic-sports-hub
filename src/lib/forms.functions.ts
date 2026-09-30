@@ -20,7 +20,11 @@ const imageDataUrl = z
   .optional()
   .transform((v) => (v && v.length <= MAX_ATTACHMENT_CHARS ? v : undefined));
 
-const captcha = { captchaToken: z.string().optional() };
+const captcha = { captchaToken: z.string().max(4000).optional() };
+
+// reCAPTCHA v3 score shown in the email: 1.0 = very likely human, 0.0 = very likely bot.
+const fmtScore = (score: number | null) =>
+  score === null ? null : `${score.toFixed(1)} / 1.0 (${score >= 0.7 ? "likely human" : "borderline"})`;
 
 async function loadServer() {
   const [{ supabaseAdmin }, forms] = await Promise.all([
@@ -45,7 +49,7 @@ export const submitContact = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin, verifyRecaptcha, notifySafely } = await loadServer();
-    await verifyRecaptcha(data.captchaToken);
+    const score = await verifyRecaptcha(data.captchaToken, "contact");
 
     const { error } = await supabaseAdmin.from("contact_messages").insert({
       name: data.name,
@@ -66,6 +70,7 @@ export const submitContact = createServerFn({ method: "POST" })
         ["Phone", data.phone],
         ["Subject", data.subject],
         ["Message", data.message],
+        ["Spam score", fmtScore(score)],
       ],
     });
     return { ok: true };
@@ -88,7 +93,7 @@ export const submitWholesale = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin, verifyRecaptcha, notifySafely } = await loadServer();
-    await verifyRecaptcha(data.captchaToken);
+    const score = await verifyRecaptcha(data.captchaToken, "wholesale");
 
     const { error } = await supabaseAdmin.from("wholesale_inquiries").insert({
       business_name: data.business_name,
@@ -113,6 +118,7 @@ export const submitWholesale = createServerFn({ method: "POST" })
         ["Product line", data.product_interest],
         ["Est. quantity", data.estimated_quantity],
         ["Message", data.message],
+        ["Spam score", fmtScore(score)],
       ],
     });
     return { ok: true };
@@ -138,7 +144,7 @@ export const submitQuote = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin, verifyRecaptcha, notifySafely } = await loadServer();
-    await verifyRecaptcha(data.captchaToken);
+    const score = await verifyRecaptcha(data.captchaToken, "quote");
 
     const mockupSummary = data.mockupDataUrl
       ? `AI mockup generated for ${data.product}${data.designNotes ? ` — "${data.designNotes}"` : ""}`
@@ -177,6 +183,7 @@ export const submitQuote = createServerFn({ method: "POST" })
         ["Design notes", data.designNotes],
         ["AI mockup", data.mockupDataUrl ? "Attached" : "Not generated"],
         ["Customer artwork", attachments.some((a) => a.filename.startsWith("customer-")) ? "Attached" : null],
+        ["Spam score", fmtScore(score)],
       ],
       attachments,
     });

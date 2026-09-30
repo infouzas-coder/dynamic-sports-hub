@@ -160,3 +160,8 @@
     color: var(--color-primary-foreground);
   }
 }
+
+/* reCAPTCHA v3: hide the floating badge — forms show Google's required notice text instead */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}

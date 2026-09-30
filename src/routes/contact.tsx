@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Recaptcha, captchaReady, type RecaptchaHandle } from "@/components/Recaptcha";
+import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
 import { submitContact } from "@/lib/forms.functions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
@@ -35,8 +35,7 @@ function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [captchaToken, setCaptchaToken] = useState("");
-  const captchaRef = useRef<RecaptchaHandle>(null);
+  const getCaptchaToken = useRecaptcha();
   const send = useServerFn(submitContact);
 
   function set(key: keyof typeof form, value: string) {
@@ -46,18 +45,14 @@ function ContactPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (submitting) return;
-    if (!captchaReady(captchaToken)) {
-      setError("Please tick the “I'm not a robot” box before sending.");
-      return;
-    }
     setSubmitting(true);
     setError(null);
     try {
+      const captchaToken = await getCaptchaToken("contact");
       await send({ data: { ...form, captchaToken } });
       setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
-      captchaRef.current?.reset();
     } finally {
       setSubmitting(false);
     }
@@ -199,9 +194,6 @@ function ContactPage() {
                   <label className={label} htmlFor="message">Message *</label>
                   <textarea id="message" rows={5} required className={field} value={form.message} onChange={(e) => set("message", e.target.value)} />
                 </div>
-                <div className="sm:col-span-2">
-                  <Recaptcha ref={captchaRef} onChange={setCaptchaToken} />
-                </div>
                 {error && (
                   <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">{error}</p>
                 )}
@@ -212,6 +204,7 @@ function ContactPage() {
                 >
                   {submitting ? "Sending…" : "Send message"}
                 </button>
+                <RecaptchaNotice className="sm:col-span-2" />
               </form>
             )}
           </Reveal>

@@ -5,34 +5,57 @@
 // `await import("@/lib/forms.server")` so secrets and nodemailer stay out of the browser bundle.
 //
 // Environment variables (set in Vercel → Project → Settings → Environment Variables):
-//   RECAPTCHA_SECRET_KEY  – reCAPTCHA v2 "secret key"
+//   RECAPTCHA_SECRET_KEY  – reCAPTCHA v3 "secret key"
+//   RECAPTCHA_MIN_SCORE   – optional, 0.0–1.0 threshold (default 0.5); lower it if real people get blocked
 //   GMAIL_USER            – Gmail address that sends the notifications
 //   GMAIL_APP_PASSWORD    – 16-character Google "App password" for GMAIL_USER (not the normal password)
 //   FORM_NOTIFY_TO        – optional, comma-separated recipients (defaults to GMAIL_USER)
 
 import nodemailer, { type Transporter } from "nodemailer";
 
-export async function verifyRecaptcha(token: string | undefined, ip?: string | null) {
+const GENERIC_BLOCK =
+  "Our spam filter flagged this submission. Please try again, or email us directly at info@uzassports.com.";
+
+/**
+ * Verify a reCAPTCHA v3 token. v3 gives each request a score from 0.0 (bot) to 1.0 (human);
+ * anything below RECAPTCHA_MIN_SCORE (default 0.5) is rejected, as is a token issued for a
+ * different form (action mismatch). Returns the score so it can be shown in the notification.
+ */
+export async function verifyRecaptcha(token: string | undefined, expectedAction: string): Promise<number | null> {
   const secret = process.env["RECAPTCHA_SECRET_KEY"];
   if (!secret) {
     // Captcha not configured yet — let the submission through but make it visible in logs.
     console.warn("[forms] RECAPTCHA_SECRET_KEY not set; captcha check skipped");
-    return;
+    return null;
   }
-  if (!token) throw new Error("Please tick the “I'm not a robot” box before sending.");
+  if (!token) throw new Error(GENERIC_BLOCK);
 
-  const body = new URLSearchParams({ secret, response: token });
-  if (ip) body.set("remoteip", ip);
   const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
+    body: new URLSearchParams({ secret, response: token }),
   });
-  const json = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
-  if (!json.success) {
-    console.warn("[forms] captcha rejected", json["error-codes"]);
-    throw new Error("Captcha check failed — please tick the box again and resubmit.");
+  const json = (await res.json()) as {
+    success?: boolean;
+    score?: number;
+    action?: string;
+    hostname?: string;
+    "error-codes"?: string[];
+  };
+  const minScore = Number(process.env["RECAPTCHA_MIN_SCORE"] ?? "0.5");
+  const score = typeof json.score === "number" ? json.score : 0;
+
+  if (!json.success || json.action !== expectedAction || score < minScore) {
+    console.warn("[forms] captcha rejected", {
+      action: json.action,
+      expectedAction,
+      score,
+      hostname: json.hostname,
+      errors: json["error-codes"],
+    });
+    throw new Error(GENERIC_BLOCK);
   }
+  return score;
 }
 
 export type NotifyAttachment = { filename: string; dataUrl: string };
