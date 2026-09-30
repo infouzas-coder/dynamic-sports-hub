@@ -6,11 +6,11 @@ import { CATEGORIES } from "@/lib/site-data";
 export const Route = createFileRoute("/catalogues")({
   head: () => ({
     meta: [
-      { title: "Product Catalogues — Uzas Sports Manufacturer PDFs" },
+      { title: "Product Catalogues | Uzas Sports Manufacturer PDFs" },
       {
         name: "description",
         content:
-          "Download all six Uzas Sports catalogues: apparel, paintball, martial arts, gloves, custom patches and sublimation clothing — full product ranges in PDF.",
+          "Download all six Uzas Sports catalogues: apparel, paintball, martial arts, gloves, custom patches and sublimation clothing. Full product ranges in PDF.",
       },
       { property: "og:title", content: "Uzas Sports Catalogues" },
       {

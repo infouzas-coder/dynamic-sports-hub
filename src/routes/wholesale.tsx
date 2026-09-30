@@ -14,9 +14,9 @@ export const Route = createFileRoute("/wholesale")({
       {
         name: "description",
         content:
-          "Wholesale manufacturing for gyms, academies and clubs — custom team branding, low MOQs, sample orders and 2–4 week turnaround direct from our Sialkot factory.",
+          "Wholesale manufacturing for gyms, academies and clubs. Custom team branding, low MOQs, sample orders and 2–4 week turnaround direct from our Sialkot factory.",
       },
-      { property: "og:title", content: "For Gyms & Academies — Wholesale by Uzas Sports" },
+      { property: "og:title", content: "For Gyms & Academies | Wholesale by Uzas Sports" },
       {
         property: "og:description",
         content:
@@ -55,10 +55,10 @@ const STEPS = [
 ];
 
 const FACTS = [
-  { k: "MOQ", v: "10–50 units", d: "Depending on line — sublimated kit starts at 10, gloves at 50." },
+  { k: "MOQ", v: "10–50 units", d: "Depends on the line. Sublimated kit starts at 10, gloves at 50." },
   { k: "Sampling", v: "1 piece", d: "Single pre-production samples available on every product line." },
   { k: "Turnaround", v: "2–4 weeks", d: "From approved artwork to shipment, bulk orders included." },
-  { k: "Re-orders", v: "Patterns kept", d: "Your specs stay on file — repeat runs match the first batch." },
+  { k: "Re-orders", v: "Patterns kept", d: "Your specs stay on file, so repeat runs match the first batch." },
 ];
 
 function WholesalePage() {
@@ -91,7 +91,7 @@ function WholesalePage() {
       await send({ data: { ...form, captchaToken } });
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -122,7 +122,7 @@ function WholesalePage() {
           <Reveal delay={160}>
             <p className="mt-7 max-w-[58ch] text-pretty text-base text-bone/70 md:text-lg">
               We supply gyms, academies, clubs and resellers direct from the
-              factory floor in Sialkot — no trading house, no agency markup.
+              factory floor in Sialkot. No trading house, no agency markup.
               Your uniforms, rash guards, gloves, patches and merch under one
               production roof.
             </p>
@@ -199,7 +199,7 @@ function WholesalePage() {
               </h2>
               <p className="mt-5 max-w-[46ch] text-sm text-smoke">
                 One form, straight to production planning. We reply with pricing
-                tiers, MOQs and a realistic delivery date — usually within one
+                tiers, MOQs and a realistic delivery date, usually within one
                 business day.
               </p>
             </div>
@@ -212,7 +212,7 @@ function WholesalePage() {
                   INQUIRY RECEIVED.
                 </p>
                 <p className="mt-3 text-sm text-smoke">
-                  Thanks — our wholesale team will be in touch by email shortly.
+                  Thanks! Our wholesale team will be in touch by email shortly.
                 </p>
               </div>
             ) : (

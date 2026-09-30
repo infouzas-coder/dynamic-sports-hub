@@ -8,13 +8,13 @@ import uzasLogo from "@/assets/uzas-logo.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Uzas Sports — Sportswear & Combat Gear Manufacturer Since 2005" },
+      { title: "Uzas Sports | Sportswear & Combat Gear Manufacturer Since 2005" },
       {
         name: "description",
         content:
-          "Uzas Sports is a Sialkot-based manufacturer established in 2005 — apparel, paintball, martial arts gear, gloves, custom patches and sublimation clothing, all made in-house.",
+          "Uzas Sports is a Sialkot-based manufacturer established in 2005, making apparel, paintball gear, martial arts gear, gloves, custom patches and sublimation clothing, all made in-house.",
       },
-      { property: "og:title", content: "Uzas Sports — Six Product Lines, One Factory" },
+      { property: "og:title", content: "Uzas Sports | Six Product Lines, One Factory" },
       {
         property: "og:description",
         content:
@@ -138,7 +138,7 @@ function HomePage() {
             <div className="mb-12 flex items-end justify-between">
               <div>
                 <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                  (a) — Product lines
+                  (a) Product lines
                 </p>
                 <h2 className="font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-6xl">
                   SIX LINES,
@@ -161,7 +161,7 @@ function HomePage() {
                   <div className="overflow-hidden">
                     <img
                       src={c.image}
-                      alt={`${c.name} — ${c.tagline}`}
+                      alt={`${c.name}: ${c.tagline}`}
                       loading="lazy"
                       width={1600}
                       height={1000}
@@ -211,7 +211,7 @@ function HomePage() {
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (b) — Off the line
+              (b) Off the line
             </p>
             <h2 className="max-w-[18ch] font-display text-5xl leading-[0.9] tracking-tight text-bone md:text-6xl">
               LIVE FROM THE FACTORY FLOOR
@@ -252,7 +252,7 @@ function HomePage() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mx-auto mt-8 max-w-[52ch] text-pretty text-base text-smoke">
-              Wholesale programmes for gyms, academies, clubs and brands — plus
+              Wholesale programmes for gyms, academies, clubs and brands, plus
               an AI mockup studio if you want to see your artwork on gear first.
             </p>
           </Reveal>

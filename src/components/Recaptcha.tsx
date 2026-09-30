@@ -27,7 +27,7 @@ function loadScript(): Promise<void> {
     s.onload = () => window.grecaptcha?.ready(() => resolve());
     s.onerror = () => {
       scriptPromise = null;
-      reject(new Error("Couldn't load the spam check — please disable ad-blockers for this site and retry."));
+      reject(new Error("Couldn't load the spam check. Please turn off ad-blockers for this site and try again."));
     };
     document.head.appendChild(s);
   });
@@ -55,7 +55,7 @@ export function RecaptchaNotice({ className = "" }: { className?: string }) {
   if (!RECAPTCHA_SITE_KEY) return null;
   return (
     <p className={`text-[11px] leading-relaxed text-smoke/80 ${className}`}>
-      Protected by reCAPTCHA — Google{" "}
+      Protected by reCAPTCHA. The Google{" "}
       <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-bone">
         Privacy Policy
       </a>{" "}

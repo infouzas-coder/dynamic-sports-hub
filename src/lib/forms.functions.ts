@@ -59,10 +59,10 @@ export const submitContact = createServerFn({ method: "POST" })
       message: data.message,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your message — please try again or email us directly.");
+    if (error) throw new Error("We couldn't save your message. Please try again or email us directly.");
 
     await notifySafely({
-      subject: `New contact message — ${data.name}${data.subject ? `: ${data.subject}` : ""}`,
+      subject: `New contact message: ${data.name}${data.subject ? `: ${data.subject}` : ""}`,
       heading: "New contact message",
       replyTo: data.email,
       rows: [
@@ -106,10 +106,10 @@ export const submitWholesale = createServerFn({ method: "POST" })
       message: data.message,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your inquiry — please try again or email us directly.");
+    if (error) throw new Error("We couldn't save your inquiry. Please try again or email us directly.");
 
     await notifySafely({
-      subject: `New wholesale inquiry — ${data.business_name} (${data.product_interest})`,
+      subject: `New wholesale inquiry: ${data.business_name} (${data.product_interest})`,
       heading: "New wholesale inquiry",
       replyTo: data.email,
       rows: [
@@ -149,7 +149,7 @@ export const submitQuote = createServerFn({ method: "POST" })
     const score = await verifyRecaptcha(data.captchaToken, "quote");
 
     const mockupSummary = data.mockupDataUrl
-      ? `AI mockup generated for ${data.product}${data.designNotes ? ` — "${data.designNotes}"` : ""}`
+      ? `AI mockup generated for ${data.product}${data.designNotes ? `, notes: "${data.designNotes}"` : ""}`
       : null;
 
     const { error } = await supabaseAdmin.from("quote_requests").insert({
@@ -162,7 +162,7 @@ export const submitQuote = createServerFn({ method: "POST" })
       mockup_summary: mockupSummary,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your quote request — please try again or email us directly.");
+    if (error) throw new Error("We couldn't save your quote request. Please try again or email us directly.");
 
     // Attach the AI mockup and the customer's own artwork when they fit in one request.
     const attachments = [];
@@ -173,7 +173,7 @@ export const submitQuote = createServerFn({ method: "POST" })
     }
 
     await notifySafely({
-      subject: `New quote request — ${data.name} · ${data.productLabel ?? data.product}${data.quantity ? ` × ${data.quantity}` : ""}`,
+      subject: `New quote request: ${data.name} · ${data.productLabel ?? data.product}${data.quantity ? ` × ${data.quantity}` : ""}`,
       heading: "New quote request (AI Studio)",
       replyTo: data.email,
       rows: [

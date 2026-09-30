@@ -10,7 +10,7 @@ import { SOCIALS } from "@/lib/site-data";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Uzas Sports — Sportswear Manufacturer in Sialkot" },
+      { title: "Contact Uzas Sports | Sportswear Manufacturer in Sialkot" },
       {
         name: "description",
         content:
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact Uzas Sports" },
       {
         property: "og:description",
-        content: "Wholesale inquiries and general questions — direct to our Sialkot factory team.",
+        content: "Wholesale inquiries and general questions, straight to our Sialkot factory team.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/contact" },
@@ -52,7 +52,7 @@ function ContactPage() {
       await send({ data: { ...form, captchaToken } });
       setSubmitted(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -117,7 +117,7 @@ function ContactPage() {
               </h2>
               <p className="mt-3 max-w-[40ch] text-sm text-smoke">
                 Product questions, samples, shipping, partnerships or anything
-                else — send it below and we'll route it internally.
+                else. Send it below and we'll pass it to the right person.
               </p>
               <a
                 href="#general"

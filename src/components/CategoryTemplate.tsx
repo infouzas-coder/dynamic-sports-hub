@@ -39,34 +39,34 @@ export function CategoryTemplate({ category }: { category: Category }) {
         </div>
       </section>
 
-      {/* PRODUCT BREAKDOWN — placeholder */}
+      {/* PRODUCT BREAKDOWN */}
       <section className="bg-coal py-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (a) — Product breakdown
+              (a) Product breakdown
             </p>
             <h2 className="max-w-[20ch] font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
               WHAT WE MAKE IN THIS LINE
             </h2>
             <p className="mt-4 max-w-[60ch] text-sm text-smoke">
-              Placeholder section — replace the cards below with real product
-              names, materials, weights and specs for {category.name.toLowerCase()}.
+              A few of the {category.name.toLowerCase()} products we make. Every one can be
+              customised with your colours, sizing and branding. See the catalogue below for the
+              full range.
             </p>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-px bg-bone/10 md:grid-cols-3">
-            {[1, 2, 3, 4, 5, 6].map((n, i) => (
-              <Reveal key={n} delay={i * 70}>
+            {category.products.map((p, i) => (
+              <Reveal key={p.name} delay={i * 70}>
                 <div className="h-full bg-coal p-7">
                   <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
-                    Product {String(n).padStart(2, "0")}
+                    Product {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-3 font-display text-2xl tracking-tight text-bone">
-                    [ PRODUCT NAME ]
+                    {p.name}
                   </h3>
                   <p className="mt-2 text-sm text-smoke">
-                    [ Add fabric / material, construction detail, weight, available
-                    finishes and use case here. ]
+                    {p.desc}
                   </p>
                 </div>
               </Reveal>
@@ -80,7 +80,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (b) — Customization
+              (b) Customization
             </p>
             <h2 className="max-w-[18ch] font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
               MADE TO YOUR SPEC
@@ -106,7 +106,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (c) — Catalogue
+              (c) Catalogue
             </p>
             <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
               {category.name.toUpperCase()} CATALOGUE
@@ -159,7 +159,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
             </h2>
             <p className="mx-auto mt-6 max-w-[52ch] text-pretty text-base text-smoke">
               {category.cta === "wholesale"
-                ? "Send your roster size, artwork and timeline — we'll come back with MOQs, pricing tiers and a sample plan."
+                ? "Send your roster size, artwork and timeline. We'll come back with MOQs, pricing tiers and a sample plan."
                 : "Share specs, quantities and reference images. We quote from the factory floor, not through a middleman."}
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">

@@ -13,13 +13,13 @@ import blankJersey from "@/assets/blank-jersey.jpg";
 export const Route = createFileRoute("/studio")({
   head: () => ({
     meta: [
-      { title: "AI Mockup Studio — Uzas Sports" },
+      { title: "AI Mockup Studio | Uzas Sports" },
       {
         name: "description",
         content:
-          "Upload your design and see an AI-generated mockup on real Uzas Sports gear — fight shorts, rash guards and team jerseys. Get an instant quote on any quantity.",
+          "Upload your design and see an AI-generated mockup on real Uzas Sports gear: fight shorts, rash guards and team jerseys. Get an instant quote on any quantity.",
       },
-      { property: "og:title", content: "AI Mockup Studio — Uzas Sports" },
+      { property: "og:title", content: "AI Mockup Studio | Uzas Sports" },
       {
         property: "og:description",
         content:
@@ -131,7 +131,7 @@ function StudioPage() {
       });
       setSubmitted(true);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -154,7 +154,7 @@ function StudioPage() {
           </h1>
           <p className="mt-6 max-w-[52ch] text-pretty text-base text-smoke md:text-lg">
             Upload your artwork, pick a garment, and our AI renders a production
-            mockup in seconds. Like what you see? Send it straight to a quote —
+            mockup in seconds. Like what you see? Send it straight to a quote for
             any quantity, made fully in-house.
           </p>
         </div>
@@ -167,7 +167,7 @@ function StudioPage() {
           <div>
             <Reveal>
               <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                01 — Pick your garment
+                01. Pick your garment
               </p>
               <div className="grid grid-cols-3 gap-3">
                 {PRODUCTS.map((p) => (
@@ -202,7 +202,7 @@ function StudioPage() {
 
             <Reveal delay={100}>
               <p className="mt-10 mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                02 — Upload your artwork
+                02. Upload your artwork
               </p>
               <input
                 ref={fileInputRef}
@@ -232,7 +232,7 @@ function StudioPage() {
               <textarea
                 value={designNotes}
                 onChange={(e) => setDesignNotes(e.target.value)}
-                placeholder="Optional notes — e.g. keep the logo centered on the chest, wrap the pattern around the sleeves…"
+                placeholder="Optional notes, e.g. keep the logo centered on the chest, wrap the pattern around the sleeves…"
                 rows={3}
                 className="mt-4 w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
               />
@@ -240,7 +240,7 @@ function StudioPage() {
 
             <Reveal delay={180}>
               <p className="mt-10 mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                03 — Generate
+                03. Generate
               </p>
               <button
                 type="button"
@@ -284,7 +284,7 @@ function StudioPage() {
                   className="aspect-[4/5] w-full object-cover"
                 />
                 <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-bone backdrop-blur">
-                  {mockup ? "Your AI mockup" : `Blank — ${selected.label}`}
+                  {mockup ? "Your AI mockup" : `Blank ${selected.label}`}
                 </span>
               </div>
               {mockup && (
@@ -306,13 +306,13 @@ function StudioPage() {
         <div className="mx-auto max-w-3xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              Final step — get your price
+              Final step: get your price
             </p>
             <h2 className="font-display text-4xl leading-[0.9] tracking-tight text-bone md:text-6xl">
               REQUEST A QUOTE
             </h2>
             <p className="mt-4 max-w-[50ch] text-pretty text-smoke">
-              Tell us the quantity and we'll come back with a production quote —
+              Tell us the quantity and we'll come back with a production quote,
               from a single piece to a full team run.
             </p>
           </Reveal>

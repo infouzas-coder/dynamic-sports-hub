@@ -7,17 +7,17 @@ import { CATEGORIES } from "@/lib/site-data";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Uzas Sports — Sialkot Sportswear Manufacturer Since 2005" },
+      { title: "About Uzas Sports | Sialkot Sportswear Manufacturer Since 2005" },
       {
         name: "description",
         content:
           "Uzas Sports is a Sialkot-based sportswear and combat sports gear manufacturer established in 2005, producing six specialist product lines fully in-house.",
       },
-      { property: "og:title", content: "About Uzas Sports — Manufacturing Since 2005" },
+      { property: "og:title", content: "About Uzas Sports | Manufacturing Since 2005" },
       {
         property: "og:description",
         content:
-          "Two decades of manufacturing in Sialkot, Pakistan — apparel, paintball, martial arts, gloves, patches and sublimation under one roof.",
+          "Two decades of manufacturing in Sialkot, Pakistan: apparel, paintball, martial arts, gloves, patches and sublimation under one roof.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/about" },
@@ -72,7 +72,7 @@ function AboutPage() {
               TWENTY YEARS ON ONE FLOOR
             </h1>
             <p className="mt-7 max-w-[58ch] text-pretty text-base text-bone/70 md:text-lg">
-              Uzas Sports started in 2005 in Sialkot — the city that has been
+              Uzas Sports started in 2005 in Sialkot, the city that has been
               stitching the world's sporting goods for over a century. We began
               with gloves and combat sports gear and grew into six specialist
               lines, all still made under our own roof.
@@ -104,7 +104,7 @@ function AboutPage() {
               <p>
                 That control is why we can take a single sample and a
                 thousand-piece bulk order through the same line with the same
-                spec — and why our clients get honest lead times instead of
+                spec, and why our clients get honest lead times instead of
                 agency guesses.
               </p>
               <p>

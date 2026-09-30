@@ -198,7 +198,7 @@ export function SiteFooter() {
             loading="lazy"
           />
           <p className="mt-3 max-w-[30ch] text-sm text-smoke">
-            Manufacturer of sportswear, combat sports gear, gloves and patches. Established 2005 —
+            Manufacturer of sportswear, combat sports gear, gloves and patches. Established 2005 in
             Sialkot, Pakistan.
           </p>
         </div>
