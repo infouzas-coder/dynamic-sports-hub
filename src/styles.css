@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * UZAS SPORTS design system — "scrim red" fight-night palette.
- * Dark-only cinematic surface: ink black, bone text, crimson signal.
+ * UZAS SPORTS design system — logo-derived black, white and gold palette.
+ * Dark-only cinematic surfaces with athletic gold highlights.
  */
 
 @theme inline {
@@ -39,12 +39,15 @@
   --color-smoke: var(--smoke);
   --color-bone: var(--bone);
   --color-crimson: var(--crimson);
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
+  --color-gold-light: var(--gold-light);
 }
 
 @theme {
-  --font-display: "Anton", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Saira Condensed", sans-serif;
+  --font-body: "Saira", sans-serif;
+  --font-mono: "Saira", sans-serif;
 
   --animate-marquee: marquee 32s linear infinite;
   --animate-ken: ken 18s ease-in-out infinite alternate;
@@ -53,30 +56,33 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.15 0.005 285);
-  --foreground: oklch(0.945 0.01 90);
-  --card: oklch(0.17 0.005 285);
-  --card-foreground: oklch(0.945 0.01 90);
-  --popover: oklch(0.17 0.005 285);
-  --popover-foreground: oklch(0.945 0.01 90);
-  --primary: oklch(0.55 0.22 25);
-  --primary-foreground: oklch(0.15 0.005 285);
-  --secondary: oklch(0.21 0.006 285);
-  --secondary-foreground: oklch(0.945 0.01 90);
-  --muted: oklch(0.21 0.006 285);
-  --muted-foreground: oklch(0.63 0.01 90);
-  --accent: oklch(0.55 0.22 25);
-  --accent-foreground: oklch(0.15 0.005 285);
+  --gold: #e3bf29;
+  --gold-dark: #cb9d1a;
+  --gold-light: #ecc937;
+  --background: #0a0a0a;
+  --foreground: #fdfdfd;
+  --card: #121212;
+  --card-foreground: #fdfdfd;
+  --popover: #121212;
+  --popover-foreground: #fdfdfd;
+  --primary: #e3bf29;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fdfdfd;
+  --muted: #1a1a1a;
+  --muted-foreground: #a3a3a3;
+  --accent: #e3bf29;
+  --accent-foreground: #0a0a0a;
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.945 0.01 90);
-  --border: oklch(0.945 0.01 90 / 10%);
-  --input: oklch(0.945 0.01 90 / 15%);
-  --ring: oklch(0.55 0.22 25);
-  --coal: oklch(0.17 0.005 285);
-  --ash: oklch(0.21 0.006 285);
-  --smoke: oklch(0.63 0.01 90);
-  --bone: oklch(0.945 0.01 90);
-  --crimson: oklch(0.55 0.22 25);
+  --destructive-foreground: #fdfdfd;
+  --border: rgb(227 191 41 / 18%);
+  --input: rgb(253 253 253 / 15%);
+  --ring: #e3bf29;
+  --coal: #121212;
+  --ash: #1a1a1a;
+  --smoke: #a3a3a3;
+  --bone: #fdfdfd;
+  --crimson: #e3bf29;
 }
 
 @keyframes marquee {
@@ -141,6 +147,12 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
+  }
+
+  .font-display {
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: 0.01em;
   }
 
   ::selection {
