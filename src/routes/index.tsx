@@ -100,7 +100,7 @@ function HomePage() {
             <p className="mt-8 max-w-[50ch] text-pretty text-base text-bone/70 md:text-lg">
               Uzas Sports manufactures performance apparel, paintball gear,
               martial arts uniforms, gloves, custom patches and sublimated
-              clothing — designed, printed, cut and stitched entirely in-house
+              clothing. Everything is designed, printed, cut and stitched in our own factory
               since 2005.
             </p>
           </Reveal>
