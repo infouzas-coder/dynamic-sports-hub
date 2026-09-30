@@ -58,6 +58,7 @@ export const submitContact = createServerFn({ method: "POST" })
       subject: data.subject,
       message: data.message,
     });
+    if (error) console.error("[forms] database insert failed", error);
     if (error) throw new Error("We couldn't save your message — please try again or email us directly.");
 
     await notifySafely({
@@ -104,6 +105,7 @@ export const submitWholesale = createServerFn({ method: "POST" })
       estimated_quantity: data.estimated_quantity,
       message: data.message,
     });
+    if (error) console.error("[forms] database insert failed", error);
     if (error) throw new Error("We couldn't save your inquiry — please try again or email us directly.");
 
     await notifySafely({
@@ -159,6 +161,7 @@ export const submitQuote = createServerFn({ method: "POST" })
       notes: data.notes,
       mockup_summary: mockupSummary,
     });
+    if (error) console.error("[forms] database insert failed", error);
     if (error) throw new Error("We couldn't save your quote request — please try again or email us directly.");
 
     // Attach the AI mockup and the customer's own artwork when they fit in one request.
