@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { generateMockup } from "@/lib/mockup.functions";
+import { submitQuote } from "@/lib/forms.functions";
+import { Recaptcha, captchaReady, type RecaptchaHandle } from "@/components/Recaptcha";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import blankShorts from "@/assets/blank-shorts.jpg";
@@ -72,6 +73,9 @@ function StudioPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<RecaptchaHandle>(null);
+  const sendQuote = useServerFn(submitQuote);
 
   const selected = PRODUCTS.find((p) => p.id === product) ?? PRODUCTS[1];
 
@@ -106,24 +110,35 @@ function StudioPage() {
   async function onSubmitQuote(e: React.FormEvent) {
     e.preventDefault();
     if (submitting) return;
+    if (!captchaReady(captchaToken)) {
+      setSubmitError("Please tick the “I'm not a robot” box before sending.");
+      return;
+    }
     setSubmitting(true);
     setSubmitError(null);
-    const { error: insertError } = await supabase.from("quote_requests").insert({
-      name,
-      email,
-      phone: phone || null,
-      product: selected.id,
-      quantity: quantity ? Number(quantity) : null,
-      notes: notes || null,
-      mockup_summary: mockup
-        ? `AI mockup generated for ${selected.id}${designNotes ? ` — "${designNotes}"` : ""}`
-        : null,
-    });
-    setSubmitting(false);
-    if (insertError) {
-      setSubmitError(insertError.message);
-    } else {
+    try {
+      const qty = quantity ? Math.round(Number(quantity)) : null;
+      await sendQuote({
+        data: {
+          name,
+          email,
+          phone,
+          product: selected.id,
+          productLabel: selected.label,
+          quantity: qty && qty > 0 ? qty : null,
+          notes,
+          designNotes,
+          mockupDataUrl: mockup ?? undefined,
+          designDataUrl: designUrl ?? undefined,
+          captchaToken,
+        },
+      });
       setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      captchaRef.current?.reset();
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -410,6 +425,7 @@ function StudioPage() {
                     placeholder="Sizes, fabric preferences, deadline, delivery country…"
                   />
                 </label>
+                <Recaptcha ref={captchaRef} onChange={setCaptchaToken} />
                 {submitError && (
                   <p className="border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">
                     {submitError}

@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { Recaptcha, captchaReady, type RecaptchaHandle } from "@/components/Recaptcha";
+import { submitWholesale } from "@/lib/forms.functions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { CATEGORIES } from "@/lib/site-data";
@@ -72,6 +74,9 @@ function WholesalePage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<RecaptchaHandle>(null);
+  const send = useServerFn(submitWholesale);
 
   function set(key: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -80,20 +85,21 @@ function WholesalePage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (submitting) return;
+    if (!captchaReady(captchaToken)) {
+      setError("Please tick the “I'm not a robot” box before sending.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
-    const { error: insertError } = await supabase.from("wholesale_inquiries").insert({
-      business_name: form.business_name,
-      contact_name: form.contact_name,
-      email: form.email,
-      phone: form.phone || null,
-      product_interest: form.product_interest,
-      estimated_quantity: form.estimated_quantity || null,
-      message: form.message || null,
-    });
-    setSubmitting(false);
-    if (insertError) setError(insertError.message);
-    else setSubmitted(true);
+    try {
+      await send({ data: { ...form, captchaToken } });
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong — please try again.");
+      captchaRef.current?.reset();
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const field =
@@ -248,6 +254,9 @@ function WholesalePage() {
                 <div className="sm:col-span-2">
                   <label className={label} htmlFor="message">Anything else?</label>
                   <textarea id="message" rows={4} className={field} value={form.message} onChange={(e) => set("message", e.target.value)} />
+                </div>
+                <div className="sm:col-span-2">
+                  <Recaptcha ref={captchaRef} onChange={setCaptchaToken} />
                 </div>
                 {error && (
                   <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">{error}</p>
