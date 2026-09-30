@@ -4,6 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import heroArena from "@/assets/hero-arena.jpg";
 import heroLoop from "@/assets/hero-loop.mp4.asset.json";
 import { CATEGORIES } from "@/lib/site-data";
+import uzasLogo from "@/assets/uzas-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -230,24 +231,7 @@ function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={120}>
-            <div className="mt-10 border border-bone/10 bg-background">
-              <iframe
-                title="Uzas Sports Instagram feed"
-                src="https://www.instagram.com/uzas_sports/embed"
-                loading="lazy"
-                className="h-[620px] w-full"
-                frameBorder={0}
-                scrolling="no"
-              />
-            </div>
-            <a
-              href="https://www.instagram.com/uzas_sports/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-block border border-bone/25 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-bone transition-colors hover:border-crimson hover:text-crimson"
-            >
-              View full Instagram ↗
-            </a>
+            <InstagramFeed />
           </Reveal>
         </div>
       </section>
@@ -293,6 +277,60 @@ function HomePage() {
       </section>
 
       <SiteFooter />
+    </div>
+  );
+}
+
+/* Instagram profile embed, restyled: Instagram's white header is cropped away and replaced with a
+   branded dark header, and the frame is sized to show a clean 3 x 3 grid of the latest posts. */
+const IG_URL = "https://www.instagram.com/uzas_sports/";
+const IG_EMBED_HEADER_PX = 158; // height of Instagram's own profile header inside the embed
+
+function InstagramFeed() {
+  return (
+    <div className="mt-10 overflow-hidden border border-bone/10 bg-background">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-bone/10 px-5 py-4 md:px-6">
+        <a
+          href={IG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-4"
+        >
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-gold/60 bg-coal p-2 transition-colors group-hover:border-gold">
+            <img src={uzasLogo} alt="" className="h-full w-full object-contain" />
+          </span>
+          <span>
+            <span className="block font-display text-2xl leading-none text-bone">@uzas_sports</span>
+            <span className="mt-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
+              10K+ followers · Production, daily
+            </span>
+          </span>
+        </a>
+        <a
+          href={IG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-primary px-6 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors hover:bg-gold-light"
+        >
+          Follow on Instagram ↗
+        </a>
+      </div>
+      <div className="mx-auto w-full max-w-[880px]">
+        <div className="relative w-full overflow-hidden bg-coal" style={{ aspectRatio: "1 / 1" }}>
+          <iframe
+            title="Uzas Sports on Instagram"
+            src={`${IG_URL}embed`}
+            loading="lazy"
+            scrolling="no"
+            frameBorder={0}
+            className="absolute left-0 w-full"
+            style={{
+              top: -IG_EMBED_HEADER_PX,
+              height: `calc(100% + ${IG_EMBED_HEADER_PX + 120}px)`,
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
