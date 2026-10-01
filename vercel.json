@@ -7,6 +7,17 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "dynamic-sports-hub.vercel.app"
+        }
+      ],
+      "destination": "https://www.uzassports.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/product-category/martial-arts-uniforms/:path*",
       "destination": "/martial-arts-combat-sports",
       "permanent": true
