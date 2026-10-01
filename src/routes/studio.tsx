@@ -13,6 +13,7 @@ import { submitQuote } from "@/lib/forms.functions";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
+import uzasLogo from "@/assets/uzas-logo.png";
 import blankShorts from "@/assets/blank-shorts.jpg";
 import blankRashguard from "@/assets/blank-rashguard.jpg";
 import blankJersey from "@/assets/blank-jersey.jpg";
@@ -668,7 +669,11 @@ function StudioPage() {
                 {generating && (
                   <div className="absolute inset-0 z-10 grid place-items-center bg-background/80">
                     <div className="text-center">
-                      <div className="mx-auto mb-4 h-10 w-10 animate-pulse-slow border-2 border-crimson" />
+                      <img
+                        src={uzasLogo}
+                        alt="Uzas Sports"
+                        className="mx-auto mb-5 h-24 w-auto animate-pulse-slow drop-shadow-[0_0_18px_rgba(227,191,41,0.45)]"
+                      />
                       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-smoke">
                         AI is sublimating your design…
                       </p>
