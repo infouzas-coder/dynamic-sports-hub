@@ -1,10 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Linkedin } from "lucide-react";
+import { Linkedin, Mail, MapPin } from "lucide-react";
 import { absUrl, ORG } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
-import heroArena from "@/assets/hero-arena.jpg";
-import { CATEGORIES } from "@/lib/site-data";
+import aboutHero from "@/assets/about/about-hero.jpg";
+import imgDesign from "@/assets/about/process-design.jpg";
+import imgPrinting from "@/assets/about/process-printing.jpg";
+import imgCutting from "@/assets/about/process-cutting.jpg";
+import imgStitching from "@/assets/about/process-stitching.jpg";
+import imgEmbroidery from "@/assets/about/process-embroidery.jpg";
+import imgQuality from "@/assets/about/process-quality.jpg";
+import imgPacking from "@/assets/about/process-packing.jpg";
+import { CATEGORIES, TEAM, type TeamMember } from "@/lib/site-data";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -43,8 +50,8 @@ function AboutPage() {
 
       <section className="relative overflow-hidden border-b border-bone/10">
         <img
-          src={heroArena}
-          alt="Uzas Sports manufacturing in Sialkot"
+          src={aboutHero}
+          alt="Garment factory floor with rows of sewing machines"
           width={1600}
           height={1000}
           className="absolute inset-0 h-full w-full object-cover opacity-50"
@@ -108,6 +115,9 @@ function AboutPage() {
         </div>
       </section>
 
+      <ProcessSection />
+      <TeamSection />
+
       <section className="border-t border-bone/10 py-20">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal>
@@ -137,5 +147,164 @@ function AboutPage() {
 
       <SiteFooter />
     </div>
+  );
+}
+
+const PROCESS = [
+  {
+    img: imgDesign,
+    title: "Design",
+    text: "Free design support. We turn your idea or logo into a print-ready template.",
+  },
+  {
+    img: imgPrinting,
+    title: "Sublimation print",
+    text: "Colours are printed onto transfer paper and pressed into the fabric.",
+  },
+  {
+    img: imgCutting,
+    title: "Cutting",
+    text: "Printed fabric is cut to pattern for every size in your order.",
+  },
+  {
+    img: imgStitching,
+    title: "Stitching",
+    text: "Panels are sewn with flatlock and overlock seams built for training.",
+  },
+  {
+    img: imgEmbroidery,
+    title: "Embroidery & patches",
+    text: "Logos, badges and patches are stitched in house.",
+  },
+  {
+    img: imgQuality,
+    title: "Quality check",
+    text: "Every piece is measured and inspected before it is packed.",
+  },
+  {
+    img: imgPacking,
+    title: "Packed & shipped",
+    text: "Bagged, boxed and shipped worldwide, from one piece to a full team.",
+  },
+];
+
+function ProcessSection() {
+  return (
+    <section className="border-t border-bone/10 bg-background py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <Reveal>
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
+            From idea to delivery
+          </p>
+          <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
+            HOW YOUR ORDER IS MADE
+          </h2>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {PROCESS.map((step, i) => (
+            <Reveal key={step.title} delay={(i % 4) * 80}>
+              <figure className="group relative h-full overflow-hidden border border-bone/10 bg-coal">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={step.img}
+                    alt={step.title}
+                    loading="lazy"
+                    width={1344}
+                    height={768}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <figcaption className="p-5">
+                  <p className="font-display text-xl text-bone">
+                    <span className="mr-2 text-gold">{String(i + 1).padStart(2, "0")}</span>
+                    {step.title.toUpperCase()}
+                  </p>
+                  <p className="mt-1.5 text-sm text-smoke">{step.text}</p>
+                </figcaption>
+              </figure>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function TeamCard({ m }: { m: TeamMember }) {
+  return (
+    <article className="group h-full overflow-hidden border border-bone/10 bg-background transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_18px_40px_-20px_var(--gold)]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-coal">
+        {m.photo ? (
+          <img
+            src={m.photo}
+            alt={m.name}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div className="relative grid h-full w-full place-items-center bg-[radial-gradient(circle_at_30%_20%,color-mix(in_srgb,var(--gold)_22%,transparent),transparent_60%)]">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-[0.07] [background-image:repeating-linear-gradient(-45deg,var(--gold)_0_2px,transparent_2px_14px)]"
+            />
+            <span className="relative grid h-32 w-32 -skew-x-6 place-items-center border-2 border-gold bg-background/60 font-display text-6xl text-gold transition-transform duration-500 group-hover:scale-110">
+              {initials(m.name)}
+            </span>
+          </div>
+        )}
+        <span className="absolute left-0 top-5 bg-primary px-3 py-1 font-display text-sm font-bold italic uppercase tracking-wide text-primary-foreground">
+          {m.role}
+        </span>
+      </div>
+      <div className="p-6">
+        <h3 className="font-display text-3xl leading-none text-bone">{m.name.toUpperCase()}</h3>
+        <p className="mt-2 flex items-center gap-1.5 text-xs uppercase tracking-[0.15em] text-smoke">
+          <MapPin className="h-3.5 w-3.5 text-gold" /> {m.location}
+        </p>
+        <p className="mt-4 text-sm text-smoke">{m.bio}</p>
+        <a
+          href={`mailto:${m.email}`}
+          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-bone transition-colors hover:text-gold"
+        >
+          <Mail className="h-4 w-4 text-gold" /> {m.email}
+        </a>
+      </div>
+    </article>
+  );
+}
+
+function TeamSection() {
+  return (
+    <section id="team" className="scroll-mt-20 border-t border-bone/10 bg-coal py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <Reveal>
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
+            The people behind your order
+          </p>
+          <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
+            MEET THE TEAM
+          </h2>
+          <p className="mt-4 max-w-[56ch] text-smoke">
+            Talk to the people who actually make your gear. Email any of us directly.
+          </p>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {TEAM.map((m, i) => (
+            <Reveal key={m.email} delay={i * 80}>
+              <TeamCard m={m} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

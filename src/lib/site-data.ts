@@ -329,3 +329,44 @@ export const SOCIALS = [
   { label: "LinkedIn", href: "https://pk.linkedin.com/in/uzas-sports", icon: "linkedin" },
   { label: "WhatsApp", href: WHATSAPP_URL, icon: "whatsapp" },
 ] as const;
+
+// Team shown on the About page. Add a `photo` (imported image) to replace the initials badge.
+export type TeamMember = {
+  name: string;
+  role: string;
+  location: string;
+  email: string;
+  bio: string;
+  photo?: string;
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    name: "Saad Zaheen",
+    role: "Director of Sales & Operations",
+    location: "Melbourne, Australia",
+    email: "info@uzassports.com",
+    bio: "Leads sales, operations and IT, and looks after clients in Australia and worldwide.",
+  },
+  {
+    name: "Haysum Zaheen",
+    role: "Production Manager",
+    location: "Sialkot factory, Pakistan",
+    email: "haysum@uzassports.com",
+    bio: "Runs the factory floor and takes every order from pricing and design approval through to production.",
+  },
+  {
+    name: "Hashim",
+    role: "Sales, Australia",
+    location: "Melbourne, Australia",
+    email: "hashim@uzassports.com",
+    bio: "Works with gyms, academies, clubs and teams across Australia and overseas.",
+  },
+  {
+    name: "Mark",
+    role: "International Sales",
+    location: "Pakistan",
+    email: "mark@uzassports.com",
+    bio: "First point of contact for new international enquiries, calls and free samples.",
+  },
+];
