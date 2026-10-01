@@ -2,7 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
-import { generateConcept, generateMockup } from "@/lib/mockup.functions";
+import {
+  CONCEPT_COLOURS,
+  CONCEPT_PATTERNS,
+  CONCEPT_STYLES,
+  generateConcept,
+  generateMockup,
+} from "@/lib/mockup.functions";
 import { submitQuote } from "@/lib/forms.functions";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -94,6 +100,24 @@ const COLOURS: Array<[name: string, rgb: [number, number, number]]> = [
   ["Grey", [120, 122, 126]],
 ];
 
+const SWATCH: Record<string, string> = {
+  White: "#ffffff",
+  Black: "#1a1a1c",
+  Navy: "#162248",
+  "Royal blue": "#1848aa",
+  "Sky blue": "#5aaee6",
+  Red: "#b21c22",
+  Maroon: "#6b1a24",
+  Orange: "#e8701c",
+  Gold: "#e3bf29",
+  Yellow: "#f2d230",
+  Green: "#126234",
+  Purple: "#5b2a86",
+  Pink: "#e46aa0",
+  Grey: "#787a7e",
+  Silver: "#c0c2c6",
+};
+
 async function renderPreview(
   baseUrl: string,
   maskUrl: string,
@@ -173,7 +197,27 @@ function StudioPage() {
   const callGenerate = useServerFn(generateMockup);
   const callConcept = useServerFn(generateConcept);
   const [mode, setMode] = useState<"upload" | "describe">("upload");
-  const [description, setDescription] = useState("");
+  const [concept, setConcept] = useState({
+    primary: "Black" as (typeof CONCEPT_COLOURS)[number],
+    secondary: "Gold" as (typeof CONCEPT_COLOURS)[number],
+    accent: "" as (typeof CONCEPT_COLOURS)[number] | "",
+    pattern: "Diagonal stripes" as (typeof CONCEPT_PATTERNS)[number],
+    style: "Modern" as (typeof CONCEPT_STYLES)[number],
+    teamName: "",
+    number: "",
+    extra: "",
+  });
+  const setC = <K extends keyof typeof concept>(k: K, v: (typeof concept)[K]) =>
+    setConcept((c) => ({ ...c, [k]: v }));
+  const description = [
+    `${concept.style} ${concept.pattern.toLowerCase()}`,
+    `in ${[concept.primary, concept.secondary, concept.accent].filter(Boolean).join(", ").toLowerCase()}`,
+    concept.teamName && `team name ${concept.teamName.toUpperCase()}`,
+    concept.number && `number ${concept.number}`,
+    concept.extra,
+  ]
+    .filter(Boolean)
+    .join(", ");
   const [mockupKind, setMockupKind] = useState<"ai" | "preview" | "concept">("ai");
   const [colour, setColour] = useState(0);
   const [spots, setSpots] = useState<string[]>(["Chest", "Left leg"]);
@@ -275,18 +319,37 @@ function StudioPage() {
   }
 
   async function onConcept() {
-    if (description.trim().length < 3) {
-      setError("Describe the design you'd like, e.g. colours, pattern and team name.");
-      return;
-    }
     setGenerating(true);
     setError(null);
     try {
-      const result = await callConcept({ data: { product: selected.id, description } });
+      const garment =
+        product === "MMA fight shorts"
+          ? "shorts"
+          : product === "long-sleeve rash guard"
+            ? "rashguard"
+            : "jersey";
+      const result = await callConcept({
+        data: {
+          garment,
+          primary: concept.primary,
+          secondary: concept.secondary,
+          accent: concept.accent || undefined,
+          pattern: concept.pattern,
+          style: concept.style,
+          teamName: concept.teamName.trim() || undefined,
+          number: concept.number || undefined,
+          extra: concept.extra.trim() || undefined,
+        },
+      });
       setMockup(result.image);
       setMockupKind("concept");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Generation failed");
+      const msg = err instanceof Error ? err.message : "";
+      setError(
+        msg.startsWith("[") || msg.startsWith("{")
+          ? "Please check your design options and try again."
+          : msg || "Generation failed",
+      );
     } finally {
       setGenerating(false);
     }
@@ -416,18 +479,126 @@ function StudioPage() {
                 ))}
               </div>
               {mode === "describe" ? (
-                <div>
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="e.g. black and gold with sharp diagonal stripes, a roaring lion on the chest, team name TITANS across the front"
-                    rows={5}
-                    maxLength={800}
-                    className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
-                  />
-                  <p className="mt-2 text-xs text-smoke">
-                    Our AI creates a design concept from your description. Our designers then turn
-                    it into print-ready artwork for your sample.
+                <div className="space-y-5">
+                  {(
+                    [
+                      ["primary", "Main colour", false],
+                      ["secondary", "Second colour", false],
+                      ["accent", "Accent colour (optional)", true],
+                    ] as const
+                  ).map(([k, label, optional]) => (
+                    <div key={k}>
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                        {label}: <span className="text-bone">{concept[k] || "None"}</span>
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {optional && (
+                          <button
+                            type="button"
+                            onClick={() => setC(k, "")}
+                            className={`h-8 border px-2 font-mono text-[10px] uppercase ${concept[k] === "" ? "border-gold text-gold" : "border-bone/20 text-smoke"}`}
+                          >
+                            None
+                          </button>
+                        )}
+                        {CONCEPT_COLOURS.map((c) => (
+                          <button
+                            key={c}
+                            type="button"
+                            title={c}
+                            aria-label={`${label}: ${c}`}
+                            aria-pressed={concept[k] === c}
+                            onClick={() => setC(k, c)}
+                            className={`h-8 w-8 border-2 transition ${concept[k] === c ? "scale-110 border-gold" : "border-bone/20 hover:border-bone/60"}`}
+                            style={{ backgroundColor: SWATCH[c] }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <div>
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      Pattern
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {CONCEPT_PATTERNS.map((pt) => (
+                        <button
+                          key={pt}
+                          type="button"
+                          aria-pressed={concept.pattern === pt}
+                          onClick={() => setC("pattern", pt)}
+                          className={`border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${concept.pattern === pt ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
+                        >
+                          {pt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      Style
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {CONCEPT_STYLES.map((st) => (
+                        <button
+                          key={st}
+                          type="button"
+                          aria-pressed={concept.style === st}
+                          onClick={() => setC("style", st)}
+                          className={`border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${concept.style === st ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
+                        >
+                          {st}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <label className="col-span-2 block">
+                      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                        Team name (optional)
+                      </span>
+                      <input
+                        value={concept.teamName}
+                        maxLength={20}
+                        onChange={(e) =>
+                          setC("teamName", e.target.value.replace(/[^A-Za-z0-9 &'.-]/g, ""))
+                        }
+                        placeholder="e.g. TITANS"
+                        className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                        Number
+                      </span>
+                      <input
+                        value={concept.number}
+                        inputMode="numeric"
+                        maxLength={2}
+                        onChange={(e) => setC("number", e.target.value.replace(/\D/g, ""))}
+                        placeholder="10"
+                        className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
+                      />
+                    </label>
+                  </div>
+                  <label className="block">
+                    <span className="mb-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      <span>Extra details (optional)</span>
+                      <span>{concept.extra.length}/120</span>
+                    </span>
+                    <input
+                      value={concept.extra}
+                      maxLength={120}
+                      onChange={(e) =>
+                        setC("extra", e.target.value.replace(/[^A-Za-z0-9 ,.'&-]/g, ""))
+                      }
+                      placeholder="e.g. white collar, gold sleeve cuffs"
+                      className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
+                    />
+                  </label>
+                  <p className="text-xs text-smoke">
+                    Our AI creates a design concept from your choices. Logos can't be added in this
+                    mode. Our designers add your real logo and sponsors when they make your sample.
                   </p>
                 </div>
               ) : (
@@ -517,9 +688,7 @@ function StudioPage() {
               <button
                 type="button"
                 onClick={onGenerate}
-                disabled={
-                  generating || (mode === "upload" ? !designUrl : description.trim().length < 3)
-                }
+                disabled={generating || (mode === "upload" && !designUrl)}
                 className="w-full bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {generating

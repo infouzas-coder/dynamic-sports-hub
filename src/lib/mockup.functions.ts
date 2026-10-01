@@ -87,17 +87,112 @@ export const generateMockup = createServerFn({ method: "POST" })
     return { image: `data:${mimeType};base64,${inline.data}` };
   });
 
-/**
- * Text-to-image design concepts via NVIDIA's hosted FLUX.1-dev model (build.nvidia.com).
- * NVIDIA's hosted models can't take the customer's own artwork as an input, so this creates a
- * garment design from a written description instead. Needs NVIDIA_API_KEY in the environment.
- */
+// ---- NVIDIA design concepts (structured, filter-safe input) ----
+// NVIDIA's hosted FLUX.1-dev only takes text, and runs a strict content filter. Customers pick from
+// fixed options and the prompt is assembled here, so it uses neutral wording that passes the filter.
+export const CONCEPT_COLOURS = [
+  "White",
+  "Black",
+  "Navy",
+  "Royal blue",
+  "Sky blue",
+  "Red",
+  "Maroon",
+  "Orange",
+  "Gold",
+  "Yellow",
+  "Green",
+  "Purple",
+  "Pink",
+  "Grey",
+  "Silver",
+] as const;
+export const CONCEPT_PATTERNS = [
+  "Solid with contrast side panels",
+  "Diagonal stripes",
+  "Horizontal hoops",
+  "Pinstripes",
+  "Chevron",
+  "Geometric shapes",
+  "Camouflage",
+  "Gradient fade",
+  "Halftone dots",
+  "Brush strokes",
+  "Lightning streaks",
+  "Marble texture",
+  "Hexagon grid",
+  "Wave lines",
+] as const;
+export const CONCEPT_STYLES = ["Modern", "Classic", "Retro", "Bold", "Minimal", "Premium"] as const;
+export const CONCEPT_GARMENTS = {
+  jersey: "short-sleeve sports team jersey",
+  rashguard: "long-sleeve athletic compression top",
+  shorts: "pair of athletic training shorts",
+} as const;
+
+// Words NVIDIA's filter blocks (violence, adult, drugs) and brands we can't print
+const BLOCKED = [
+  "blood",
+  "gore",
+  "kill",
+  "dead",
+  "death",
+  "murder",
+  "gun",
+  "weapon",
+  "knife",
+  "bomb",
+  "war",
+  "nude",
+  "naked",
+  "sexy",
+  "sex",
+  "porn",
+  "drug",
+  "weed",
+  "cocaine",
+  "nazi",
+  "hate",
+  "nike",
+  "adidas",
+  "puma",
+  "under armour",
+  "reebok",
+  "venum",
+  "disney",
+  "marvel",
+];
+
 export const generateConcept = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z
       .object({
-        product: z.string().trim().min(1).max(80),
-        description: z.string().trim().min(3).max(800),
+        garment: z.enum(["jersey", "rashguard", "shorts"]),
+        primary: z.enum(CONCEPT_COLOURS),
+        secondary: z.enum(CONCEPT_COLOURS),
+        accent: z.enum(CONCEPT_COLOURS).optional(),
+        pattern: z.enum(CONCEPT_PATTERNS),
+        style: z.enum(CONCEPT_STYLES),
+        teamName: z
+          .string()
+          .trim()
+          .max(20)
+          .regex(/^[A-Za-z0-9 &'.-]*$/, "Team name can only use letters, numbers and spaces.")
+          .optional(),
+        number: z
+          .string()
+          .trim()
+          .regex(/^\d{0,2}$/, "Number must be 0 to 99.")
+          .optional(),
+        extra: z
+          .string()
+          .trim()
+          .max(120)
+          .regex(
+            /^[A-Za-z0-9 ,.'&-]*$/,
+            "Extra details can only use letters, numbers and basic punctuation.",
+          )
+          .optional(),
       })
       .parse(input),
   )
@@ -105,11 +200,25 @@ export const generateConcept = createServerFn({ method: "POST" })
     const key = process.env["NVIDIA_API_KEY"];
     if (!key) throw new Error("The AI design generator isn't set up yet. Please try again later.");
 
-    const prompt =
-      `Professional e-commerce product photo of a single ${data.product}, front view, ` +
-      `with a custom full sublimation print design: ${data.description}. ` +
-      `Garment only, no person, neatly shaped as if on an invisible mannequin, dark charcoal studio background, ` +
-      `soft studio lighting, crisp fabric detail, photorealistic apparel mockup, high quality.`;
+    const userText = `${data.teamName ?? ""} ${data.extra ?? ""}`.toLowerCase();
+    const hit = BLOCKED.find((w) => new RegExp(`\\b${w}\\b`).test(userText));
+    if (hit) throw new Error(`Please remove "${hit}". The AI can't create designs with that word.`);
+
+    const colours = [data.primary, data.secondary, data.accent]
+      .filter(Boolean)
+      .map((c) => c!.toLowerCase());
+    const prompt = [
+      `Studio product photograph of a single ${CONCEPT_GARMENTS[data.garment]}, front view, laid neatly as if on an invisible mannequin.`,
+      `${data.style} sublimated sportswear design: ${data.pattern.toLowerCase()} in ${colours.slice(0, -1).join(", ")} and ${colours.at(-1)}.`,
+      data.teamName
+        ? `The text "${data.teamName.toUpperCase()}" printed across the front in bold athletic lettering.`
+        : "",
+      data.number ? `Large number ${data.number} on the front.` : "",
+      data.extra ? `${data.extra}.` : "",
+      "Plain dark grey background, soft even lighting, crisp fabric detail, clean commercial apparel catalogue photo.",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     const res = await fetch("https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev", {
       method: "POST",
@@ -132,34 +241,39 @@ export const generateConcept = createServerFn({ method: "POST" })
 
     if (!res.ok) {
       const body = await res.text();
-      console.error("[studio] NVIDIA generation failed", res.status, body.slice(0, 500));
+      console.error("[studio] NVIDIA request failed", res.status, body.slice(0, 500));
       if (res.status === 401 || res.status === 403) {
         throw new Error("The AI design generator key was rejected. Please contact us.");
       }
       if (res.status === 429) {
         throw new Error("The AI design generator is busy right now. Please try again in a minute.");
       }
-      throw new Error(
-        "The AI couldn't create that design. Try describing it a little differently.",
-      );
+      throw new Error("The AI couldn't create that design. Please try different options.");
     }
 
     const json = (await res.json()) as {
       artifacts?: Array<{ base64?: string; finishReason?: string }>;
       image?: string;
     };
-    const b64 = json.artifacts?.[0]?.base64 ?? json.image;
-    if (!b64) throw new Error("The AI didn't return an image. Please try again.");
-    if (json.artifacts?.[0]?.finishReason && json.artifacts[0].finishReason !== "SUCCESS") {
+    const art = json.artifacts?.[0];
+    const reason = art?.finishReason ?? "";
+    console.info("[studio] NVIDIA result", {
+      finishReason: reason,
+      hasImage: Boolean(art?.base64 ?? json.image),
+      prompt,
+    });
+    const b64 = art?.base64 ?? json.image;
+    if (/filter|content|block|nsfw|safety/i.test(reason)) {
       throw new Error(
-        "That description was blocked by the AI's content filter. Try wording it differently.",
+        "The AI's safety filter blocked this design. Please try a different pattern or remove the extra details.",
       );
     }
-    if (b64.startsWith("data:")) return { image: b64 };
+    if (!b64) throw new Error("The AI didn't return an image. Please try again.");
+    if (b64.startsWith("data:")) return { image: b64, prompt };
     const mime = b64.startsWith("iVBOR")
       ? "image/png"
       : b64.startsWith("UklGR")
         ? "image/webp"
         : "image/jpeg";
-    return { image: `data:${mime};base64,${b64}` };
+    return { image: `data:${mime};base64,${b64}`, prompt };
   });
