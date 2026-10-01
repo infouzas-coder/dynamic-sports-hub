@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo";
 import { useServerFn } from "@tanstack/react-start";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { generateConcept, generateMockup } from "@/lib/mockup.functions";
 import { submitQuote } from "@/lib/forms.functions";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
@@ -10,6 +10,9 @@ import { Reveal } from "@/components/Reveal";
 import blankShorts from "@/assets/blank-shorts.jpg";
 import blankRashguard from "@/assets/blank-rashguard.jpg";
 import blankJersey from "@/assets/blank-jersey.jpg";
+import maskShorts from "@/assets/blank-shorts-mask.png";
+import maskRashguard from "@/assets/blank-rashguard-mask.png";
+import maskJersey from "@/assets/blank-jersey-mask.png";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({
@@ -36,9 +39,9 @@ export const Route = createFileRoute("/studio")({
 });
 
 const PRODUCTS = [
-  { id: "MMA fight shorts", label: "Fight Shorts", image: blankShorts },
-  { id: "long-sleeve rash guard", label: "Rash Guard", image: blankRashguard },
-  { id: "sports team jersey", label: "Team Jersey", image: blankJersey },
+  { id: "MMA fight shorts", label: "Fight Shorts", image: blankShorts, mask: maskShorts },
+  { id: "long-sleeve rash guard", label: "Rash Guard", image: blankRashguard, mask: maskRashguard },
+  { id: "sports team jersey", label: "Team Jersey", image: blankJersey, mask: maskJersey },
 ] as const;
 
 type ProductId = (typeof PRODUCTS)[number]["id"];
@@ -52,8 +55,52 @@ function fileToDataUrl(file: File): Promise<string> {
   });
 }
 
-/** Instant in-browser preview: print the artwork onto the blank garment's chest. */
-async function compositePreview(baseUrl: string, artUrl: string): Promise<string> {
+// ---- Instant in-browser preview (no AI needed) ----
+type Spot = { x: number; y: number; w: number; rot?: number };
+// Logo positions as fractions of each blank garment photo (800x1000)
+const SPOTS: Record<string, Record<string, Spot>> = {
+  "sports team jersey": {
+    Chest: { x: 0.5, y: 0.36, w: 0.3 },
+    "Left chest": { x: 0.63, y: 0.27, w: 0.12 },
+    "Left sleeve": { x: 0.13, y: 0.33, w: 0.09, rot: -18 },
+    "Right sleeve": { x: 0.87, y: 0.33, w: 0.09, rot: 18 },
+    "Bottom left": { x: 0.32, y: 0.8, w: 0.12 },
+    "Bottom right": { x: 0.68, y: 0.8, w: 0.12 },
+  },
+  "long-sleeve rash guard": {
+    Chest: { x: 0.5, y: 0.33, w: 0.26 },
+    "Left chest": { x: 0.6, y: 0.26, w: 0.1 },
+    "Left sleeve": { x: 0.235, y: 0.42, w: 0.07, rot: 6 },
+    "Right sleeve": { x: 0.765, y: 0.42, w: 0.07, rot: -6 },
+    "Bottom left": { x: 0.38, y: 0.74, w: 0.1 },
+    "Bottom right": { x: 0.62, y: 0.74, w: 0.1 },
+  },
+  "MMA fight shorts": {
+    Waistband: { x: 0.5, y: 0.36, w: 0.1 },
+    "Left leg": { x: 0.35, y: 0.52, w: 0.13, rot: -4 },
+    "Right leg": { x: 0.66, y: 0.52, w: 0.13, rot: 4 },
+    "Bottom left": { x: 0.28, y: 0.6, w: 0.07, rot: -8 },
+    "Bottom right": { x: 0.73, y: 0.6, w: 0.07, rot: 8 },
+  },
+};
+const COLOURS: Array<[name: string, rgb: [number, number, number]]> = [
+  ["White", [255, 255, 255]],
+  ["Black", [26, 26, 28]],
+  ["Navy", [22, 34, 72]],
+  ["Royal blue", [24, 72, 170]],
+  ["Red", [178, 28, 34]],
+  ["Gold", [227, 191, 41]],
+  ["Green", [18, 98, 52]],
+  ["Grey", [120, 122, 126]],
+];
+
+async function renderPreview(
+  baseUrl: string,
+  maskUrl: string,
+  artUrl: string | null,
+  rgb: [number, number, number],
+  spots: Spot[],
+): Promise<string> {
   const load = (src: string) =>
     new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
@@ -61,26 +108,59 @@ async function compositePreview(baseUrl: string, artUrl: string): Promise<string
       img.onerror = reject;
       img.src = src;
     });
-  const [base, art] = await Promise.all([load(baseUrl), load(artUrl)]);
+  const base = await load(baseUrl);
   const canvas = document.createElement("canvas");
   canvas.width = base.naturalWidth;
   canvas.height = base.naturalHeight;
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(base, 0, 0);
-  // Fit the artwork into a chest-sized box, centred on the garment
-  const boxW = canvas.width * 0.34;
-  const boxH = canvas.height * 0.26;
-  const scale = Math.min(boxW / art.naturalWidth, boxH / art.naturalHeight);
-  const w = art.naturalWidth * scale;
-  const h = art.naturalHeight * scale;
-  const x = (canvas.width - w) / 2;
-  const y = canvas.height * 0.36 - h / 2;
-  // "multiply" lets the fabric folds and shading show through, like a real print on white fabric
-  ctx.globalCompositeOperation = "multiply";
-  ctx.globalAlpha = 0.95;
-  ctx.drawImage(art, x, y, w, h);
-  ctx.globalCompositeOperation = "source-over";
-  ctx.globalAlpha = 1;
+
+  // Dye the garment: the blank is white on a dark background, so bright pixels are fabric.
+  // Keep the fabric's shading (folds, seams) by scaling the chosen colour by brightness.
+  const dark = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11 < 110;
+  if (rgb.some((c) => c !== 255)) {
+    const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const d = img.data;
+    // Precomputed garment mask (white = fabric) so shadows in folds get dyed too
+    const maskImg = await load(maskUrl);
+    const mc = document.createElement("canvas");
+    mc.width = canvas.width;
+    mc.height = canvas.height;
+    const mctx = mc.getContext("2d")!;
+    mctx.drawImage(maskImg, 0, 0, canvas.width, canvas.height);
+    const md = mctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    for (let i = 0; i < d.length; i += 4) {
+      const lum = (d[i]! * 0.3 + d[i + 1]! * 0.59 + d[i + 2]! * 0.11) / 255;
+      const m = md[i]! / 255; // fabric mask
+      if (m === 0) continue;
+      const shade = Math.min(1.05, lum / 0.93);
+      for (let c = 0; c < 3; c++) {
+        const dyed = dark
+          ? rgb[c]! * (0.55 + 0.6 * shade) + 34 * Math.max(0, shade - 0.85)
+          : rgb[c]! * shade;
+        d[i + c] = d[i + c]! * (1 - m) + Math.min(255, dyed) * m;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+
+  if (artUrl) {
+    const art = await load(artUrl);
+    for (const sp of spots) {
+      const boxW = canvas.width * sp.w;
+      const scale = boxW / Math.max(art.naturalWidth, art.naturalHeight * 0.9);
+      const w = art.naturalWidth * scale;
+      const h = art.naturalHeight * scale;
+      ctx.save();
+      ctx.translate(canvas.width * sp.x, canvas.height * sp.y);
+      ctx.rotate(((sp.rot ?? 0) * Math.PI) / 180);
+      // On light fabric "multiply" lets folds show through like a real print; on dark fabric draw normally
+      ctx.globalCompositeOperation = dark ? "source-over" : "multiply";
+      ctx.globalAlpha = 0.95;
+      ctx.drawImage(art, -w / 2, -h / 2, w, h);
+      ctx.restore();
+    }
+  }
   return canvas.toDataURL("image/jpeg", 0.9);
 }
 
@@ -95,6 +175,8 @@ function StudioPage() {
   const [mode, setMode] = useState<"upload" | "describe">("upload");
   const [description, setDescription] = useState("");
   const [mockupKind, setMockupKind] = useState<"ai" | "preview" | "concept">("ai");
+  const [colour, setColour] = useState(0);
+  const [spots, setSpots] = useState<string[]>(["Chest", "Left leg"]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [product, setProduct] = useState<ProductId>(PRODUCTS[1].id);
@@ -117,6 +199,37 @@ function StudioPage() {
 
   const selected = PRODUCTS.find((p) => p.id === product) ?? PRODUCTS[1];
 
+  const spotMap = SPOTS[product] ?? {};
+  const activeSpots = spots.filter((n) => spotMap[n]);
+
+  // Live preview in upload mode: re-render whenever the garment, colour, logo or positions change
+  useEffect(() => {
+    if (mode !== "upload") return;
+    if (!designUrl && colour === 0) {
+      setMockup(null);
+      return;
+    }
+    let cancelled = false;
+    renderPreview(
+      selected.image,
+      selected.mask,
+      designUrl,
+      COLOURS[colour]![1],
+      activeSpots.map((n) => spotMap[n]!),
+    )
+      .then((url) => {
+        if (!cancelled) {
+          setMockup(url);
+          setMockupKind("preview");
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, product, designUrl, colour, spots.join("|")]);
+
   async function onDesignPicked(file: File | undefined) {
     if (!file) return;
     setDesignUrl(await fileToDataUrl(file));
@@ -136,7 +249,14 @@ function StudioPage() {
           product: selected.id,
           designDataUrl: designUrl,
           baseDataUrl,
-          notes: designNotes || undefined,
+          notes:
+            [
+              `Garment colour: ${COLOURS[colour]![0]}.`,
+              activeSpots.length ? `Place the artwork at: ${activeSpots.join(", ")}.` : "",
+              designNotes,
+            ]
+              .filter(Boolean)
+              .join(" ") || undefined,
         },
       });
       setMockup(result.image);
@@ -144,13 +264,8 @@ function StudioPage() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : "";
       if (msg.includes("NO_GEMINI_KEY")) {
-        // AI rendering not configured: show an instant preview of the artwork on the garment instead
-        try {
-          setMockup(await compositePreview(selected.image, designUrl));
-          setMockupKind("preview");
-        } catch {
-          setError("We couldn't read that image. Please try a PNG or JPG file.");
-        }
+        // AI rendering not configured: the live preview already shows the design
+        setMockupKind("preview");
       } else {
         setError(msg || "Generation failed");
       }
@@ -342,10 +457,52 @@ function StudioPage() {
                       {designUrl ? "Change artwork" : "Click to upload your design (PNG, JPG)"}
                     </span>
                   </button>
+                  <div className="mt-6">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      Garment colour: <span className="text-bone">{COLOURS[colour]![0]}</span>
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {COLOURS.map(([n, c], i) => (
+                        <button
+                          key={n}
+                          type="button"
+                          title={n}
+                          aria-label={n}
+                          aria-pressed={colour === i}
+                          onClick={() => setColour(i)}
+                          className={`h-9 w-9 border-2 transition ${colour === i ? "scale-110 border-gold" : "border-bone/20 hover:border-bone/60"}`}
+                          style={{ backgroundColor: `rgb(${c.join(",")})` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-5">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      Logo positions (pick any)
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {Object.keys(spotMap).map((n) => {
+                        const on = spots.includes(n);
+                        return (
+                          <button
+                            key={n}
+                            type="button"
+                            aria-pressed={on}
+                            onClick={() =>
+                              setSpots((cur) => (on ? cur.filter((x) => x !== n) : [...cur, n]))
+                            }
+                            className={`border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.15em] transition-colors ${on ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
+                          >
+                            {n}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                   <textarea
                     value={designNotes}
                     onChange={(e) => setDesignNotes(e.target.value)}
-                    placeholder="Optional notes, e.g. keep the logo centered on the chest, wrap the pattern around the sleeves…"
+                    placeholder="Notes for our designers, e.g. sponsor on the back, team name across the front. Sent with your quote."
                     rows={3}
                     className="mt-4 w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
                   />
