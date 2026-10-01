@@ -286,7 +286,7 @@ function TeamCard({ m }: { m: TeamMember }) {
 
 function TeamSection() {
   return (
-    <section id="team" className="scroll-mt-20 border-t border-bone/10 bg-coal py-20">
+    <section id="team" className="scroll-mt-32 lg:scroll-mt-20 border-t border-bone/10 bg-coal py-20">
       <div className="mx-auto max-w-7xl px-6">
         <Reveal>
           <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">

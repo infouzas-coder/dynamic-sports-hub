@@ -773,7 +773,7 @@ function StudioPage() {
       {/* Quote form */}
       <section
         id="quote"
-        className="scroll-mt-20 border-t border-bone/10 bg-background py-16 md:py-24"
+        className="scroll-mt-32 lg:scroll-mt-20 border-t border-bone/10 bg-background py-16 md:py-24"
       >
         <div className="mx-auto max-w-3xl px-6">
           <Reveal>

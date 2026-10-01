@@ -1,11 +1,22 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronDown, House, Mail, Menu, X } from "lucide-react";
+import { ChevronDown, House, Mail } from "lucide-react";
 import { SocialRow, WhatsAppIcon } from "./SocialIcons";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppButton } from "./WhatsAppButton";
 import { CATEGORIES, WHATSAPP_URL } from "@/lib/site-data";
 import uzasLogo from "@/assets/uzas-logo.png";
+
+// Short names for the category bar on phones (full names stay in the menu)
+const QUICK_LINKS = [
+  { to: "/sublimation-clothing", label: "Team Kits" },
+  { to: "/martial-arts-combat-sports", label: "Martial Arts" },
+  { to: "/gloves", label: "Gloves" },
+  { to: "/apparel", label: "Apparel" },
+  { to: "/custom-patches", label: "Patches" },
+  { to: "/paintball", label: "Paintball" },
+  { to: "/studio", label: "AI Studio", highlight: true },
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -105,10 +116,17 @@ export function SiteHeader() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <ThemeToggle />
             <Link to="/contact" className="btn btn-gold btn-sm hidden sm:inline-flex">
               Contact
+            </Link>
+            <Link
+              to="/studio"
+              hash="quote"
+              className="btn btn-gold btn-sm px-4 py-2.5 text-[0.85rem] sm:hidden"
+            >
+              Get a quote
             </Link>
             <button
               type="button"
@@ -116,10 +134,28 @@ export function SiteHeader() {
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
-              className="grid h-10 w-10 place-items-center rounded-full border border-bone/25 text-bone transition-colors hover:border-gold hover:text-gold lg:hidden"
+              className="icon-btn lg:hidden"
             >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <span className="burger" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
             </button>
+          </div>
+        </div>
+        {/* Phones and tablets: main categories always visible in a swipeable bar */}
+        <div className="border-t border-bone/10 lg:hidden">
+          <div className="no-scrollbar mx-auto flex h-11 max-w-7xl items-center gap-0.5 overflow-x-auto px-3 [mask-image:linear-gradient(to_right,black_82%,transparent)] pr-10">
+            {QUICK_LINKS.map((q) => (
+              <Link
+                key={q.to}
+                to={q.to}
+                className={`cat-chip ${q.highlight ? "cat-chip-gold" : ""}`}
+              >
+                {q.label}
+              </Link>
+            ))}
           </div>
         </div>
       </nav>
@@ -127,7 +163,7 @@ export function SiteHeader() {
       {mobileOpen && (
         <div
           id="mobile-menu"
-          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto border-t border-bone/10 bg-background lg:hidden"
+          className="fixed inset-x-0 bottom-0 top-[6.75rem] z-50 overflow-y-auto border-t border-bone/10 bg-background lg:hidden"
         >
           <div className="mx-auto flex min-h-full max-w-7xl flex-col px-6 pb-10 pt-4">
             <Link

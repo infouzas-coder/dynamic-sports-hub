@@ -337,6 +337,139 @@ html.theme-anim *::after {
     }
   }
 
+  /* Square header buttons (theme, menu): angled like the logo, gold on hover */
+  .icon-btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-grid;
+    place-items: center;
+    height: 2.6rem;
+    width: 2.6rem;
+    color: var(--bone);
+    transition:
+      color 0.25s ease,
+      transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .icon-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: skewX(-12deg);
+    border: 1.5px solid color-mix(in srgb, var(--gold) 55%, transparent);
+    background: color-mix(in srgb, var(--background) 60%, transparent);
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .icon-btn:hover {
+    color: #0a0a0a;
+    transform: translateY(-1px);
+  }
+  .icon-btn:hover::before,
+  .icon-btn[aria-expanded="true"]::before {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #f0d24a 0%, #e3bf29 45%, #cb9d1a 100%);
+    box-shadow: 0 8px 22px -10px rgb(227 191 41 / 80%);
+  }
+  .icon-btn[aria-expanded="true"] {
+    color: #0a0a0a;
+  }
+  .icon-btn:focus-visible {
+    outline: none;
+  }
+  .icon-btn:focus-visible::before {
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+
+  /* Animated three-bar menu icon that turns into an X */
+  .burger {
+    position: relative;
+    display: block;
+    width: 1.15rem;
+    height: 0.85rem;
+  }
+  .burger span {
+    position: absolute;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition:
+      transform 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 0.2s ease,
+      width 0.3s ease;
+  }
+  .burger span:nth-child(1) {
+    top: 0;
+  }
+  .burger span:nth-child(2) {
+    top: calc(50% - 1px);
+    width: 70%;
+  }
+  .burger span:nth-child(3) {
+    bottom: 0;
+  }
+  .icon-btn:hover .burger span:nth-child(2) {
+    width: 100%;
+  }
+  [aria-expanded="true"] .burger span:nth-child(1) {
+    transform: translateY(calc(0.425rem - 1px)) rotate(45deg);
+  }
+  [aria-expanded="true"] .burger span:nth-child(2) {
+    opacity: 0;
+  }
+  [aria-expanded="true"] .burger span:nth-child(3) {
+    transform: translateY(calc(-0.425rem + 1px)) rotate(-45deg);
+  }
+
+  /* Category bar on phones */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .cat-chip {
+    position: relative;
+    flex: none;
+    padding: 0.45rem 0.75rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--smoke);
+    transition: color 0.2s ease;
+  }
+  .cat-chip::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0) skewX(-20deg);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .cat-chip:hover,
+  .cat-chip[data-status="active"] {
+    color: var(--bone);
+  }
+  .cat-chip:hover::after,
+  .cat-chip[data-status="active"]::after {
+    transform: scaleX(1) skewX(-20deg);
+  }
+  .cat-chip-gold {
+    color: var(--gold);
+  }
+
   /* Header links: Saira Condensed with a gold underline that slides in */
   .nav-link {
     position: relative;
