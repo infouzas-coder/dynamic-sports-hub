@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { absUrl } from "@/lib/seo";
 import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState } from "react";
-import { generateMockup } from "@/lib/mockup.functions";
+import { generateConcept, generateMockup } from "@/lib/mockup.functions";
 import { submitQuote } from "@/lib/forms.functions";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
@@ -52,6 +52,38 @@ function fileToDataUrl(file: File): Promise<string> {
   });
 }
 
+/** Instant in-browser preview: print the artwork onto the blank garment's chest. */
+async function compositePreview(baseUrl: string, artUrl: string): Promise<string> {
+  const load = (src: string) =>
+    new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  const [base, art] = await Promise.all([load(baseUrl), load(artUrl)]);
+  const canvas = document.createElement("canvas");
+  canvas.width = base.naturalWidth;
+  canvas.height = base.naturalHeight;
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(base, 0, 0);
+  // Fit the artwork into a chest-sized box, centred on the garment
+  const boxW = canvas.width * 0.34;
+  const boxH = canvas.height * 0.26;
+  const scale = Math.min(boxW / art.naturalWidth, boxH / art.naturalHeight);
+  const w = art.naturalWidth * scale;
+  const h = art.naturalHeight * scale;
+  const x = (canvas.width - w) / 2;
+  const y = canvas.height * 0.36 - h / 2;
+  // "multiply" lets the fabric folds and shading show through, like a real print on white fabric
+  ctx.globalCompositeOperation = "multiply";
+  ctx.globalAlpha = 0.95;
+  ctx.drawImage(art, x, y, w, h);
+  ctx.globalCompositeOperation = "source-over";
+  ctx.globalAlpha = 1;
+  return canvas.toDataURL("image/jpeg", 0.9);
+}
+
 async function urlToDataUrl(url: string): Promise<string> {
   const blob = await (await fetch(url)).blob();
   return fileToDataUrl(new File([blob], "base.jpg", { type: blob.type }));
@@ -59,6 +91,10 @@ async function urlToDataUrl(url: string): Promise<string> {
 
 function StudioPage() {
   const callGenerate = useServerFn(generateMockup);
+  const callConcept = useServerFn(generateConcept);
+  const [mode, setMode] = useState<"upload" | "describe">("upload");
+  const [description, setDescription] = useState("");
+  const [mockupKind, setMockupKind] = useState<"ai" | "preview" | "concept">("ai");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [product, setProduct] = useState<ProductId>(PRODUCTS[1].id);
@@ -88,7 +124,9 @@ function StudioPage() {
   }
 
   async function onGenerate() {
-    if (!designUrl || generating) return;
+    if (generating) return;
+    if (mode === "describe") return onConcept();
+    if (!designUrl) return;
     setGenerating(true);
     setError(null);
     try {
@@ -102,6 +140,36 @@ function StudioPage() {
         },
       });
       setMockup(result.image);
+      setMockupKind("ai");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("NO_GEMINI_KEY")) {
+        // AI rendering not configured: show an instant preview of the artwork on the garment instead
+        try {
+          setMockup(await compositePreview(selected.image, designUrl));
+          setMockupKind("preview");
+        } catch {
+          setError("We couldn't read that image. Please try a PNG or JPG file.");
+        }
+      } else {
+        setError(msg || "Generation failed");
+      }
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function onConcept() {
+    if (description.trim().length < 3) {
+      setError("Describe the design you'd like, e.g. colours, pattern and team name.");
+      return;
+    }
+    setGenerating(true);
+    setError(null);
+    try {
+      const result = await callConcept({ data: { product: selected.id, description } });
+      setMockup(result.image);
+      setMockupKind("concept");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Generation failed");
     } finally {
@@ -126,7 +194,7 @@ function StudioPage() {
           productLabel: selected.label,
           quantity: qty && qty > 0 ? qty : null,
           notes,
-          designNotes,
+          designNotes: mode === "describe" ? `AI design brief: ${description}` : designNotes,
           mockupDataUrl: mockup ?? undefined,
           designDataUrl: designUrl ?? undefined,
           captchaToken,
@@ -134,7 +202,9 @@ function StudioPage() {
       });
       setSubmitted(true);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setSubmitError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -156,9 +226,8 @@ function StudioPage() {
             <span className="text-crimson">SEE IT ON GEAR.</span>
           </h1>
           <p className="mt-6 max-w-[52ch] text-pretty text-base text-smoke md:text-lg">
-            Upload your artwork, pick a garment, and our AI renders a production
-            mockup in seconds. Like what you see? Send it straight to a quote for
-            any quantity, made fully in-house.
+            Upload your artwork, pick a garment, and our AI renders a production mockup in seconds.
+            Like what you see? Send it straight to a quote for any quantity, made fully in-house.
           </p>
         </div>
       </section>
@@ -182,9 +251,7 @@ function StudioPage() {
                       setMockup(null);
                     }}
                     className={`group border text-left transition-colors ${
-                      product === p.id
-                        ? "border-crimson"
-                        : "border-bone/10 hover:border-bone/30"
+                      product === p.id ? "border-crimson" : "border-bone/10 hover:border-bone/30"
                     }`}
                   >
                     <img
@@ -205,40 +272,85 @@ function StudioPage() {
 
             <Reveal delay={100}>
               <p className="mt-10 mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                02. Upload your artwork
+                02. Add your design
               </p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => onDesignPicked(e.target.files?.[0])}
-              />
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="flex w-full items-center justify-center gap-4 border border-dashed border-bone/25 px-6 py-8 transition-colors hover:border-crimson"
-              >
-                {designUrl ? (
-                  <img
-                    src={designUrl}
-                    alt="Your uploaded artwork"
-                    className="h-20 w-20 object-contain"
+              <div className="mb-4 grid grid-cols-2 border border-bone/15" role="tablist">
+                {(
+                  [
+                    ["upload", "Upload my artwork"],
+                    ["describe", "Describe it (AI design)"],
+                  ] as const
+                ).map(([m, label]) => (
+                  <button
+                    key={m}
+                    type="button"
+                    role="tab"
+                    aria-selected={mode === m}
+                    onClick={() => {
+                      setMode(m);
+                      setError(null);
+                    }}
+                    className={`px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors ${
+                      mode === m
+                        ? "bg-primary text-primary-foreground"
+                        : "text-smoke hover:text-bone"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {mode === "describe" ? (
+                <div>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="e.g. black and gold with sharp diagonal stripes, a roaring lion on the chest, team name TITANS across the front"
+                    rows={5}
+                    maxLength={800}
+                    className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
                   />
-                ) : (
-                  <span className="font-display text-3xl text-crimson">+</span>
-                )}
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
-                  {designUrl ? "Change artwork" : "Click to upload your design (PNG, JPG)"}
-                </span>
-              </button>
-              <textarea
-                value={designNotes}
-                onChange={(e) => setDesignNotes(e.target.value)}
-                placeholder="Optional notes, e.g. keep the logo centered on the chest, wrap the pattern around the sleeves…"
-                rows={3}
-                className="mt-4 w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
-              />
+                  <p className="mt-2 text-xs text-smoke">
+                    Our AI creates a design concept from your description. Our designers then turn
+                    it into print-ready artwork for your sample.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => onDesignPicked(e.target.files?.[0])}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex w-full items-center justify-center gap-4 border border-dashed border-bone/25 px-6 py-8 transition-colors hover:border-crimson"
+                  >
+                    {designUrl ? (
+                      <img
+                        src={designUrl}
+                        alt="Your uploaded artwork"
+                        className="h-20 w-20 object-contain"
+                      />
+                    ) : (
+                      <span className="font-display text-3xl text-crimson">+</span>
+                    )}
+                    <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
+                      {designUrl ? "Change artwork" : "Click to upload your design (PNG, JPG)"}
+                    </span>
+                  </button>
+                  <textarea
+                    value={designNotes}
+                    onChange={(e) => setDesignNotes(e.target.value)}
+                    placeholder="Optional notes, e.g. keep the logo centered on the chest, wrap the pattern around the sleeves…"
+                    rows={3}
+                    className="mt-4 w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
+                  />
+                </>
+              )}
             </Reveal>
 
             <Reveal delay={180}>
@@ -248,10 +360,18 @@ function StudioPage() {
               <button
                 type="button"
                 onClick={onGenerate}
-                disabled={!designUrl || generating}
+                disabled={
+                  generating || (mode === "upload" ? !designUrl : description.trim().length < 3)
+                }
                 className="w-full bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
               >
-                {generating ? "Rendering your mockup…" : "Generate AI mockup"}
+                {generating
+                  ? mode === "describe"
+                    ? "Designing your kit…"
+                    : "Rendering your mockup…"
+                  : mode === "describe"
+                    ? "Generate AI design"
+                    : "Generate mockup"}
               </button>
               {error && (
                 <p className="mt-4 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">
@@ -287,7 +407,13 @@ function StudioPage() {
                   className="aspect-[4/5] w-full object-cover"
                 />
                 <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-bone backdrop-blur">
-                  {mockup ? "Your AI mockup" : `Blank ${selected.label}`}
+                  {!mockup
+                    ? `Blank ${selected.label}`
+                    : mockupKind === "concept"
+                      ? "AI design concept"
+                      : mockupKind === "preview"
+                        ? "Quick preview"
+                        : "Your AI mockup"}
                 </span>
               </div>
               {mockup && (
@@ -315,8 +441,8 @@ function StudioPage() {
               REQUEST A QUOTE
             </h2>
             <p className="mt-4 max-w-[50ch] text-pretty text-smoke">
-              Tell us the quantity and we'll come back with a production quote,
-              from a single piece to a full team run.
+              Tell us the quantity and we'll come back with a production quote, from a single piece
+              to a full team run.
             </p>
           </Reveal>
 
@@ -327,9 +453,8 @@ function StudioPage() {
                   Quote request received
                 </p>
                 <p className="mt-3 text-sm text-smoke">
-                  Our production team will email you at{" "}
-                  <span className="text-bone">{email}</span> with pricing and a
-                  sample timeline. Talk soon.
+                  Our production team will email you at <span className="text-bone">{email}</span>{" "}
+                  with pricing and a sample timeline. Talk soon.
                 </p>
                 <Link
                   to="/"
