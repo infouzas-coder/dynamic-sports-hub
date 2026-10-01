@@ -22,7 +22,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SublimationClothingRouteImport } from './routes/sublimation-clothing'
 import { Route as WholesaleRouteImport } from './routes/wholesale'
-import { Route as ApiGenImageRouteImport } from './routes/api/gen-image'
 import { Route as ApiKeepaliveRouteImport } from './routes/api/keepalive'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -92,11 +91,6 @@ const WholesaleRoute = WholesaleRouteImport.update({
   path: '/wholesale',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiGenImageRoute = ApiGenImageRouteImport.update({
-  id: '/api/gen-image',
-  path: '/api/gen-image',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiKeepaliveRoute = ApiKeepaliveRouteImport.update({
   id: '/api/keepalive',
   path: '/api/keepalive',
@@ -127,7 +121,6 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
-  '/api/gen-image': typeof ApiGenImageRoute
   '/api/keepalive': typeof ApiKeepaliveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -146,7 +139,6 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
-  '/api/gen-image': typeof ApiGenImageRoute
   '/api/keepalive': typeof ApiKeepaliveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -166,7 +158,6 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/sublimation-clothing': typeof SublimationClothingRoute
   '/wholesale': typeof WholesaleRoute
-  '/api/gen-image': typeof ApiGenImageRoute
   '/api/keepalive': typeof ApiKeepaliveRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -187,7 +178,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
-    | '/api/gen-image'
     | '/api/keepalive'
     | '/blog/$slug'
     | '/blog/'
@@ -206,7 +196,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
-    | '/api/gen-image'
     | '/api/keepalive'
     | '/blog/$slug'
     | '/blog'
@@ -225,7 +214,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/sublimation-clothing'
     | '/wholesale'
-    | '/api/gen-image'
     | '/api/keepalive'
     | '/blog/$slug'
     | '/blog/'
@@ -245,7 +233,6 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   SublimationClothingRoute: typeof SublimationClothingRoute
   WholesaleRoute: typeof WholesaleRoute
-  ApiGenImageRoute: typeof ApiGenImageRoute
   ApiKeepaliveRoute: typeof ApiKeepaliveRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -344,13 +331,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WholesaleRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/gen-image': {
-      id: '/api/gen-image'
-      path: '/api/gen-image'
-      fullPath: '/api/gen-image'
-      preLoaderRoute: typeof ApiGenImageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/keepalive': {
       id: '/api/keepalive'
       path: '/api/keepalive'
@@ -389,7 +369,6 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   SublimationClothingRoute: SublimationClothingRoute,
   WholesaleRoute: WholesaleRoute,
-  ApiGenImageRoute: ApiGenImageRoute,
   ApiKeepaliveRoute: ApiKeepaliveRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
