@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Linkedin, Mail, MapPin } from "lucide-react";
+import { Factory, Linkedin, Mail, MapPin, Plane, Ship, Store, Timer } from "lucide-react";
 import { absUrl, ORG } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
@@ -11,7 +11,7 @@ import imgStitching from "@/assets/about/process-stitching.jpg";
 import imgEmbroidery from "@/assets/about/process-embroidery.jpg";
 import imgQuality from "@/assets/about/process-quality.jpg";
 import imgPacking from "@/assets/about/process-packing.jpg";
-import { CATEGORIES, TEAM, type TeamMember } from "@/lib/site-data";
+import { CARRIERS, CATEGORIES, LOCATIONS, TEAM, type TeamMember } from "@/lib/site-data";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -115,7 +115,9 @@ function AboutPage() {
         </div>
       </section>
 
+      <LocationsSection />
       <ProcessSection />
+      <ShippingSection />
       <TeamSection />
 
       <section className="border-t border-bone/10 py-20">
@@ -304,6 +306,115 @@ function TeamSection() {
             </Reveal>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function LocationsSection() {
+  return (
+    <section className="border-t border-bone/10 bg-background py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <Reveal>
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
+            Where to find us
+          </p>
+          <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
+            MADE IN SIALKOT. SHOWROOMS IN SIALKOT AND MELBOURNE.
+          </h2>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+          {LOCATIONS.map((l, i) => {
+            const Icon = l.kind === "Manufacturing" ? Factory : Store;
+            return (
+              <Reveal key={l.title} delay={i * 80}>
+                <div className="group h-full border border-bone/10 bg-coal p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60">
+                  <div className="flex items-center justify-between">
+                    <span className="grid h-12 w-12 -skew-x-6 place-items-center border border-gold/60 text-gold transition-colors group-hover:bg-gold group-hover:text-primary-foreground">
+                      <Icon className="h-6 w-6 skew-x-6" strokeWidth={1.8} />
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-gold">
+                      {l.kind}
+                    </span>
+                  </div>
+                  <h3 className="mt-6 font-display text-3xl leading-none text-bone">
+                    {l.title.toUpperCase()}
+                  </h3>
+                  <p className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-bone/80">
+                    <MapPin className="h-4 w-4 text-gold" /> {l.place}
+                  </p>
+                  <p className="mt-3 text-sm text-smoke">{l.text}</p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const SHIPPING = [
+  {
+    icon: Plane,
+    title: "Air freight",
+    text: "Express courier and air cargo for samples, reorders and urgent team orders.",
+  },
+  {
+    icon: Ship,
+    title: "Sea freight",
+    text: "Cost-effective shipping for large bulk and wholesale orders.",
+  },
+  {
+    icon: Timer,
+    title: "Fast turnaround",
+    text: "Production and dispatch planned around your deadline, with tracking on every shipment.",
+  },
+];
+
+function ShippingSection() {
+  return (
+    <section className="border-t border-bone/10 bg-coal py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <Reveal>
+          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
+            Worldwide delivery
+          </p>
+          <h2 className="font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
+            SHIPPED TO YOUR DOOR, ANYWHERE
+          </h2>
+        </Reveal>
+        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+          {SHIPPING.map((sh, i) => (
+            <Reveal key={sh.title} delay={i * 80}>
+              <div className="group h-full border border-bone/10 bg-background p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/60">
+                <sh.icon
+                  className="h-9 w-9 text-gold transition-transform duration-500 group-hover:translate-x-1"
+                  strokeWidth={1.6}
+                />
+                <h3 className="mt-5 font-display text-2xl text-bone">{sh.title.toUpperCase()}</h3>
+                <p className="mt-2 text-sm text-smoke">{sh.text}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={120}>
+          <div className="mt-12 border-t border-bone/10 pt-10">
+            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-smoke">
+              Delivery partners
+            </p>
+            <div className="mt-5 grid grid-cols-2 gap-px bg-bone/10 sm:grid-cols-4">
+              {CARRIERS.map((c) => (
+                <div
+                  key={c}
+                  className="grid h-24 place-items-center bg-coal px-4 text-center font-display text-2xl font-extrabold italic tracking-wide text-bone/70 transition-colors hover:bg-background hover:text-gold"
+                >
+                  {c.toUpperCase()}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

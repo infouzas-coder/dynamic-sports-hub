@@ -1,9 +1,9 @@
-import catApparel from "@/assets/cat-apparel.jpg";
-import catPaintball from "@/assets/cat-paintball.jpg";
-import catGloves from "@/assets/cat-gloves.jpg";
-import catPatches from "@/assets/cat-patches.jpg";
-import catMartial from "@/assets/fight-shorts.jpg";
-import catSublimation from "@/assets/teamwear.jpg";
+import catApparel from "@/assets/categories/apparel.jpg";
+import catPaintball from "@/assets/categories/paintball.jpg";
+import catGloves from "@/assets/categories/gloves.jpg";
+import catPatches from "@/assets/categories/patches.jpg";
+import catMartial from "@/assets/categories/martial.jpg";
+import catSublimation from "@/assets/categories/sublimation.jpg";
 
 export type CategorySlug =
   | "/apparel"
@@ -343,7 +343,7 @@ export type TeamMember = {
 export const TEAM: TeamMember[] = [
   {
     name: "Saad Zaheen",
-    role: "Director of Sales & Operations",
+    role: "Sales & Operations",
     location: "Melbourne, Australia",
     email: "info@uzassports.com",
     bio: "Leads sales, operations and IT, and looks after clients in Australia and worldwide.",
@@ -356,17 +356,42 @@ export const TEAM: TeamMember[] = [
     bio: "Runs the factory floor and takes every order from pricing and design approval through to production.",
   },
   {
-    name: "Hashim",
+    name: "Hashim Abbasi",
     role: "Sales, Australia",
     location: "Melbourne, Australia",
     email: "hashim@uzassports.com",
     bio: "Works with gyms, academies, clubs and teams across Australia and overseas.",
   },
   {
-    name: "Mark",
-    role: "International Sales",
-    location: "Pakistan",
+    name: "Mark Henry",
+    role: "Sales, USA",
+    location: "United States",
     email: "mark@uzassports.com",
-    bio: "First point of contact for new international enquiries, calls and free samples.",
+    bio: "First point of contact for clubs, gyms and brands across the USA, from first call to free samples.",
   },
 ];
+
+// Where UZAS is based, shown on the About page and footer
+export const LOCATIONS = [
+  {
+    kind: "Manufacturing",
+    title: "Factory",
+    place: "Sialkot, Punjab, Pakistan",
+    text: "Our own factory, where every order is designed, printed, cut, stitched and checked.",
+  },
+  {
+    kind: "Showroom",
+    title: "Sialkot showroom",
+    place: "Sialkot, Punjab, Pakistan",
+    text: "See fabrics, samples and finished gear right next to the production floor.",
+  },
+  {
+    kind: "Showroom",
+    title: "Melbourne showroom",
+    place: "Hadfield, Melbourne VIC, Australia",
+    text: "Visit us in Melbourne to see samples, feel the fabrics and talk through your order.",
+  },
+];
+
+// Couriers we ship with (names only)
+export const CARRIERS = ["DHL Express", "FedEx", "UPS", "Aramex"];

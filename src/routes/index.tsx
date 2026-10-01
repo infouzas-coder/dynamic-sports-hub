@@ -74,7 +74,7 @@ function HomePage() {
         <div className="relative mx-auto flex min-h-[88vh] max-w-7xl flex-col justify-center px-6">
           <Reveal>
             <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              Established 2005 · Sialkot, Pakistan · Six specialist lines
+              Est. 2005 · Made in Sialkot, Pakistan · Showrooms in Sialkot &amp; Melbourne
             </p>
           </Reveal>
           <Reveal delay={80}>
