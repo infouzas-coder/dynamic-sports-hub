@@ -97,7 +97,7 @@ function ContactPage() {
               </h2>
               <p className="mt-3 max-w-[40ch] text-sm text-smoke">
                 Bulk orders, team kits, private label and repeat programmes. Use the dedicated
-                wholesale form so we can quote MOQs and tiers straight away.
+                wholesale form so we can quote pricing tiers straight away.
               </p>
               <Link to="/wholesale" className="btn btn-gold mt-6">
                 Go to wholesale form

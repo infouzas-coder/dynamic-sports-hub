@@ -47,7 +47,7 @@ const TRUST = [
   {
     value: "B2B",
     label: "Wholesale ready",
-    desc: "Low MOQs, private label and repeat programmes.",
+    desc: "No minimum order, private label and repeat programmes.",
   },
 ];
 

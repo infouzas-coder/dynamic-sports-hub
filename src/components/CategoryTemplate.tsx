@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { absUrl } from "@/lib/seo";
+import { absUrl, ORG, SITE_URL } from "@/lib/seo";
+import { FaqSection, faqJsonLd } from "@/components/FaqSection";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { CATEGORIES, type Category } from "@/lib/site-data";
@@ -146,6 +147,8 @@ export function CategoryTemplate({ category }: { category: Category }) {
       </section>
 
       {/* CTA */}
+      <FaqSection className="bg-coal" />
+
       <section className="border-t border-bone/10 bg-background py-24 text-center">
         <div className="mx-auto max-w-3xl px-6">
           <Reveal>
@@ -156,7 +159,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
             </h2>
             <p className="mx-auto mt-6 max-w-[52ch] text-pretty text-base text-smoke">
               {category.cta === "wholesale"
-                ? "Send your roster size, artwork and timeline. We'll come back with MOQs, pricing tiers and a sample plan."
+                ? "Send your roster size, artwork and timeline. We'll come back with pricing tiers and a free sample plan."
                 : "Share specs, quantities and reference images. We quote from the factory floor, not through a middleman."}
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
@@ -217,7 +220,37 @@ export function categoryHead(category: Category) {
       { property: "og:type", content: "website" },
       { property: "og:url", content: absUrl(category.slug) },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: absUrl(category.image) },
+      { name: "twitter:image", content: absUrl(category.image) },
     ],
     links: [{ rel: "canonical", href: absUrl(category.slug) }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: `Custom ${category.name} manufacturing`,
+          serviceType: `${category.name} manufacturer`,
+          description: category.description,
+          url: absUrl(category.slug),
+          image: absUrl(category.image),
+          areaServed: "Worldwide",
+          provider: { "@type": "Organization", "@id": ORG["@id"], name: ORG.name, url: SITE_URL },
+        }),
+      },
+      { type: "application/ld+json", children: JSON.stringify(faqJsonLd()) },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: absUrl("/") },
+            { "@type": "ListItem", position: 2, name: category.name, item: absUrl(category.slug) },
+          ],
+        }),
+      },
+    ],
   });
 }

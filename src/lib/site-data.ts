@@ -77,7 +77,10 @@ export const CATEGORIES: Category[] = [
         label: "Branding",
         value: "Embroidery, screen print, heat transfer, woven labels and hang tags.",
       },
-      { label: "MOQ", value: "From 25 pieces per style; sample runs available before bulk." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
   {
@@ -123,7 +126,10 @@ export const CATEGORIES: Category[] = [
       { label: "Sizing", value: "Youth through 4XL, athletic and relaxed tournament fits." },
       { label: "Colours", value: "Unlimited sublimated colourways with no limit on colour count." },
       { label: "Branding", value: "Sponsor panels, player names and numbers, team crests." },
-      { label: "MOQ", value: "From 10 kits per team design." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
   {
@@ -175,7 +181,10 @@ export const CATEGORIES: Category[] = [
         label: "Branding",
         value: "Academy patches, embroidery, contrast stitching, custom belts.",
       },
-      { label: "MOQ", value: "From 20 units per uniform style; mixed sizes allowed." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
   {
@@ -221,7 +230,10 @@ export const CATEGORIES: Category[] = [
       { label: "Sizing", value: "6oz–18oz boxing weights; S–XXL for tactical and work gloves." },
       { label: "Colours", value: "Full colour and material mixing, metallic and matte finishes." },
       { label: "Branding", value: "Debossing, embroidery, printed cuffs, custom packaging." },
-      { label: "MOQ", value: "From 50 pairs per model." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
   {
@@ -235,7 +247,7 @@ export const CATEGORIES: Category[] = [
       "Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or hook-and-loop backing, produced to tight tolerances at any volume.",
     title: "Custom Embroidered Patches Wholesale Manufacturer | Uzas Sports",
     description:
-      "Wholesale custom patches manufacturer. Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or velcro backing. Low MOQ, fast turnaround.",
+      "Wholesale custom patches manufacturer. Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or velcro backing. No minimum order, free samples.",
     ogTitle: "Custom Patches | Manufactured by Uzas Sports",
     products: [
       {
@@ -270,7 +282,10 @@ export const CATEGORIES: Category[] = [
         value: "Thread-matched to Pantone, metallic and glow-in-the-dark threads.",
       },
       { label: "Branding", value: "Merrowed or laser-cut borders, custom backing and packaging." },
-      { label: "MOQ", value: "From 50 pieces per design." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
   {
@@ -316,7 +331,10 @@ export const CATEGORIES: Category[] = [
       { label: "Sizing", value: "Youth 6 through adult 5XL, male and female patterns." },
       { label: "Colours", value: "Unlimited colours and gradients at no extra cost." },
       { label: "Branding", value: "Names, numbers, sponsor logos, roster-level personalisation." },
-      { label: "MOQ", value: "From 10 pieces per design. Single samples on request." },
+      {
+        label: "MOQ",
+        value: "No minimum. Order from a single piece; free shipping from 25 pieces.",
+      },
     ],
   },
 ];
@@ -395,3 +413,28 @@ export const LOCATIONS = [
 
 // Couriers we ship with (names only)
 export const CARRIERS = ["DHL Express", "FedEx", "UPS", "Aramex"];
+
+// Common buyer questions, shown on product and wholesale pages (and marked up as FAQPage).
+// Only facts the business has confirmed. Keep these in sync with llms.txt.
+export const ORDER_FAQS = [
+  {
+    q: "Is there a minimum order quantity?",
+    a: "No. You can order from a single piece on every product line. Orders of 25 pieces or more ship free.",
+  },
+  {
+    q: "Can I get a sample before ordering in bulk?",
+    a: "Yes. We make free customised samples with your logo and design, so you can check the fit and quality first.",
+  },
+  {
+    q: "Do you help with the design?",
+    a: "Yes. Our in-house design team offers free design support, from a rough idea or logo to a print-ready design. You can also preview ideas in our AI design studio.",
+  },
+  {
+    q: "Where are your products made?",
+    a: "Everything is made in our own factory in Sialkot, Pakistan, which we have run since 2005. We also have showrooms in Sialkot and in Melbourne, Australia.",
+  },
+  {
+    q: "Do you ship worldwide?",
+    a: "Yes. We ship worldwide by air freight for samples and urgent orders, and by sea freight for large bulk orders.",
+  },
+];

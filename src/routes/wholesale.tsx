@@ -7,6 +7,7 @@ import { submitWholesale } from "@/lib/forms.functions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { CATEGORIES } from "@/lib/site-data";
+import { FaqSection, faqJsonLd } from "@/components/FaqSection";
 
 export const Route = createFileRoute("/wholesale")({
   head: () => ({
@@ -15,19 +16,20 @@ export const Route = createFileRoute("/wholesale")({
       {
         name: "description",
         content:
-          "Wholesale manufacturing for gyms, academies and clubs. Custom team branding, low MOQs, sample orders and 2–4 week turnaround direct from our Sialkot factory.",
+          "Wholesale manufacturing for gyms, academies and clubs. Custom team branding, no minimum order, free samples and 2–4 week turnaround direct from our Sialkot factory.",
       },
       { property: "og:title", content: "For Gyms & Academies | Wholesale by Uzas Sports" },
       {
         property: "og:description",
         content:
-          "Custom team kit programmes for gyms and academies: MOQs, branding process, turnaround and sample ordering.",
+          "Custom team kit programmes for gyms and academies: no minimum order, branding process, turnaround and sample ordering.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absUrl("/wholesale") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: absUrl("/wholesale") }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(faqJsonLd()) }],
   }),
   component: WholesalePage,
 });
@@ -58,8 +60,8 @@ const STEPS = [
 const FACTS = [
   {
     k: "MOQ",
-    v: "10–50 units",
-    d: "Depends on the line. Sublimated kit starts at 10, gloves at 50.",
+    v: "No minimum",
+    d: "Order from a single piece on every line. Free shipping from 25 pieces.",
   },
   {
     k: "Sampling",
@@ -199,6 +201,8 @@ function WholesalePage() {
       </section>
 
       {/* FORM */}
+      <FaqSection />
+
       <section id="inquiry" className="border-t border-bone/10 bg-coal py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.1fr]">
           <Reveal>
@@ -210,7 +214,7 @@ function WholesalePage() {
                 TELL US ABOUT YOUR GYM
               </h2>
               <p className="mt-5 max-w-[46ch] text-sm text-smoke">
-                One form, straight to production planning. We reply with pricing tiers, MOQs and a
+                One form, straight to production planning. We reply with pricing tiers and a
                 realistic delivery date, usually within one business day.
               </p>
             </div>
