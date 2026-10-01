@@ -63,12 +63,8 @@ export function CategoryTemplate({ category }: { category: Category }) {
                   <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
                     Product {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-3 font-display text-2xl tracking-tight text-bone">
-                    {p.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-smoke">
-                    {p.desc}
-                  </p>
+                  <h3 className="mt-3 font-display text-2xl tracking-tight text-bone">{p.name}</h3>
+                  <p className="mt-2 text-sm text-smoke">{p.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -165,24 +161,15 @@ export function CategoryTemplate({ category }: { category: Category }) {
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
               {category.cta === "wholesale" ? (
-                <Link
-                  to="/wholesale"
-                  className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-                >
+                <Link to="/wholesale" className="btn btn-gold">
                   Wholesale inquiry
                 </Link>
               ) : (
-                <Link
-                  to="/contact"
-                  className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-                >
+                <Link to="/contact" className="btn btn-gold">
                   Contact us
                 </Link>
               )}
-              <Link
-                to="/studio"
-                className="border border-bone/30 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
-              >
+              <Link to="/studio" className="btn btn-ghost">
                 Try the AI mockup studio
               </Link>
             </div>

@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { absUrl, ORG } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
-import heroArena from "@/assets/hero-arena.jpg";
+import heroPoster from "@/assets/hero-poster.jpg";
 import { CATEGORIES } from "@/lib/site-data";
+import { ArrowRight, Dumbbell, Instagram, Shirt, Sparkles } from "lucide-react";
 import uzasLogo from "@/assets/uzas-logo.png";
 
 export const Route = createFileRoute("/")({
@@ -43,7 +44,11 @@ const TRUST = [
   { value: "2005", label: "Established", desc: "Two decades manufacturing in Sialkot, Pakistan." },
   { value: "100%", label: "In-house", desc: "Design, print, cut, stitch and QA under one roof." },
   { value: "6", label: "Product lines", desc: "One supplier for everything your athletes wear." },
-  { value: "B2B", label: "Wholesale ready", desc: "Low MOQs, private label and repeat programmes." },
+  {
+    value: "B2B",
+    label: "Wholesale ready",
+    desc: "Low MOQs, private label and repeat programmes.",
+  },
 ];
 
 function HomePage() {
@@ -60,7 +65,7 @@ function HomePage() {
             muted
             loop
             playsInline
-            poster={heroArena}
+            poster={heroPoster}
           >
             <source src="/hero-loop.mp4" type="video/mp4" />
           </video>
@@ -83,25 +88,27 @@ function HomePage() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-8 max-w-[50ch] text-pretty text-base text-bone/70 md:text-lg">
-              Uzas Sports manufactures performance apparel, paintball gear,
-              martial arts uniforms, gloves, custom patches and sublimated
-              clothing. Everything is designed, printed, cut and stitched in our own factory
-              since 2005.
+              Uzas Sports manufactures performance apparel, paintball gear, martial arts uniforms,
+              gloves, custom patches and sublimated clothing. Everything is designed, printed, cut
+              and stitched in our own factory since 2005.
             </p>
           </Reveal>
           <Reveal delay={240}>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                to="/wholesale"
-                className="bg-crimson px-7 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-              >
-                For gyms & teams
+            <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-4">
+              <Link to="/sublimation-clothing" className="btn btn-gold">
+                <Shirt className="h-5 w-5" strokeWidth={2.2} />
+                Custom team kits
+                <ArrowRight className="btn-arrow h-4 w-4" strokeWidth={2.5} />
+              </Link>
+              <Link to="/wholesale" className="btn btn-ghost">
+                <Dumbbell className="h-5 w-5" strokeWidth={2.2} />
+                Gym &amp; academy wholesale
               </Link>
               <Link
                 to="/catalogues"
-                className="border border-bone/30 px-7 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
+                className="nav-link ml-1 inline-flex items-center gap-2 text-sm"
               >
-                Browse catalogues
+                Browse catalogues <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </Reveal>
@@ -237,23 +244,24 @@ function HomePage() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mx-auto mt-8 max-w-[52ch] text-pretty text-base text-smoke">
-              Wholesale programmes for gyms, academies, clubs and brands, plus
-              an AI mockup studio if you want to see your artwork on gear first.
+              Wholesale programmes for gyms, academies, clubs and brands, plus an AI mockup studio
+              if you want to see your artwork on gear first.
             </p>
           </Reveal>
           <Reveal delay={240}>
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <Link
-                to="/wholesale"
-                className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-              >
-                For gyms & teams
+            <div className="mt-10 flex flex-wrap justify-center gap-x-5 gap-y-4">
+              <Link to="/sublimation-clothing" className="btn btn-gold">
+                <Shirt className="h-5 w-5" strokeWidth={2.2} />
+                Custom team kits
+                <ArrowRight className="btn-arrow h-4 w-4" strokeWidth={2.5} />
               </Link>
-              <Link
-                to="/studio"
-                className="border border-bone/30 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
-              >
-                AI mockup studio
+              <Link to="/wholesale" className="btn btn-ghost">
+                <Dumbbell className="h-5 w-5" strokeWidth={2.2} />
+                Gym &amp; academy wholesale
+              </Link>
+              <Link to="/studio" className="btn btn-ghost">
+                <Sparkles className="h-5 w-5" strokeWidth={2.2} />
+                Design with AI
               </Link>
             </div>
           </Reveal>
@@ -290,13 +298,8 @@ function InstagramFeed() {
             </span>
           </span>
         </a>
-        <a
-          href={IG_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-primary px-6 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-colors hover:bg-gold-light"
-        >
-          Follow on Instagram ↗
+        <a href={IG_URL} target="_blank" rel="noopener noreferrer" className="btn btn-gold btn-sm">
+          <Instagram className="h-4 w-4" /> Follow on Instagram
         </a>
       </div>
       <div className="w-full">

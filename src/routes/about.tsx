@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Linkedin } from "lucide-react";
 import { absUrl, ORG } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
@@ -58,10 +59,9 @@ function AboutPage() {
               TWENTY YEARS ON ONE FLOOR
             </h1>
             <p className="mt-7 max-w-[58ch] text-pretty text-base text-bone/70 md:text-lg">
-              Uzas Sports started in 2005 in Sialkot, the city that has been
-              stitching the world's sporting goods for over a century. We began
-              with gloves and combat sports gear and grew into six specialist
-              lines, all still made under our own roof.
+              Uzas Sports started in 2005 in Sialkot, the city that has been stitching the world's
+              sporting goods for over a century. We began with gloves and combat sports gear and
+              grew into six specialist lines, all still made under our own roof.
             </p>
           </Reveal>
         </div>
@@ -82,29 +82,26 @@ function AboutPage() {
           <Reveal delay={100}>
             <div className="space-y-5 text-base text-smoke">
               <p>
-                Design, pattern-making, cutting, sublimation printing,
-                embroidery, stitching, finishing and QA all happen in our own
-                facility. Nothing is subcontracted out, so nothing gets lost
-                between hands.
+                Design, pattern-making, cutting, sublimation printing, embroidery, stitching,
+                finishing and QA all happen in our own facility. Nothing is subcontracted out, so
+                nothing gets lost between hands.
               </p>
               <p>
-                That control is why we can take a single sample and a
-                thousand-piece bulk order through the same line with the same
-                spec, and why our clients get honest lead times instead of
-                agency guesses.
+                That control is why we can take a single sample and a thousand-piece bulk order
+                through the same line with the same spec, and why our clients get honest lead times
+                instead of agency guesses.
               </p>
               <p>
-                We work with gyms, academies, clubs, teams, tactical outfitters,
-                and apparel brands across Europe, North America, the Middle East
-                and Australia.
+                We work with gyms, academies, clubs, teams, tactical outfitters, and apparel brands
+                across Europe, North America, the Middle East and Australia.
               </p>
               <a
                 href="https://pk.linkedin.com/in/uzas-sports"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border border-bone/30 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-bone transition-colors hover:border-crimson hover:text-crimson"
+                className="btn btn-ghost btn-sm"
               >
-                Uzas Sports on LinkedIn ↗
+                <Linkedin className="h-4 w-4" /> Uzas Sports on LinkedIn
               </a>
             </div>
           </Reveal>
@@ -121,7 +118,10 @@ function AboutPage() {
           <div className="grid grid-cols-1 gap-px bg-bone/10 sm:grid-cols-2 lg:grid-cols-3">
             {CATEGORIES.map((c, i) => (
               <Reveal key={c.slug} delay={i * 70}>
-                <Link to={c.slug} className="group block h-full bg-background p-7 transition-colors hover:bg-coal">
+                <Link
+                  to={c.slug}
+                  className="group block h-full bg-background p-7 transition-colors hover:bg-coal"
+                >
                   <h3 className="font-display text-2xl tracking-tight text-bone group-hover:text-crimson">
                     {c.name}
                   </h3>

@@ -56,10 +56,26 @@ const STEPS = [
 ];
 
 const FACTS = [
-  { k: "MOQ", v: "10–50 units", d: "Depends on the line. Sublimated kit starts at 10, gloves at 50." },
-  { k: "Sampling", v: "1 piece", d: "Single pre-production samples available on every product line." },
-  { k: "Turnaround", v: "2–4 weeks", d: "From approved artwork to shipment, bulk orders included." },
-  { k: "Re-orders", v: "Patterns kept", d: "Your specs stay on file, so repeat runs match the first batch." },
+  {
+    k: "MOQ",
+    v: "10–50 units",
+    d: "Depends on the line. Sublimated kit starts at 10, gloves at 50.",
+  },
+  {
+    k: "Sampling",
+    v: "1 piece",
+    d: "Single pre-production samples available on every product line.",
+  },
+  {
+    k: "Turnaround",
+    v: "2–4 weeks",
+    d: "From approved artwork to shipment, bulk orders included.",
+  },
+  {
+    k: "Re-orders",
+    v: "Patterns kept",
+    d: "Your specs stay on file, so repeat runs match the first batch.",
+  },
 ];
 
 function WholesalePage() {
@@ -122,24 +138,17 @@ function WholesalePage() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-7 max-w-[58ch] text-pretty text-base text-bone/70 md:text-lg">
-              We supply gyms, academies, clubs and resellers direct from the
-              factory floor in Sialkot. No trading house, no agency markup.
-              Your uniforms, rash guards, gloves, patches and merch under one
-              production roof.
+              We supply gyms, academies, clubs and resellers direct from the factory floor in
+              Sialkot. No trading house, no agency markup. Your uniforms, rash guards, gloves,
+              patches and merch under one production roof.
             </p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="#inquiry"
-                className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-              >
+              <a href="#inquiry" className="btn btn-gold">
                 Start a wholesale inquiry
               </a>
-              <Link
-                to="/catalogues"
-                className="border border-bone/30 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
-              >
+              <Link to="/catalogues" className="btn btn-ghost">
                 Browse catalogues
               </Link>
             </div>
@@ -153,7 +162,9 @@ function WholesalePage() {
           {FACTS.map((f, i) => (
             <Reveal key={f.k} delay={i * 80}>
               <div className="h-full bg-coal p-7">
-                <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">{f.k}</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
+                  {f.k}
+                </p>
                 <p className="mt-3 font-display text-3xl tracking-tight text-bone">{f.v}</p>
                 <p className="mt-2 text-sm text-smoke">{f.d}</p>
               </div>
@@ -199,9 +210,8 @@ function WholesalePage() {
                 TELL US ABOUT YOUR GYM
               </h2>
               <p className="mt-5 max-w-[46ch] text-sm text-smoke">
-                One form, straight to production planning. We reply with pricing
-                tiers, MOQs and a realistic delivery date, usually within one
-                business day.
+                One form, straight to production planning. We reply with pricing tiers, MOQs and a
+                realistic delivery date, usually within one business day.
               </p>
             </div>
           </Reveal>
@@ -209,55 +219,115 @@ function WholesalePage() {
           <Reveal delay={100}>
             {submitted ? (
               <div className="border border-crimson/40 bg-background p-10">
-                <p className="font-display text-3xl tracking-tight text-bone">
-                  INQUIRY RECEIVED.
-                </p>
+                <p className="font-display text-3xl tracking-tight text-bone">INQUIRY RECEIVED.</p>
                 <p className="mt-3 text-sm text-smoke">
                   Thanks! Our wholesale team will be in touch by email shortly.
                 </p>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="grid gap-5 border border-bone/10 bg-background p-8 sm:grid-cols-2">
+              <form
+                onSubmit={onSubmit}
+                className="grid gap-5 border border-bone/10 bg-background p-8 sm:grid-cols-2"
+              >
                 <div>
-                  <label className={label} htmlFor="business_name">Business / gym name *</label>
-                  <input id="business_name" required className={field} value={form.business_name} onChange={(e) => set("business_name", e.target.value)} />
+                  <label className={label} htmlFor="business_name">
+                    Business / gym name *
+                  </label>
+                  <input
+                    id="business_name"
+                    required
+                    className={field}
+                    value={form.business_name}
+                    onChange={(e) => set("business_name", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="contact_name">Contact name *</label>
-                  <input id="contact_name" required className={field} value={form.contact_name} onChange={(e) => set("contact_name", e.target.value)} />
+                  <label className={label} htmlFor="contact_name">
+                    Contact name *
+                  </label>
+                  <input
+                    id="contact_name"
+                    required
+                    className={field}
+                    value={form.contact_name}
+                    onChange={(e) => set("contact_name", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="email">Email *</label>
-                  <input id="email" type="email" required className={field} value={form.email} onChange={(e) => set("email", e.target.value)} />
+                  <label className={label} htmlFor="email">
+                    Email *
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    className={field}
+                    value={form.email}
+                    onChange={(e) => set("email", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="phone">Phone / WhatsApp</label>
-                  <input id="phone" className={field} value={form.phone} onChange={(e) => set("phone", e.target.value)} />
+                  <label className={label} htmlFor="phone">
+                    Phone / WhatsApp
+                  </label>
+                  <input
+                    id="phone"
+                    className={field}
+                    value={form.phone}
+                    onChange={(e) => set("phone", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="product_interest">Product interest *</label>
-                  <select id="product_interest" className={field} value={form.product_interest} onChange={(e) => set("product_interest", e.target.value)}>
+                  <label className={label} htmlFor="product_interest">
+                    Product interest *
+                  </label>
+                  <select
+                    id="product_interest"
+                    className={field}
+                    value={form.product_interest}
+                    onChange={(e) => set("product_interest", e.target.value)}
+                  >
                     {CATEGORIES.map((c) => (
-                      <option key={c.slug} value={c.name}>{c.name}</option>
+                      <option key={c.slug} value={c.name}>
+                        {c.name}
+                      </option>
                     ))}
                     <option value="Multiple lines">Multiple lines</option>
                   </select>
                 </div>
                 <div>
-                  <label className={label} htmlFor="estimated_quantity">Estimated quantity</label>
-                  <input id="estimated_quantity" placeholder="e.g. 60 rash guards + 40 tees" className={field} value={form.estimated_quantity} onChange={(e) => set("estimated_quantity", e.target.value)} />
+                  <label className={label} htmlFor="estimated_quantity">
+                    Estimated quantity
+                  </label>
+                  <input
+                    id="estimated_quantity"
+                    placeholder="e.g. 60 rash guards + 40 tees"
+                    className={field}
+                    value={form.estimated_quantity}
+                    onChange={(e) => set("estimated_quantity", e.target.value)}
+                  />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className={label} htmlFor="message">Anything else?</label>
-                  <textarea id="message" rows={4} className={field} value={form.message} onChange={(e) => set("message", e.target.value)} />
+                  <label className={label} htmlFor="message">
+                    Anything else?
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={4}
+                    className={field}
+                    value={form.message}
+                    onChange={(e) => set("message", e.target.value)}
+                  />
                 </div>
                 {error && (
-                  <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">{error}</p>
+                  <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">
+                    {error}
+                  </p>
                 )}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="sm:col-span-2 bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:opacity-40"
+                  className="btn btn-gold sm:col-span-2 disabled:opacity-40"
                 >
                   {submitting ? "Sending…" : "Send wholesale inquiry"}
                 </button>

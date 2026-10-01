@@ -24,7 +24,9 @@ const captcha = { captchaToken: z.string().max(4000).optional() };
 
 // reCAPTCHA v3 score shown in the email: 1.0 = very likely human, 0.0 = very likely bot.
 const fmtScore = (score: number | null) =>
-  score === null ? null : `${score.toFixed(1)} / 1.0 (${score >= 0.7 ? "likely human" : "borderline"})`;
+  score === null
+    ? null
+    : `${score.toFixed(1)} / 1.0 (${score >= 0.7 ? "likely human" : "borderline"})`;
 
 async function loadServer() {
   const [{ supabaseAdmin }, forms] = await Promise.all([
@@ -59,7 +61,8 @@ export const submitContact = createServerFn({ method: "POST" })
       message: data.message,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your message. Please try again or email us directly.");
+    if (error)
+      throw new Error("We couldn't save your message. Please try again or email us directly.");
 
     await notifySafely({
       subject: `New contact message: ${data.name}${data.subject ? `: ${data.subject}` : ""}`,
@@ -106,7 +109,8 @@ export const submitWholesale = createServerFn({ method: "POST" })
       message: data.message,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your inquiry. Please try again or email us directly.");
+    if (error)
+      throw new Error("We couldn't save your inquiry. Please try again or email us directly.");
 
     await notifySafely({
       subject: `New wholesale inquiry: ${data.business_name} (${data.product_interest})`,
@@ -162,13 +166,24 @@ export const submitQuote = createServerFn({ method: "POST" })
       mockup_summary: mockupSummary,
     });
     if (error) console.error("[forms] database insert failed", error);
-    if (error) throw new Error("We couldn't save your quote request. Please try again or email us directly.");
+    if (error)
+      throw new Error(
+        "We couldn't save your quote request. Please try again or email us directly.",
+      );
 
     // Attach the AI mockup and the customer's own artwork when they fit in one request.
     const attachments = [];
-    if (data.mockupDataUrl) attachments.push({ filename: `mockup-${data.product}.png`, dataUrl: data.mockupDataUrl });
-    if (data.designDataUrl && (data.mockupDataUrl?.length ?? 0) + data.designDataUrl.length <= 3_000_000) {
-      const ext = /^data:image\/(\w+)/.exec(data.designDataUrl)?.[1]?.replace("jpeg", "jpg") ?? "png";
+    if (data.mockupDataUrl)
+      attachments.push({
+        filename: `uzas-design-${data.product.replace(/\s+/g, "-")}.${data.mockupDataUrl.startsWith("data:image/png") ? "png" : "jpg"}`,
+        dataUrl: data.mockupDataUrl,
+      });
+    if (
+      data.designDataUrl &&
+      (data.mockupDataUrl?.length ?? 0) + data.designDataUrl.length <= 3_000_000
+    ) {
+      const ext =
+        /^data:image\/(\w+)/.exec(data.designDataUrl)?.[1]?.replace("jpeg", "jpg") ?? "png";
       attachments.push({ filename: `customer-artwork.${ext}`, dataUrl: data.designDataUrl });
     }
 
@@ -185,7 +200,10 @@ export const submitQuote = createServerFn({ method: "POST" })
         ["Notes", data.notes],
         ["Design notes", data.designNotes],
         ["AI mockup", data.mockupDataUrl ? "Attached" : "Not generated"],
-        ["Customer artwork", attachments.some((a) => a.filename.startsWith("customer-")) ? "Attached" : null],
+        [
+          "Customer artwork",
+          attachments.some((a) => a.filename.startsWith("customer-")) ? "Attached" : null,
+        ],
         ["Spam score", fmtScore(score)],
       ],
       attachments,

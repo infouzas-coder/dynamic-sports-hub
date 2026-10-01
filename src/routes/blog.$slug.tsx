@@ -80,7 +80,11 @@ export const Route = createFileRoute("/blog/$slug")({
 function BlockView({ b }: { b: Block }) {
   switch (b.type) {
     case "h2":
-      return <h2 className="mt-12 font-display text-3xl leading-tight tracking-tight text-bone">{b.text}</h2>;
+      return (
+        <h2 className="mt-12 font-display text-3xl leading-tight tracking-tight text-bone">
+          {b.text}
+        </h2>
+      );
     case "h3":
       return <h3 className="mt-8 text-lg font-semibold text-bone">{b.text}</h3>;
     case "p":
@@ -111,10 +115,7 @@ function BlockView({ b }: { b: Block }) {
       return (
         <div className="mt-12 border border-gold/40 bg-coal p-7">
           <p className="text-bone">{b.text}</p>
-          <Link
-            to={b.to}
-            className="mt-5 inline-block bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-gold-light"
-          >
+          <Link to={b.to} className="btn btn-gold btn-sm mt-5">
             {b.label}
           </Link>
         </div>
@@ -132,11 +133,24 @@ function PostPage() {
       <SiteHeader />
       <article>
         <header className="relative overflow-hidden border-b border-bone/10">
-          <img src={post.image} alt={post.imageAlt} className="absolute inset-0 h-full w-full object-cover opacity-40" />
+          <img
+            src={post.image}
+            alt={post.imageAlt}
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
           <div className="relative mx-auto max-w-3xl px-6 pb-14 pt-24">
-            <nav aria-label="Breadcrumb" className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
-              <Link to="/" className="hover:text-bone">Home</Link> / <Link to="/blog" className="hover:text-bone">Blog</Link>
+            <nav
+              aria-label="Breadcrumb"
+              className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke"
+            >
+              <Link to="/" className="hover:text-bone">
+                Home
+              </Link>{" "}
+              /{" "}
+              <Link to="/blog" className="hover:text-bone">
+                Blog
+              </Link>
             </nav>
             <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
               {post.category} · {readingMinutes(post)} min read · {fmtDate(post.date)}
@@ -161,7 +175,9 @@ function PostPage() {
                   <details key={f.q} className="group py-5">
                     <summary className="cursor-pointer list-none font-semibold text-bone marker:hidden">
                       {f.q}
-                      <span className="float-right text-gold transition-transform group-open:rotate-45">+</span>
+                      <span className="float-right text-gold transition-transform group-open:rotate-45">
+                        +
+                      </span>
                     </summary>
                     <p className="mt-3 leading-relaxed text-bone/80">{f.a}</p>
                   </details>
@@ -172,7 +188,9 @@ function PostPage() {
 
           {related.length ? (
             <section className="mt-14">
-              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">Related products</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
+                Related products
+              </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 {related.map((c) => (
                   <Link
@@ -200,7 +218,9 @@ function PostPage() {
                 params={{ slug: p.slug }}
                 className="bg-coal p-7 transition-colors hover:bg-ash"
               >
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson">{p.category}</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson">
+                  {p.category}
+                </p>
                 <h3 className="mt-3 font-display text-xl leading-tight text-bone">{p.title}</h3>
               </Link>
             ))}

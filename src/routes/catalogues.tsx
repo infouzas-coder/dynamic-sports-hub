@@ -44,8 +44,8 @@ function CataloguesPage() {
               <span className="text-crimson">EVERY PAGE</span>
             </h1>
             <p className="mt-6 max-w-[54ch] text-pretty text-base text-smoke md:text-lg">
-              Six catalogues covering the full Uzas Sports range. Download,
-              share with your team, and send us the item codes you want quoted.
+              Six catalogues covering the full Uzas Sports range. Download, share with your team,
+              and send us the item codes you want quoted.
             </p>
           </Reveal>
         </div>
@@ -78,7 +78,7 @@ function CataloguesPage() {
                         href={c.pdf}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-crimson px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-primary-foreground transition-colors hover:bg-bone"
+                        className="btn btn-gold btn-sm"
                       >
                         View PDF ↗
                       </a>
@@ -104,16 +104,10 @@ function CataloguesPage() {
               FOUND WHAT YOU NEED?
             </h2>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link
-                to="/wholesale"
-                className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-              >
+              <Link to="/wholesale" className="btn btn-gold">
                 Wholesale inquiry
               </Link>
-              <Link
-                to="/contact"
-                className="border border-bone/30 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-bone"
-              >
+              <Link to="/contact" className="btn btn-ghost">
                 General contact
               </Link>
             </div>

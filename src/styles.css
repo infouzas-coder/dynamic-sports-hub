@@ -85,6 +85,40 @@
   --crimson: #e3bf29;
 }
 
+/* Light theme: warm white surfaces, ink text, deeper gold so accents stay readable on white */
+:root.light {
+  --gold: #b8900c;
+  --gold-dark: #8f6e08;
+  --gold-light: #d4ab17;
+  --background: #faf8f2;
+  --foreground: #121212;
+  --card: #ffffff;
+  --card-foreground: #121212;
+  --popover: #ffffff;
+  --popover-foreground: #121212;
+  --primary: #e3bf29;
+  --primary-foreground: #0a0a0a;
+  --secondary: #efece2;
+  --secondary-foreground: #121212;
+  --muted: #efece2;
+  --muted-foreground: #5c584d;
+  --accent: #e3bf29;
+  --accent-foreground: #0a0a0a;
+  --destructive-foreground: #121212;
+  --border: rgb(160 125 10 / 22%);
+  --input: rgb(18 18 18 / 15%);
+  --ring: #b8900c;
+  --coal: #f2efe6;
+  --ash: #e7e3d6;
+  --smoke: #5c584d;
+  --bone: #121212;
+  --crimson: #b8900c;
+  color-scheme: light;
+}
+:root:not(.light) {
+  color-scheme: dark;
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -164,4 +198,193 @@
 /* reCAPTCHA v3: hide the floating badge — forms show Google's required notice text instead */
 .grecaptcha-badge {
   visibility: hidden !important;
+}
+
+/* Smooth colour change when switching themes */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    fill 0.35s ease !important;
+}
+
+@layer components {
+  /* Buttons: angled athletic shape (like the logo), Saira italic, gold shine on hover */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem 2rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 1.05rem;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: visible;
+    transition:
+      transform 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+      color 0.25s ease,
+      filter 0.25s ease;
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: skewX(-12deg);
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: skewX(-12deg);
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgb(255 255 255 / 55%) 50%,
+      transparent 70%
+    );
+    background-size: 250% 100%;
+    background-position: 120% 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn:hover::after {
+    opacity: 1;
+    animation: btn-shine 0.8s ease forwards;
+  }
+  .btn:active {
+    transform: translateY(0);
+  }
+  .btn:focus-visible {
+    outline: none;
+  }
+  .btn:focus-visible::before {
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .btn .btn-arrow {
+    transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+  .btn-gold {
+    color: #0a0a0a;
+  }
+  .btn-gold::before {
+    background: linear-gradient(135deg, #f0d24a 0%, #e3bf29 45%, #cb9d1a 100%);
+    box-shadow: 0 6px 18px -10px rgb(227 191 41 / 70%);
+  }
+  .btn-gold:hover::before {
+    box-shadow: 0 14px 34px -12px rgb(227 191 41 / 85%);
+  }
+  .btn-ghost {
+    color: var(--bone);
+  }
+  .btn-ghost::before {
+    border: 1.5px solid color-mix(in srgb, var(--bone) 35%, transparent);
+    background: color-mix(in srgb, var(--background) 35%, transparent);
+    backdrop-filter: blur(4px);
+  }
+  .btn-ghost:hover {
+    color: var(--gold);
+  }
+  .btn-ghost:hover::before {
+    border-color: var(--gold);
+    background: color-mix(in srgb, var(--gold) 10%, transparent);
+  }
+  .btn-ghost::after {
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgb(227 191 41 / 25%) 50%,
+      transparent 70%
+    );
+    background-size: 250% 100%;
+  }
+  .btn-sm {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
+  }
+  @keyframes btn-shine {
+    from {
+      background-position: 120% 0;
+    }
+    to {
+      background-position: -120% 0;
+    }
+  }
+
+  /* Header links: Saira Condensed with a gold underline that slides in */
+  .nav-link {
+    position: relative;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    padding: 0.35rem 0;
+    transition: color 0.2s ease;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0) skewX(-20deg);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .nav-link:hover,
+  .nav-link[data-status="active"],
+  .nav-link.is-active {
+    color: var(--bone);
+  }
+  .nav-link:hover::after,
+  .nav-link[data-status="active"]::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1) skewX(-20deg);
+    transform-origin: left;
+  }
+
+  @media (max-width: 520px) {
+    .btn {
+      white-space: normal;
+      text-align: center;
+      font-size: 0.98rem;
+      padding: 0.9rem 1.5rem;
+    }
+  }
+
+  /* Logo keeps its contrast on the light theme */
+  .light .logo-img {
+    filter: drop-shadow(0 0 0.6px rgb(0 0 0 / 0.55)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.15));
+  }
 }

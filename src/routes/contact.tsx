@@ -6,7 +6,7 @@ import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
 import { submitContact } from "@/lib/forms.functions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
-import { SOCIALS } from "@/lib/site-data";
+import { SocialRow } from "@/components/SocialIcons";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -77,8 +77,8 @@ function ContactPage() {
               GET IN TOUCH
             </h1>
             <p className="mt-6 max-w-[54ch] text-pretty text-base text-smoke md:text-lg">
-              Two routes in: a dedicated wholesale desk for gyms, academies,
-              clubs and resellers, and a general line for everything else.
+              Two routes in: a dedicated wholesale desk for gyms, academies, clubs and resellers,
+              and a general line for everything else.
             </p>
           </Reveal>
         </div>
@@ -96,14 +96,10 @@ function ContactPage() {
                 WHOLESALE INQUIRY
               </h2>
               <p className="mt-3 max-w-[40ch] text-sm text-smoke">
-                Bulk orders, team kits, private label and repeat programmes. Use
-                the dedicated wholesale form so we can quote MOQs and tiers
-                straight away.
+                Bulk orders, team kits, private label and repeat programmes. Use the dedicated
+                wholesale form so we can quote MOQs and tiers straight away.
               </p>
-              <Link
-                to="/wholesale"
-                className="mt-6 inline-block bg-crimson px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone"
-              >
+              <Link to="/wholesale" className="btn btn-gold mt-6">
                 Go to wholesale form
               </Link>
             </div>
@@ -117,13 +113,10 @@ function ContactPage() {
                 GENERAL INQUIRY
               </h2>
               <p className="mt-3 max-w-[40ch] text-sm text-smoke">
-                Product questions, samples, shipping, partnerships or anything
-                else. Send it below and we'll pass it to the right person.
+                Product questions, samples, shipping, partnerships or anything else. Send it below
+                and we'll pass it to the right person.
               </p>
-              <a
-                href="#general"
-                className="mt-6 inline-block border border-bone/30 px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-crimson hover:text-crimson"
-              >
+              <a href="#general" className="btn btn-ghost mt-6 hover:text-crimson">
                 Use general form
               </a>
             </div>
@@ -150,19 +143,7 @@ function ContactPage() {
                   </a>
                 </p>
                 <p>Factory: Sialkot, Punjab, Pakistan</p>
-                <div className="flex flex-wrap gap-4 pt-2">
-                  {SOCIALS.map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke hover:text-crimson"
-                    >
-                      {s.label} ↗
-                    </a>
-                  ))}
-                </div>
+                <SocialRow className="pt-3" />
               </div>
             </div>
           </Reveal>
@@ -174,34 +155,79 @@ function ContactPage() {
                 <p className="mt-3 text-sm text-smoke">We'll reply to your email shortly.</p>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="grid gap-5 border border-bone/10 bg-coal p-8 sm:grid-cols-2">
+              <form
+                onSubmit={onSubmit}
+                className="grid gap-5 border border-bone/10 bg-coal p-8 sm:grid-cols-2"
+              >
                 <div>
-                  <label className={label} htmlFor="name">Name *</label>
-                  <input id="name" required className={field} value={form.name} onChange={(e) => set("name", e.target.value)} />
+                  <label className={label} htmlFor="name">
+                    Name *
+                  </label>
+                  <input
+                    id="name"
+                    required
+                    className={field}
+                    value={form.name}
+                    onChange={(e) => set("name", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="email">Email *</label>
-                  <input id="email" type="email" required className={field} value={form.email} onChange={(e) => set("email", e.target.value)} />
+                  <label className={label} htmlFor="email">
+                    Email *
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    className={field}
+                    value={form.email}
+                    onChange={(e) => set("email", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="phone">Phone</label>
-                  <input id="phone" className={field} value={form.phone} onChange={(e) => set("phone", e.target.value)} />
+                  <label className={label} htmlFor="phone">
+                    Phone
+                  </label>
+                  <input
+                    id="phone"
+                    className={field}
+                    value={form.phone}
+                    onChange={(e) => set("phone", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className={label} htmlFor="subject">Subject</label>
-                  <input id="subject" className={field} value={form.subject} onChange={(e) => set("subject", e.target.value)} />
+                  <label className={label} htmlFor="subject">
+                    Subject
+                  </label>
+                  <input
+                    id="subject"
+                    className={field}
+                    value={form.subject}
+                    onChange={(e) => set("subject", e.target.value)}
+                  />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className={label} htmlFor="message">Message *</label>
-                  <textarea id="message" rows={5} required className={field} value={form.message} onChange={(e) => set("message", e.target.value)} />
+                  <label className={label} htmlFor="message">
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={5}
+                    required
+                    className={field}
+                    value={form.message}
+                    onChange={(e) => set("message", e.target.value)}
+                  />
                 </div>
                 {error && (
-                  <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">{error}</p>
+                  <p className="sm:col-span-2 border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">
+                    {error}
+                  </p>
                 )}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="sm:col-span-2 bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:opacity-40"
+                  className="btn btn-gold sm:col-span-2 disabled:opacity-40"
                 >
                   {submitting ? "Sending…" : "Send message"}
                 </button>

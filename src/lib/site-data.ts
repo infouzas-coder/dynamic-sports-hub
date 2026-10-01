@@ -45,17 +45,38 @@ export const CATEGORIES: Category[] = [
       "Custom sportswear manufacturer since 2005. Training tees, hoodies, joggers and track sets produced in-house in Sialkot for gyms, brands and teams worldwide.",
     ogTitle: "Performance Apparel | Manufactured by Uzas Sports",
     products: [
-      { name: "Training T-Shirts", desc: "Moisture-wicking performance tees for gyms, clubs and brands. Choose your fabric, fit and neckline, then add your logo in print or embroidery." },
-      { name: "Hoodies & Sweatshirts", desc: "Heavyweight fleece pullovers and zip hoodies with ribbed cuffs and double-stitched seams. Ideal for team merch and gym retail." },
-      { name: "Joggers & Track Pants", desc: "Tapered joggers and track pants with zip pockets and an elastic drawcord waist. Made to match your hoodies and tees." },
-      { name: "Tracksuits", desc: "Two-piece track jackets and pants in your club colours, with contrast piping, panels and embroidered crests." },
-      { name: "Training Shorts", desc: "Lightweight gym and running shorts with a comfortable waistband and optional inner liner, printed or embroidered to order." },
-      { name: "Polo Shirts", desc: "Pique and performance polos for coaches, staff and events, finished with an embroidered logo on the chest or sleeve." },
+      {
+        name: "Training T-Shirts",
+        desc: "Moisture-wicking performance tees for gyms, clubs and brands. Choose your fabric, fit and neckline, then add your logo in print or embroidery.",
+      },
+      {
+        name: "Hoodies & Sweatshirts",
+        desc: "Heavyweight fleece pullovers and zip hoodies with ribbed cuffs and double-stitched seams. Ideal for team merch and gym retail.",
+      },
+      {
+        name: "Joggers & Track Pants",
+        desc: "Tapered joggers and track pants with zip pockets and an elastic drawcord waist. Made to match your hoodies and tees.",
+      },
+      {
+        name: "Tracksuits",
+        desc: "Two-piece track jackets and pants in your club colours, with contrast piping, panels and embroidered crests.",
+      },
+      {
+        name: "Training Shorts",
+        desc: "Lightweight gym and running shorts with a comfortable waistband and optional inner liner, printed or embroidered to order.",
+      },
+      {
+        name: "Polo Shirts",
+        desc: "Pique and performance polos for coaches, staff and events, finished with an embroidered logo on the chest or sleeve.",
+      },
     ],
     customization: [
       { label: "Sizing", value: "XS–5XL, plus made-to-measure size runs and youth grading." },
       { label: "Colours", value: "Pantone-matched dyeing, colour-blocking and contrast panels." },
-      { label: "Branding", value: "Embroidery, screen print, heat transfer, woven labels and hang tags." },
+      {
+        label: "Branding",
+        value: "Embroidery, screen print, heat transfer, woven labels and hang tags.",
+      },
       { label: "MOQ", value: "From 25 pieces per style; sample runs available before bulk." },
     ],
   },
@@ -73,12 +94,30 @@ export const CATEGORIES: Category[] = [
       "Paintball equipment manufacturer producing custom tournament jerseys, pants, pod packs and gloves. Full sublimated team kits, made in-house in Sialkot.",
     ogTitle: "Paintball Equipment | Manufactured by Uzas Sports",
     products: [
-      { name: "Paintball Jerseys", desc: "Tournament jerseys with padded forearms and breathable side panels, fully sublimated with your team design and sponsors." },
-      { name: "Paintball Pants", desc: "Durable pants with knee padding and an adjustable waist, built to handle slides, dives and long tournament days." },
-      { name: "Paintball Gloves", desc: "Protective gloves with padded knuckles and a grippy palm that keep your fingers free for fast trigger work." },
-      { name: "Pod Packs & Harnesses", desc: "Harnesses that hold multiple pods for quick reloads, made in your team colours with a custom logo." },
-      { name: "Team Tees & Hoodies", desc: "Off-field shirts and hoodies to match your match-day kit, for players, staff and supporters." },
-      { name: "Headbands & Accessories", desc: "Sublimated headbands, wraps and small accessories that finish the team look." },
+      {
+        name: "Paintball Jerseys",
+        desc: "Tournament jerseys with padded forearms and breathable side panels, fully sublimated with your team design and sponsors.",
+      },
+      {
+        name: "Paintball Pants",
+        desc: "Durable pants with knee padding and an adjustable waist, built to handle slides, dives and long tournament days.",
+      },
+      {
+        name: "Paintball Gloves",
+        desc: "Protective gloves with padded knuckles and a grippy palm that keep your fingers free for fast trigger work.",
+      },
+      {
+        name: "Pod Packs & Harnesses",
+        desc: "Harnesses that hold multiple pods for quick reloads, made in your team colours with a custom logo.",
+      },
+      {
+        name: "Team Tees & Hoodies",
+        desc: "Off-field shirts and hoodies to match your match-day kit, for players, staff and supporters.",
+      },
+      {
+        name: "Headbands & Accessories",
+        desc: "Sublimated headbands, wraps and small accessories that finish the team look.",
+      },
     ],
     customization: [
       { label: "Sizing", value: "Youth through 4XL, athletic and relaxed tournament fits." },
@@ -101,17 +140,41 @@ export const CATEGORIES: Category[] = [
       "Custom martial arts uniforms manufacturer since 2005. BJJ gis, karate and taekwondo uniforms, rash guards, fight shorts and belts for academies worldwide.",
     ogTitle: "Martial Arts & Combat Sports | Manufactured by Uzas Sports",
     products: [
-      { name: "BJJ Gi", desc: "Pearl weave Brazilian jiu-jitsu gi at 450 gsm, with reinforced stress points and room for your academy patches and embroidery." },
-      { name: "Karate Uniforms", desc: "Clean-cut karate gis for training and grading, in white, black or your academy colours, with embroidered branding." },
-      { name: "Taekwondo Doboks", desc: "V-neck taekwondo doboks with contrast collars for schools and clubs, made to your sizing and badge layout." },
-      { name: "Fight Shorts", desc: "MMA and grappling shorts with a secure waistband and stretch panels, fully sublimated with your design." },
-      { name: "Rash Guards", desc: "Long and short sleeve rash guards in four-way stretch fabric, sublimated so the print won't crack or peel." },
-      { name: "Martial Arts Belts", desc: "Rank belts in every colour, with custom stripes and embroidered academy names or student names." },
+      {
+        name: "BJJ Gi",
+        desc: "Pearl weave Brazilian jiu-jitsu gi at 450 gsm, with reinforced stress points and room for your academy patches and embroidery.",
+      },
+      {
+        name: "Karate Uniforms",
+        desc: "Clean-cut karate gis for training and grading, in white, black or your academy colours, with embroidered branding.",
+      },
+      {
+        name: "Taekwondo Doboks",
+        desc: "V-neck taekwondo doboks with contrast collars for schools and clubs, made to your sizing and badge layout.",
+      },
+      {
+        name: "Fight Shorts",
+        desc: "MMA and grappling shorts with a secure waistband and stretch panels, fully sublimated with your design.",
+      },
+      {
+        name: "Rash Guards",
+        desc: "Long and short sleeve rash guards in four-way stretch fabric, sublimated so the print won't crack or peel.",
+      },
+      {
+        name: "Martial Arts Belts",
+        desc: "Rank belts in every colour, with custom stripes and embroidered academy names or student names.",
+      },
     ],
     customization: [
       { label: "Sizing", value: "A0–A6 gi grading, youth sizes and custom academy size runs." },
-      { label: "Colours", value: "White, blue, black and fully custom dyed or sublimated finishes." },
-      { label: "Branding", value: "Academy patches, embroidery, contrast stitching, custom belts." },
+      {
+        label: "Colours",
+        value: "White, blue, black and fully custom dyed or sublimated finishes.",
+      },
+      {
+        label: "Branding",
+        value: "Academy patches, embroidery, contrast stitching, custom belts.",
+      },
       { label: "MOQ", value: "From 20 units per uniform style; mixed sizes allowed." },
     ],
   },
@@ -129,12 +192,30 @@ export const CATEGORIES: Category[] = [
       "Glove manufacturer producing custom boxing, MMA, bag, tactical and work gloves. Leather and synthetic builds, private-label ready, made in Sialkot since 2005.",
     ogTitle: "Gloves | Manufactured by Uzas Sports",
     products: [
-      { name: "Boxing Gloves", desc: "Training and sparring gloves from 6 oz to 18 oz, with layered foam padding and a wrist strap for support." },
-      { name: "MMA Gloves", desc: "Open-finger grappling gloves with knuckle padding and a secure wrist closure for sparring and competition." },
-      { name: "Bag Gloves", desc: "Compact gloves for heavy bag and pad work, with a padded striking surface and a durable outer." },
-      { name: "Tactical Gloves", desc: "Hard-knuckle and lightweight tactical gloves with reinforced palms, made for security, outdoor and field use." },
-      { name: "Mechanic & Work Gloves", desc: "Work gloves with a padded palm and a snug fit, built for workshops and tough jobs, with your branding on the cuff." },
-      { name: "Cycling Gloves", desc: "Half and full finger cycling gloves with palm padding and a breathable back for long rides." },
+      {
+        name: "Boxing Gloves",
+        desc: "Training and sparring gloves from 6 oz to 18 oz, with layered foam padding and a wrist strap for support.",
+      },
+      {
+        name: "MMA Gloves",
+        desc: "Open-finger grappling gloves with knuckle padding and a secure wrist closure for sparring and competition.",
+      },
+      {
+        name: "Bag Gloves",
+        desc: "Compact gloves for heavy bag and pad work, with a padded striking surface and a durable outer.",
+      },
+      {
+        name: "Tactical Gloves",
+        desc: "Hard-knuckle and lightweight tactical gloves with reinforced palms, made for security, outdoor and field use.",
+      },
+      {
+        name: "Mechanic & Work Gloves",
+        desc: "Work gloves with a padded palm and a snug fit, built for workshops and tough jobs, with your branding on the cuff.",
+      },
+      {
+        name: "Cycling Gloves",
+        desc: "Half and full finger cycling gloves with palm padding and a breathable back for long rides.",
+      },
     ],
     customization: [
       { label: "Sizing", value: "6oz–18oz boxing weights; S–XXL for tactical and work gloves." },
@@ -157,16 +238,37 @@ export const CATEGORIES: Category[] = [
       "Wholesale custom patches manufacturer. Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or velcro backing. Low MOQ, fast turnaround.",
     ogTitle: "Custom Patches | Manufactured by Uzas Sports",
     products: [
-      { name: "Embroidered Patches", desc: "Classic stitched patches for uniforms, gis and jackets, matched to your logo colours thread by thread." },
-      { name: "Tactical Morale Patches", desc: "Our tactical patch range (catalogue art. 8001 to 8024) with hook-and-loop backing, ready for vests, bags and caps." },
-      { name: "Woven Patches", desc: "Fine woven patches that hold small text and sharp detail better than embroidery, with a flat, smooth finish." },
-      { name: "PVC Patches", desc: "Soft rubber patches that stay bright and weatherproof, a strong fit for tactical, outdoor and paintball gear." },
-      { name: "Leather Patches", desc: "Debossed or printed leather patches for caps, bags and premium apparel." },
-      { name: "Chenille Patches", desc: "Thick, textured letterman-style patches for jackets and hoodies." },
+      {
+        name: "Embroidered Patches",
+        desc: "Classic stitched patches for uniforms, gis and jackets, matched to your logo colours thread by thread.",
+      },
+      {
+        name: "Tactical Morale Patches",
+        desc: "Our tactical patch range (catalogue art. 8001 to 8024) with hook-and-loop backing, ready for vests, bags and caps.",
+      },
+      {
+        name: "Woven Patches",
+        desc: "Fine woven patches that hold small text and sharp detail better than embroidery, with a flat, smooth finish.",
+      },
+      {
+        name: "PVC Patches",
+        desc: "Soft rubber patches that stay bright and weatherproof, a strong fit for tactical, outdoor and paintball gear.",
+      },
+      {
+        name: "Leather Patches",
+        desc: "Debossed or printed leather patches for caps, bags and premium apparel.",
+      },
+      {
+        name: "Chenille Patches",
+        desc: "Thick, textured letterman-style patches for jackets and hoodies.",
+      },
     ],
     customization: [
-      { label: "Sizing", value: "From 1\" pin badges up to full back panels." },
-      { label: "Colours", value: "Thread-matched to Pantone, metallic and glow-in-the-dark threads." },
+      { label: "Sizing", value: 'From 1" pin badges up to full back panels.' },
+      {
+        label: "Colours",
+        value: "Thread-matched to Pantone, metallic and glow-in-the-dark threads.",
+      },
       { label: "Branding", value: "Merrowed or laser-cut borders, custom backing and packaging." },
       { label: "MOQ", value: "From 50 pieces per design." },
     ],
@@ -185,12 +287,30 @@ export const CATEGORIES: Category[] = [
       "Custom sublimation clothing manufacturer. All-over printed jerseys, rash guards, singlets and cycling kits. Wash-proof edge-to-edge print, any quantity.",
     ogTitle: "Sublimation Clothing | Manufactured by Uzas Sports",
     products: [
-      { name: "Sublimated Team Jerseys", desc: "Full-colour jerseys for football, basketball, cricket and more, with names and numbers printed across the whole roster." },
-      { name: "Singlets & Tank Tops", desc: "Lightweight singlets for running, athletics and gym teams, printed edge to edge in any design." },
-      { name: "Rash Guards & Compression Tops", desc: "Stretch tops for grappling and training with prints that don't crack, peel or fade in the wash." },
-      { name: "Cycling Kits", desc: "Jerseys and bib shorts for clubs and events, with your full design and sponsor logos printed right into the fabric." },
-      { name: "Warm-Up Jackets", desc: "Sublimated warm-up and pre-match jackets to go with your playing kit." },
-      { name: "Fishing & Outdoor Shirts", desc: "Long sleeve sun-protection shirts for fishing clubs and outdoor brands, printed in any pattern." },
+      {
+        name: "Sublimated Team Jerseys",
+        desc: "Full-colour jerseys for football, basketball, cricket and more, with names and numbers printed across the whole roster.",
+      },
+      {
+        name: "Singlets & Tank Tops",
+        desc: "Lightweight singlets for running, athletics and gym teams, printed edge to edge in any design.",
+      },
+      {
+        name: "Rash Guards & Compression Tops",
+        desc: "Stretch tops for grappling and training with prints that don't crack, peel or fade in the wash.",
+      },
+      {
+        name: "Cycling Kits",
+        desc: "Jerseys and bib shorts for clubs and events, with your full design and sponsor logos printed right into the fabric.",
+      },
+      {
+        name: "Warm-Up Jackets",
+        desc: "Sublimated warm-up and pre-match jackets to go with your playing kit.",
+      },
+      {
+        name: "Fishing & Outdoor Shirts",
+        desc: "Long sleeve sun-protection shirts for fishing clubs and outdoor brands, printed in any pattern.",
+      },
     ],
     customization: [
       { label: "Sizing", value: "Youth 6 through adult 5XL, male and female patterns." },
@@ -201,8 +321,11 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
+export const WHATSAPP_URL = "https://wa.me/message/NCHQVYIYJYWGG1";
+
 export const SOCIALS = [
-  { label: "Instagram", href: "https://www.instagram.com/uzas_sports/" },
-  { label: "Facebook", href: "https://www.facebook.com/uzalabel" },
-  { label: "LinkedIn", href: "https://pk.linkedin.com/in/uzas-sports" },
-];
+  { label: "Instagram", href: "https://www.instagram.com/uzas_sports/", icon: "instagram" },
+  { label: "Facebook", href: "https://www.facebook.com/uzalabel", icon: "facebook" },
+  { label: "LinkedIn", href: "https://pk.linkedin.com/in/uzas-sports", icon: "linkedin" },
+  { label: "WhatsApp", href: WHATSAPP_URL, icon: "whatsapp" },
+] as const;

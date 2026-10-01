@@ -1,9 +1,9 @@
-import teamwear from "@/assets/teamwear.jpg";
-import rashGuard from "@/assets/rash-guard.jpg";
-import fightShorts from "@/assets/fight-shorts.jpg";
-import catPatches from "@/assets/cat-patches.jpg";
-import catPaintball from "@/assets/cat-paintball.jpg";
-import heroArena from "@/assets/hero-arena.jpg";
+import imgSublimation from "@/assets/blog/sublimation-printing.jpg";
+import imgTeamKits from "@/assets/blog/ordering-team-kits.jpg";
+import imgVsScreen from "@/assets/blog/sublimated-vs-screen-printed.jpg";
+import imgBjj from "@/assets/blog/bjj-gis-rash-guards.jpg";
+import imgPatches from "@/assets/blog/patches.jpg";
+import imgPaintball from "@/assets/blog/paintball-jerseys.jpg";
 
 // Blog content. Each post is a list of blocks so pages render as real HTML (good for search engines)
 // without a markdown library. Keep claims factual: no invented prices, stats or credentials.
@@ -44,8 +44,8 @@ export const POSTS: Post[] = [
       "Why sublimated jerseys never crack, peel or fade, what fabric they need, and how to tell if it's the right choice for your club.",
     category: "Sublimation",
     date: "2026-10-01",
-    image: teamwear,
-    imageAlt: "Custom sublimated team jerseys on a rack",
+    image: imgSublimation,
+    imageAlt: "Heat press transferring a black and gold sublimated pattern onto polyester fabric",
     related: ["/sublimation-clothing", "/apparel"],
     faq: [
       {
@@ -93,8 +93,8 @@ export const POSTS: Post[] = [
       "What to prepare, how design and sampling work, how to get sizing right, and the small things that stop orders being delayed.",
     category: "Team kits",
     date: "2026-10-01",
-    image: heroArena,
-    imageAlt: "Athlete in a custom sublimated long sleeve top",
+    image: imgTeamKits,
+    imageAlt: "A set of matching black and gold sublimated team jerseys with a colour swatch book",
     related: ["/sublimation-clothing", "/wholesale"],
     body: [
       { type: "p", text: "Ordering kits for a whole club can feel like a lot of back and forth. It doesn't need to be. This is the process we follow with every team, and what you can do at each step to keep things moving." },
@@ -135,8 +135,8 @@ export const POSTS: Post[] = [
       "An honest comparison of the two most common ways to print sports jerseys, and when each one makes sense.",
     category: "Sublimation",
     date: "2026-10-01",
-    image: fightShorts,
-    imageAlt: "Sublimated fight shorts with an all-over pattern",
+    image: imgVsScreen,
+    imageAlt: "A sublimated gradient jersey next to a screen printed jersey",
     related: ["/sublimation-clothing", "/apparel"],
     body: [
       { type: "p", text: "Both methods have a place. The right one depends on your design, your fabric and how the garment will be used. Here's how they compare." },
@@ -169,8 +169,8 @@ export const POSTS: Post[] = [
       "Weave, weight, fit and branding: what matters when you're kitting out your academy with its own gis and rash guards.",
     category: "Martial arts",
     date: "2026-10-01",
-    image: rashGuard,
-    imageAlt: "Custom sublimated long sleeve rash guard",
+    image: imgBjj,
+    imageAlt: "Folded black BJJ gis and black and gold rash guards in an academy",
     related: ["/martial-arts-combat-sports", "/custom-patches"],
     body: [
       { type: "p", text: "A branded gi and rash guard is one of the easiest ways for an academy to build identity and add a steady line of revenue. Here's what to think about before you order." },
@@ -207,8 +207,8 @@ export const POSTS: Post[] = [
       "The differences between the main patch types and backings, and which one suits uniforms, gis, caps and tactical gear.",
     category: "Patches",
     date: "2026-10-01",
-    image: catPatches,
-    imageAlt: "Custom embroidered patches in gold thread on black",
+    image: imgPatches,
+    imageAlt: "Embroidered, woven and PVC patches in gold on black fabric",
     related: ["/custom-patches", "/martial-arts-combat-sports"],
     body: [
       { type: "p", text: "Patches finish a uniform. The right type depends on your logo, where it's going and how much wear it will take." },
@@ -249,8 +249,8 @@ export const POSTS: Post[] = [
       "Padding, airflow, durability and design: what separates a good tournament jersey from a basic one.",
     category: "Paintball",
     date: "2026-10-01",
-    image: catPaintball,
-    imageAlt: "Paintball player in a custom team jersey and harness",
+    image: imgPaintball,
+    imageAlt: "Paintball player in a black and gold sublimated jersey behind a bunker",
     related: ["/paintball", "/sublimation-clothing"],
     body: [
       { type: "p", text: "A paintball jersey has a harder life than most sportswear. It gets dragged across the ground, soaked in sweat and hit at speed. Here's what to look for when you're ordering for your team." },

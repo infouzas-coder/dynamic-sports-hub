@@ -53,6 +53,27 @@ const PRODUCTS = [
 
 type ProductId = (typeof PRODUCTS)[number]["id"];
 
+// Shrink an image to a compact JPEG so it always fits as an email attachment
+async function toEmailJpeg(dataUrl: string, maxSide = 1200): Promise<string> {
+  try {
+    const img = new Image();
+    img.src = dataUrl;
+    await img.decode();
+    const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * scale);
+    c.height = Math.round(img.height * scale);
+    const ctx = c.getContext("2d");
+    if (!ctx) return dataUrl;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL("image/jpeg", 0.86);
+  } catch {
+    return dataUrl;
+  }
+}
+
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -390,7 +411,7 @@ function StudioPage() {
           quantity: qty && qty > 0 ? qty : null,
           notes,
           designNotes: mode === "describe" ? `AI design brief: ${description}` : designNotes,
-          mockupDataUrl: mockup ?? undefined,
+          mockupDataUrl: mockup ? await toEmailJpeg(mockup) : undefined,
           designDataUrl: designUrl ?? undefined,
           captchaToken,
         },
@@ -644,7 +665,7 @@ function StudioPage() {
                 type="button"
                 onClick={onGenerate}
                 disabled={generating || (mode === "upload" && !designUrl)}
-                className="w-full bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
+                className="btn btn-gold w-full disabled:opacity-40"
               >
                 {generating
                   ? mode === "describe"
@@ -718,13 +739,19 @@ function StudioPage() {
                             `I'd like a professional mockup of this ${selected.label.toLowerCase()} design${mode === "describe" ? ` (${description})` : ""}.`,
                           );
                       }}
-                      className="bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-gold-light"
+                      className="btn btn-gold btn-sm"
                     >
                       Get my free mockup
                     </a>
                     <a
-                      href={`mailto:info@uzassports.com?subject=${encodeURIComponent(`Professional mockup request: ${selected.label}`)}&body=${encodeURIComponent(`Hi Uzas Sports,\n\nI made a design in your AI Studio and would like a professional mockup and a quote.\n\nGarment: ${selected.label}\n${mode === "describe" ? `Design: ${description}\n` : ""}Quantity:\nDeadline:\n\nThanks`)}`}
-                      className="border border-bone/30 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-gold hover:text-gold"
+                      onClick={() => {
+                        const a = document.createElement("a");
+                        a.href = mockup;
+                        a.download = `uzas-design-${selected.label.toLowerCase().replace(/\s+/g, "-")}.jpg`;
+                        a.click();
+                      }}
+                      href={`mailto:info@uzassports.com?subject=${encodeURIComponent(`Professional mockup request: ${selected.label}`)}&body=${encodeURIComponent(`Hi Uzas Sports,\n\nI made a design in your AI Studio and would like a professional mockup and a quote. My design image is attached.\n\nGarment: ${selected.label}\n${mode === "describe" ? `Design: ${description}\n` : ""}Quantity:\nDeadline:\n\nThanks`)}`}
+                      className="btn btn-ghost btn-sm"
                     >
                       Email us
                     </a>
@@ -864,16 +891,27 @@ function StudioPage() {
                     placeholder="Sizes, fabric preferences, deadline, delivery country…"
                   />
                 </label>
+                {mockup && (
+                  <div className="flex items-center gap-4 border border-gold/40 bg-gold/10 p-3">
+                    <img
+                      src={mockup}
+                      alt="Your design"
+                      className="h-20 w-16 shrink-0 border border-bone/15 object-cover"
+                    />
+                    <p className="text-sm text-bone">
+                      Your design is attached to this request for reference.
+                      <span className="mt-1 block text-xs text-smoke">
+                        Our designers use it to build your professional mockup.
+                      </span>
+                    </p>
+                  </div>
+                )}
                 {submitError && (
                   <p className="border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-bone">
                     {submitError}
                   </p>
                 )}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="bg-crimson px-8 py-4 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-bone disabled:opacity-50"
-                >
+                <button type="submit" disabled={submitting} className="btn btn-gold">
                   {submitting ? "Sending…" : "Send quote request"}
                 </button>
                 <RecaptchaNotice />
