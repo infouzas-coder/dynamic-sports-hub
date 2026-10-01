@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://dynamic-sports-hub.vercel.app/sitemap.xml
+Sitemap: https://www.uzassports.com/sitemap.xml
