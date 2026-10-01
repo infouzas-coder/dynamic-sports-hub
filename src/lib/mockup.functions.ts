@@ -220,60 +220,83 @@ export const generateConcept = createServerFn({ method: "POST" })
       .filter(Boolean)
       .join(" ");
 
-    const res = await fetch("https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt,
-        mode: "base",
-        width: 832,
-        height: 1024,
-        cfg_scale: 5,
-        steps: 30,
-        samples: 1,
-        seed: Math.floor(Math.random() * 1_000_000),
-      }),
-    });
+    // NVIDIA's safety filter sometimes flags harmless prompts at random, so retry with a fresh
+    // seed (and on the last try without the team name) before showing the customer an error.
+    const withoutName = prompt.replace(
+      / The text "[^"]*" printed across the front in bold athletic lettering\./,
+      "",
+    );
+    const attempts = [prompt, prompt, withoutName];
+    let lastError = "The AI couldn't create that design. Please try different options.";
+    for (let i = 0; i < attempts.length; i++) {
+      const tryPrompt = attempts[i];
+      const res = await fetch("https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: tryPrompt,
+          mode: "base",
+          width: 832,
+          height: 1024,
+          cfg_scale: 5,
+          steps: 30,
+          samples: 1,
+          seed: Math.floor(Math.random() * 1_000_000),
+        }),
+      });
 
-    if (!res.ok) {
-      const body = await res.text();
-      console.error("[studio] NVIDIA request failed", res.status, body.slice(0, 500));
-      if (res.status === 401 || res.status === 403) {
-        throw new Error("The AI design generator key was rejected. Please contact us.");
+      if (!res.ok) {
+        const body = await res.text();
+        console.error(
+          "[studio] NVIDIA request failed",
+          res.status,
+          `attempt ${i + 1}`,
+          body.slice(0, 500),
+        );
+        if (res.status === 401 || res.status === 403) {
+          throw new Error("The AI design generator key was rejected. Please contact us.");
+        }
+        if (res.status === 429) {
+          throw new Error(
+            "The AI design generator is busy right now. Please try again in a minute.",
+          );
+        }
+        continue;
       }
-      if (res.status === 429) {
-        throw new Error("The AI design generator is busy right now. Please try again in a minute.");
-      }
-      throw new Error("The AI couldn't create that design. Please try different options.");
-    }
 
-    const json = (await res.json()) as {
-      artifacts?: Array<{ base64?: string; finishReason?: string }>;
-      image?: string;
-    };
-    const art = json.artifacts?.[0];
-    const reason = art?.finishReason ?? "";
-    console.info("[studio] NVIDIA result", {
-      finishReason: reason,
-      hasImage: Boolean(art?.base64 ?? json.image),
-      prompt,
-    });
-    const b64 = art?.base64 ?? json.image;
-    if (/filter|content|block|nsfw|safety/i.test(reason)) {
-      throw new Error(
-        "The AI's safety filter blocked this design. Please try a different pattern or remove the extra details.",
-      );
+      const json = (await res.json()) as {
+        artifacts?: Array<{ base64?: string; finishReason?: string }>;
+        image?: string;
+      };
+      const art = json.artifacts?.[0];
+      const reason = art?.finishReason ?? "";
+      const b64 = art?.base64 ?? json.image;
+      console.info("[studio] NVIDIA result", {
+        attempt: i + 1,
+        finishReason: reason,
+        hasImage: Boolean(b64),
+        prompt: tryPrompt,
+      });
+      if (/filter|content|block|nsfw|safety/i.test(reason)) {
+        lastError =
+          "The AI couldn't create this one. Please pick a different look or colour and try again.";
+        continue;
+      }
+      if (!b64) {
+        lastError = "The AI didn't return an image. Please try again.";
+        continue;
+      }
+      if (b64.startsWith("data:")) return { image: b64, prompt: tryPrompt };
+      const mime = b64.startsWith("iVBOR")
+        ? "image/png"
+        : b64.startsWith("UklGR")
+          ? "image/webp"
+          : "image/jpeg";
+      return { image: `data:${mime};base64,${b64}`, prompt: tryPrompt };
     }
-    if (!b64) throw new Error("The AI didn't return an image. Please try again.");
-    if (b64.startsWith("data:")) return { image: b64, prompt };
-    const mime = b64.startsWith("iVBOR")
-      ? "image/png"
-      : b64.startsWith("UklGR")
-        ? "image/webp"
-        : "image/jpeg";
-    return { image: `data:${mime};base64,${b64}`, prompt };
+    throw new Error(lastError);
   });
