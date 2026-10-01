@@ -118,6 +118,25 @@ const SWATCH: Record<string, string> = {
   Silver: "#c0c2c6",
 };
 
+const SIMPLE_COLOURS = [
+  "Black",
+  "White",
+  "Navy",
+  "Royal blue",
+  "Red",
+  "Gold",
+  "Green",
+  "Purple",
+] as const;
+const SIMPLE_LOOKS = [
+  ["Stripes", "Diagonal stripes"],
+  ["Geometric", "Geometric shapes"],
+  ["Fade", "Gradient fade"],
+  ["Camo", "Camouflage"],
+  ["Waves", "Wave lines"],
+  ["Clean", "Solid with contrast side panels"],
+] as const;
+
 async function renderPreview(
   baseUrl: string,
   maskUrl: string,
@@ -196,13 +215,13 @@ async function urlToDataUrl(url: string): Promise<string> {
 function StudioPage() {
   const callGenerate = useServerFn(generateMockup);
   const callConcept = useServerFn(generateConcept);
-  const [mode, setMode] = useState<"upload" | "describe">("upload");
+  const [mode, setMode] = useState<"upload" | "describe">("describe");
   const [concept, setConcept] = useState({
     primary: "Black" as (typeof CONCEPT_COLOURS)[number],
     secondary: "Gold" as (typeof CONCEPT_COLOURS)[number],
     accent: "" as (typeof CONCEPT_COLOURS)[number] | "",
     pattern: "Diagonal stripes" as (typeof CONCEPT_PATTERNS)[number],
-    style: "Modern" as (typeof CONCEPT_STYLES)[number],
+    style: "Minimal" as (typeof CONCEPT_STYLES)[number],
     teamName: "",
     number: "",
     extra: "",
@@ -333,12 +352,9 @@ function StudioPage() {
           garment,
           primary: concept.primary,
           secondary: concept.secondary,
-          accent: concept.accent || undefined,
           pattern: concept.pattern,
-          style: concept.style,
+          style: "Minimal",
           teamName: concept.teamName.trim() || undefined,
-          number: concept.number || undefined,
-          extra: concept.extra.trim() || undefined,
         },
       });
       setMockup(result.image);
@@ -450,13 +466,13 @@ function StudioPage() {
 
             <Reveal delay={100}>
               <p className="mt-10 mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-                02. Add your design
+                02. Choose your look
               </p>
               <div className="mb-4 grid grid-cols-2 border border-bone/15" role="tablist">
                 {(
                   [
-                    ["upload", "Upload my artwork"],
-                    ["describe", "Describe it (AI design)"],
+                    ["describe", "Design with AI"],
+                    ["upload", "Use my logo"],
                   ] as const
                 ).map(([m, label]) => (
                   <button
@@ -479,29 +495,19 @@ function StudioPage() {
                 ))}
               </div>
               {mode === "describe" ? (
-                <div className="space-y-5">
+                <div className="space-y-6">
                   {(
                     [
-                      ["primary", "Main colour", false],
-                      ["secondary", "Second colour", false],
-                      ["accent", "Accent colour (optional)", true],
+                      ["primary", "Main colour"],
+                      ["secondary", "Second colour"],
                     ] as const
-                  ).map(([k, label, optional]) => (
+                  ).map(([k, label]) => (
                     <div key={k}>
                       <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                        {label}: <span className="text-bone">{concept[k] || "None"}</span>
+                        {label}: <span className="text-bone">{concept[k]}</span>
                       </p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {optional && (
-                          <button
-                            type="button"
-                            onClick={() => setC(k, "")}
-                            className={`h-8 border px-2 font-mono text-[10px] uppercase ${concept[k] === "" ? "border-gold text-gold" : "border-bone/20 text-smoke"}`}
-                          >
-                            None
-                          </button>
-                        )}
-                        {CONCEPT_COLOURS.map((c) => (
+                      <div className="flex flex-wrap gap-2">
+                        {SIMPLE_COLOURS.map((c) => (
                           <button
                             key={c}
                             type="button"
@@ -509,7 +515,7 @@ function StudioPage() {
                             aria-label={`${label}: ${c}`}
                             aria-pressed={concept[k] === c}
                             onClick={() => setC(k, c)}
-                            className={`h-8 w-8 border-2 transition ${concept[k] === c ? "scale-110 border-gold" : "border-bone/20 hover:border-bone/60"}`}
+                            className={`h-10 w-10 border-2 transition ${concept[k] === c ? "scale-110 border-gold" : "border-bone/20 hover:border-bone/60"}`}
                             style={{ backgroundColor: SWATCH[c] }}
                           />
                         ))}
@@ -518,88 +524,36 @@ function StudioPage() {
                   ))}
                   <div>
                     <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                      Pattern
+                      Look
                     </p>
-                    <div className="flex flex-wrap gap-2">
-                      {CONCEPT_PATTERNS.map((pt) => (
+                    <div className="grid grid-cols-3 gap-2">
+                      {SIMPLE_LOOKS.map(([label, pattern]) => (
                         <button
-                          key={pt}
+                          key={label}
                           type="button"
-                          aria-pressed={concept.pattern === pt}
-                          onClick={() => setC("pattern", pt)}
-                          className={`border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${concept.pattern === pt ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
+                          aria-pressed={concept.pattern === pattern}
+                          onClick={() => setC("pattern", pattern)}
+                          className={`border px-3 py-3 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors ${concept.pattern === pattern ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
                         >
-                          {pt}
+                          {label}
                         </button>
                       ))}
                     </div>
-                  </div>
-                  <div>
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                      Style
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {CONCEPT_STYLES.map((st) => (
-                        <button
-                          key={st}
-                          type="button"
-                          aria-pressed={concept.style === st}
-                          onClick={() => setC("style", st)}
-                          className={`border px-3 py-2 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors ${concept.style === st ? "border-gold bg-gold/15 text-gold" : "border-bone/20 text-smoke hover:text-bone"}`}
-                        >
-                          {st}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    <label className="col-span-2 block">
-                      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                        Team name (optional)
-                      </span>
-                      <input
-                        value={concept.teamName}
-                        maxLength={20}
-                        onChange={(e) =>
-                          setC("teamName", e.target.value.replace(/[^A-Za-z0-9 &'.-]/g, ""))
-                        }
-                        placeholder="e.g. TITANS"
-                        className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                        Number
-                      </span>
-                      <input
-                        value={concept.number}
-                        inputMode="numeric"
-                        maxLength={2}
-                        onChange={(e) => setC("number", e.target.value.replace(/\D/g, ""))}
-                        placeholder="10"
-                        className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
-                      />
-                    </label>
                   </div>
                   <label className="block">
-                    <span className="mb-2 flex justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
-                      <span>Extra details (optional)</span>
-                      <span>{concept.extra.length}/120</span>
+                    <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-smoke">
+                      Team name (optional)
                     </span>
                     <input
-                      value={concept.extra}
-                      maxLength={120}
+                      value={concept.teamName}
+                      maxLength={16}
                       onChange={(e) =>
-                        setC("extra", e.target.value.replace(/[^A-Za-z0-9 ,.'&-]/g, ""))
+                        setC("teamName", e.target.value.replace(/[^A-Za-z0-9 &'.-]/g, ""))
                       }
-                      placeholder="e.g. white collar, gold sleeve cuffs"
+                      placeholder="e.g. TITANS"
                       className="w-full border border-bone/15 bg-background px-4 py-3 text-sm text-bone placeholder:text-smoke/60 focus:border-crimson focus:outline-none"
                     />
                   </label>
-                  <p className="text-xs text-smoke">
-                    Our AI creates a design concept from your choices. Logos can't be added in this
-                    mode. Our designers add your real logo and sponsors when they make your sample.
-                  </p>
                 </div>
               ) : (
                 <>
@@ -693,10 +647,10 @@ function StudioPage() {
               >
                 {generating
                   ? mode === "describe"
-                    ? "Designing your kit…"
+                    ? "Creating your design…"
                     : "Rendering your mockup…"
                   : mode === "describe"
-                    ? "Generate AI design"
+                    ? "Create my design"
                     : "Generate mockup"}
               </button>
               {error && (
@@ -736,20 +690,48 @@ function StudioPage() {
                   {!mockup
                     ? `Blank ${selected.label}`
                     : mockupKind === "concept"
-                      ? "AI design concept"
+                      ? "Your AI design"
                       : mockupKind === "preview"
                         ? "Quick preview"
                         : "Your AI mockup"}
                 </span>
               </div>
               {mockup && (
-                <a
-                  href={mockup}
-                  download={`uzas-mockup-${selected.label.toLowerCase().replace(/\s+/g, "-")}.png`}
-                  className="mt-4 inline-block border border-bone/25 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-bone transition-colors hover:border-crimson hover:text-crimson"
-                >
-                  Download mockup
-                </a>
+                <div className="mt-5 border border-gold/40 bg-coal p-6">
+                  <p className="font-display text-2xl leading-tight text-bone">LIKE THIS LOOK?</p>
+                  <p className="mt-2 text-sm text-smoke">
+                    Our designers will turn it into a professional, print-ready mockup with your
+                    real logo, free. Send us a quick inquiry and we'll reply with your mockup and a
+                    price.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <a
+                      href="#quote"
+                      onClick={() => {
+                        if (!notes)
+                          setNotes(
+                            `I'd like a professional mockup of this ${selected.label.toLowerCase()} design${mode === "describe" ? ` (${description})` : ""}.`,
+                          );
+                      }}
+                      className="bg-primary px-6 py-3 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-gold-light"
+                    >
+                      Get my free mockup
+                    </a>
+                    <a
+                      href={`mailto:info@uzassports.com?subject=${encodeURIComponent(`Professional mockup request: ${selected.label}`)}&body=${encodeURIComponent(`Hi Uzas Sports,\n\nI made a design in your AI Studio and would like a professional mockup and a quote.\n\nGarment: ${selected.label}\n${mode === "describe" ? `Design: ${description}\n` : ""}Quantity:\nDeadline:\n\nThanks`)}`}
+                      className="border border-bone/30 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-bone transition-colors hover:border-gold hover:text-gold"
+                    >
+                      Email us
+                    </a>
+                    <a
+                      href={mockup}
+                      download={`uzas-design-${selected.label.toLowerCase().replace(/\s+/g, "-")}.jpg`}
+                      className="px-2 py-3 font-mono text-[11px] uppercase tracking-[0.2em] text-smoke underline-offset-4 hover:text-bone hover:underline"
+                    >
+                      Download
+                    </a>
+                  </div>
+                </div>
               )}
             </div>
           </Reveal>
@@ -757,14 +739,17 @@ function StudioPage() {
       </section>
 
       {/* Quote form */}
-      <section className="border-t border-bone/10 bg-background py-16 md:py-24">
+      <section
+        id="quote"
+        className="scroll-mt-20 border-t border-bone/10 bg-background py-16 md:py-24"
+      >
         <div className="mx-auto max-w-3xl px-6">
           <Reveal>
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              Final step: get your price
+              Free professional mockup
             </p>
             <h2 className="font-display text-4xl leading-[0.9] tracking-tight text-bone md:text-6xl">
-              REQUEST A QUOTE
+              GET YOUR MOCKUP AND QUOTE
             </h2>
             <p className="mt-4 max-w-[50ch] text-pretty text-smoke">
               Tell us the quantity and we'll come back with a production quote, from a single piece

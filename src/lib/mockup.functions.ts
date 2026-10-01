@@ -209,7 +209,7 @@ export const generateConcept = createServerFn({ method: "POST" })
       .map((c) => c!.toLowerCase());
     const prompt = [
       `Studio product photograph of a single ${CONCEPT_GARMENTS[data.garment]}, front view, laid neatly as if on an invisible mannequin.`,
-      `${data.style} sublimated sportswear design: ${data.pattern.toLowerCase()} in ${colours.slice(0, -1).join(", ")} and ${colours.at(-1)}.`,
+      `Clean, minimal sublimated sportswear design with a simple ${data.pattern.toLowerCase()} in ${colours.slice(0, -1).join(", ")} and ${colours.at(-1)}. Uncluttered, modern, no extra graphics or logos.`,
       data.teamName
         ? `The text "${data.teamName.toUpperCase()}" printed across the front in bold athletic lettering.`
         : "",
