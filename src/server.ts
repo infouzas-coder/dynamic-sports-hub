@@ -44,12 +44,32 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+// Pages are the same for every visitor, so let Vercel's global edge network cache the
+// server-rendered HTML near the visitor (Sydney, Mumbai, Frankfurt...) instead of rebuilding it
+// in the US on every request. Browsers still revalidate; each new deployment clears the cache.
+const EDGE_CACHE = "max-age=3600, stale-while-revalidate=86400";
+function withEdgeCache(request: Request, response: Response): Response {
+  if (request.method !== "GET" || response.status !== 200) return response;
+  const path = new URL(request.url).pathname;
+  if (path.startsWith("/_serverFn") || path.startsWith("/api")) return response;
+  if (!(response.headers.get("content-type") ?? "").includes("text/html")) return response;
+  if (response.headers.has("set-cookie")) return response;
+  const headers = new Headers(response.headers);
+  headers.set("Vercel-CDN-Cache-Control", EDGE_CACHE);
+  headers.set("CDN-Cache-Control", EDGE_CACHE);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withEdgeCache(request, await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {

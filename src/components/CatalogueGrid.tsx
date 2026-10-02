@@ -7,11 +7,12 @@ import type { Category } from "@/lib/site-data";
 
 const INITIAL = 8;
 
-/** Product cards with real catalogue photos, plus a quick link to the full PDF catalogue */
+/** Product cards with real catalogue photos, plus a quick link to the full PDF catalogue.
+ * Every product is in the server-rendered HTML (so search engines see them all); cards after the
+ * first few are only visually collapsed until "Show all" is clicked. */
 export function CatalogueGrid({ category }: { category: Category }) {
   const all = catalogueProducts(category.slug);
   const [showAll, setShowAll] = useState(false);
-  const items = showAll ? all : all.slice(0, INITIAL);
 
   return (
     <section id="products" className="scroll-mt-32 bg-coal py-16 md:py-20 lg:scroll-mt-20">
@@ -42,11 +43,11 @@ export function CatalogueGrid({ category }: { category: Category }) {
         </Reveal>
 
         <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {items.map((p) => (
+          {all.map((p, i) => (
             <Link
               key={p.code}
               to="/contact"
-              className="cat-card group flex flex-col overflow-hidden border border-bone/10 bg-background transition-all duration-300 hover:-translate-y-1 hover:border-gold/60"
+              className={`cat-card group flex-col overflow-hidden border border-bone/10 bg-background transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 ${!showAll && i >= INITIAL ? "hidden" : "flex"}`}
             >
               <div className="aspect-square overflow-hidden bg-white">
                 <img
