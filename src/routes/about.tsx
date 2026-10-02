@@ -263,7 +263,7 @@ function TeamCard({ m }: { m: TeamMember }) {
             </span>
           </div>
         )}
-        <span className="absolute left-0 top-5 bg-primary px-3 py-1 font-display text-sm font-semibold uppercase tracking-wide text-primary-foreground">
+        <span className="absolute left-0 top-5 bg-primary px-3 py-1 font-display text-sm font-bold italic uppercase tracking-wide text-primary-foreground">
           {m.role}
         </span>
       </div>
@@ -407,7 +407,7 @@ function ShippingSection() {
               {CARRIERS.map((c) => (
                 <div
                   key={c}
-                  className="grid h-24 place-items-center bg-coal px-4 text-center font-display text-2xl font-bold tracking-wide text-bone/70 transition-colors hover:bg-background hover:text-gold"
+                  className="grid h-24 place-items-center bg-coal px-4 text-center font-display text-2xl font-extrabold italic tracking-wide text-bone/70 transition-colors hover:bg-background hover:text-gold"
                 >
                   {c.toUpperCase()}
                 </div>

@@ -13,7 +13,7 @@ export function WhatsAppButton() {
     >
       <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25d366] opacity-25 [animation-duration:2.4s]" />
       <WhatsAppIcon className="h-7 w-7" />
-      <span className="max-w-0 overflow-hidden whitespace-nowrap font-display text-base font-semibold uppercase tracking-wide transition-all duration-300 group-hover:max-w-40">
+      <span className="max-w-0 overflow-hidden whitespace-nowrap font-display text-base font-bold italic uppercase tracking-wide transition-all duration-300 group-hover:max-w-40">
         Chat with us
       </span>
     </a>
