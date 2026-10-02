@@ -124,11 +124,64 @@ export const CONCEPT_PATTERNS = [
   "Wave lines",
 ] as const;
 export const CONCEPT_STYLES = ["Modern", "Classic", "Retro", "Bold", "Minimal", "Premium"] as const;
+// Product types customers can design in the AI studio. `subject` describes the item to the image
+// model, `text` says where a team name goes. Matches the UZAS catalogue lines.
+type ConceptGarment = { subject: string; text: string; kind: "apparel" | "gloves" | "patch" };
 export const CONCEPT_GARMENTS = {
-  jersey: "short-sleeve sports team jersey",
-  rashguard: "long-sleeve athletic compression top",
-  shorts: "pair of athletic training shorts",
-} as const;
+  jersey: { subject: "short-sleeve sports team jersey", text: "across the front", kind: "apparel" },
+  rashguard: {
+    subject: "long-sleeve athletic compression rash guard top",
+    text: "across the front",
+    kind: "apparel",
+  },
+  shorts: {
+    subject: "pair of athletic fight shorts",
+    text: "on the front of the leg",
+    kind: "apparel",
+  },
+  polo: {
+    subject: "short-sleeve sports polo shirt with a collar",
+    text: "across the chest",
+    kind: "apparel",
+  },
+  hoodie: { subject: "pullover hoodie", text: "across the chest", kind: "apparel" },
+  singlet: {
+    subject: "sleeveless athletic singlet tank top",
+    text: "across the front",
+    kind: "apparel",
+  },
+  cycling: {
+    subject: "short-sleeve full-zip cycling jersey",
+    text: "across the chest",
+    kind: "apparel",
+  },
+  kit: {
+    subject: "matching sports team kit of a short-sleeve jersey and shorts",
+    text: "across the jersey front",
+    kind: "apparel",
+  },
+  hockey: { subject: "long-sleeve ice hockey jersey", text: "across the chest", kind: "apparel" },
+  baseball: {
+    subject: "button-front baseball jersey",
+    text: "across the chest in script lettering",
+    kind: "apparel",
+  },
+  football: { subject: "american football jersey", text: "across the chest", kind: "apparel" },
+  paintball: {
+    subject: "padded long-sleeve paintball jersey",
+    text: "across the chest",
+    kind: "apparel",
+  },
+  leggings: {
+    subject: "pair of women's athletic leggings",
+    text: "down the side of one leg",
+    kind: "apparel",
+  },
+  gloves: { subject: "pair of boxing gloves", text: "on the wrist cuff", kind: "gloves" },
+  patch: { subject: "round embroidered patch", text: "embroidered in the centre", kind: "patch" },
+} as const satisfies Record<string, ConceptGarment>;
+export type ConceptGarmentId = keyof typeof CONCEPT_GARMENTS;
+const GARMENT_IDS = Object.keys(CONCEPT_GARMENTS) as [ConceptGarmentId, ...ConceptGarmentId[]];
 
 // Words NVIDIA's filter blocks (violence, adult, drugs) and brands we can't print
 const BLOCKED = [
@@ -167,7 +220,7 @@ export const generateConcept = createServerFn({ method: "POST" })
   .validator((input: unknown) =>
     z
       .object({
-        garment: z.enum(["jersey", "rashguard", "shorts"]),
+        garment: z.enum(GARMENT_IDS),
         primary: z.enum(CONCEPT_COLOURS),
         secondary: z.enum(CONCEPT_COLOURS),
         accent: z.enum(CONCEPT_COLOURS).optional(),
@@ -207,25 +260,32 @@ export const generateConcept = createServerFn({ method: "POST" })
     const colours = [data.primary, data.secondary, data.accent]
       .filter(Boolean)
       .map((c) => c!.toLowerCase());
+    const g = CONCEPT_GARMENTS[data.garment];
+    const colourText = `${colours.slice(0, -1).join(", ")} and ${colours.at(-1)}`;
     const prompt = [
-      `Studio product photograph of a single ${CONCEPT_GARMENTS[data.garment]}, front view, laid neatly as if on an invisible mannequin.`,
-      `Clean, minimal sublimated sportswear design with a simple ${data.pattern.toLowerCase()} in ${colours.slice(0, -1).join(", ")} and ${colours.at(-1)}. Uncluttered, modern, no extra graphics or logos.`,
+      g.kind === "patch"
+        ? `Studio product photograph of a single ${g.subject}, flat on a plain surface, seen from above.`
+        : g.kind === "gloves"
+          ? `Studio product photograph of a ${g.subject}, side by side, three-quarter view.`
+          : `Studio product photograph of a single ${g.subject}, front view, laid neatly as if on an invisible mannequin.`,
+      g.kind === "apparel"
+        ? `Clean, minimal sublimated sportswear design with a simple ${data.pattern.toLowerCase()} in ${colourText}. Uncluttered, modern, no extra graphics or logos.`
+        : `Clean, minimal custom design with a simple ${data.pattern.toLowerCase()} in ${colourText}. Uncluttered, modern, no extra graphics or logos.`,
       data.teamName
-        ? `The text "${data.teamName.toUpperCase()}" printed across the front in bold athletic lettering.`
+        ? `The text "${data.teamName.toUpperCase()}" ${g.kind === "patch" ? g.text : `printed ${g.text}`} in bold athletic lettering.`
         : "",
       data.number ? `Large number ${data.number} on the front.` : "",
       data.extra ? `${data.extra}.` : "",
-      "Plain dark grey background, soft even lighting, crisp fabric detail, clean commercial apparel catalogue photo.",
+      g.kind === "apparel"
+        ? "Plain dark grey background, soft even lighting, crisp fabric detail, clean commercial apparel catalogue photo."
+        : "Plain dark grey background, soft even lighting, crisp material detail, clean commercial product catalogue photo.",
     ]
       .filter(Boolean)
       .join(" ");
 
     // NVIDIA's safety filter sometimes flags harmless prompts at random, so retry with a fresh
     // seed (and on the last try without the team name) before showing the customer an error.
-    const withoutName = prompt.replace(
-      / The text "[^"]*" printed across the front in bold athletic lettering\./,
-      "",
-    );
+    const withoutName = prompt.replace(/ The text "[^"]*"[^.]*\./, "");
     const attempts = [prompt, prompt, withoutName];
     let lastError = "The AI couldn't create that design. Please try different options.";
     for (let i = 0; i < attempts.length; i++) {

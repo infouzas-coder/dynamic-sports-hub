@@ -8,6 +8,7 @@ import {
   CONCEPT_STYLES,
   generateConcept,
   generateMockup,
+  type ConceptGarmentId,
 } from "@/lib/mockup.functions";
 import { submitQuote } from "@/lib/forms.functions";
 import { RecaptchaNotice, useRecaptcha } from "@/components/Recaptcha";
@@ -20,6 +21,18 @@ import blankJersey from "@/assets/blank-jersey.jpg";
 import maskShorts from "@/assets/blank-shorts-mask.png";
 import maskRashguard from "@/assets/blank-rashguard-mask.png";
 import maskJersey from "@/assets/blank-jersey-mask.png";
+import imgPolo from "@/assets/products/sublimation-clothing/DC-02-901.jpg";
+import imgHoodie from "@/assets/products/apparel/UZ-35-13.jpg";
+import imgSinglet from "@/assets/products/sublimation-clothing/DC-02-1201.jpg";
+import imgCycling from "@/assets/products/sublimation-clothing/DC-02-1104.jpg";
+import imgKit from "@/assets/products/sublimation-clothing/DC-02-701.jpg";
+import imgHockey from "@/assets/products/sublimation-clothing/DC-02-505.jpg";
+import imgBaseball from "@/assets/products/sublimation-clothing/DC-02-326.jpg";
+import imgFootball from "@/assets/products/sublimation-clothing/DC-02-403.jpg";
+import imgPaintball from "@/assets/products/paintball/UZ-45-14.jpg";
+import imgLeggings from "@/assets/products/apparel/UZ-35-34.jpg";
+import imgGloves from "@/assets/products/martial-arts-combat-sports/UZ094.jpg";
+import imgPatch from "@/assets/products/custom-patches/8104.jpg";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({
@@ -45,11 +58,56 @@ export const Route = createFileRoute("/studio")({
   component: StudioPage,
 });
 
+// Products customers can design. Items with a `mask` also support "Use my logo" (live preview on a blank);
+// the rest are AI design only and show a photo from our catalogue.
+type StudioProduct = {
+  id: string;
+  label: string;
+  image: string;
+  mask?: string;
+  garment: ConceptGarmentId;
+};
 const PRODUCTS = [
-  { id: "MMA fight shorts", label: "Fight Shorts", image: blankShorts, mask: maskShorts },
-  { id: "long-sleeve rash guard", label: "Rash Guard", image: blankRashguard, mask: maskRashguard },
-  { id: "sports team jersey", label: "Team Jersey", image: blankJersey, mask: maskJersey },
-] as const;
+  {
+    id: "sports team jersey",
+    label: "Team Jersey",
+    image: blankJersey,
+    mask: maskJersey,
+    garment: "jersey",
+  },
+  {
+    id: "long-sleeve rash guard",
+    label: "Rash Guard",
+    image: blankRashguard,
+    mask: maskRashguard,
+    garment: "rashguard",
+  },
+  {
+    id: "MMA fight shorts",
+    label: "Fight Shorts",
+    image: blankShorts,
+    mask: maskShorts,
+    garment: "shorts",
+  },
+  { id: "team kit (jersey and shorts)", label: "Team Kit", image: imgKit, garment: "kit" },
+  { id: "sports polo shirt", label: "Polo Shirt", image: imgPolo, garment: "polo" },
+  { id: "hoodie", label: "Hoodie", image: imgHoodie, garment: "hoodie" },
+  { id: "singlet / tank top", label: "Singlet", image: imgSinglet, garment: "singlet" },
+  { id: "cycling jersey", label: "Cycling Jersey", image: imgCycling, garment: "cycling" },
+  { id: "ice hockey jersey", label: "Hockey Jersey", image: imgHockey, garment: "hockey" },
+  { id: "baseball jersey", label: "Baseball Jersey", image: imgBaseball, garment: "baseball" },
+  {
+    id: "american football jersey",
+    label: "Football Jersey",
+    image: imgFootball,
+    garment: "football",
+  },
+  { id: "paintball jersey", label: "Paintball Jersey", image: imgPaintball, garment: "paintball" },
+  { id: "leggings", label: "Leggings", image: imgLeggings, garment: "leggings" },
+  { id: "boxing gloves", label: "Boxing Gloves", image: imgGloves, garment: "gloves" },
+  { id: "custom patch", label: "Custom Patch", image: imgPatch, garment: "patch" },
+] as const satisfies readonly StudioProduct[];
+const VISIBLE_PRODUCTS = 6;
 
 type ProductId = (typeof PRODUCTS)[number]["id"];
 
@@ -238,6 +296,7 @@ function StudioPage() {
   const callGenerate = useServerFn(generateMockup);
   const callConcept = useServerFn(generateConcept);
   const [mode, setMode] = useState<"upload" | "describe">("describe");
+  const [allProducts, setAllProducts] = useState(false);
   const [concept, setConcept] = useState({
     primary: "Black" as (typeof CONCEPT_COLOURS)[number],
     secondary: "Gold" as (typeof CONCEPT_COLOURS)[number],
@@ -289,7 +348,7 @@ function StudioPage() {
 
   // Live preview in upload mode: re-render whenever the garment, colour, logo or positions change
   useEffect(() => {
-    if (mode !== "upload") return;
+    if (mode !== "upload" || !("mask" in selected)) return;
     if (!designUrl && colour === 0) {
       setMockup(null);
       return;
@@ -297,7 +356,7 @@ function StudioPage() {
     let cancelled = false;
     renderPreview(
       selected.image,
-      selected.mask,
+      selected.mask as string,
       designUrl,
       COLOURS[colour]![1],
       activeSpots.map((n) => spotMap[n]!),
@@ -363,12 +422,7 @@ function StudioPage() {
     setGenerating(true);
     setError(null);
     try {
-      const garment =
-        product === "MMA fight shorts"
-          ? "shorts"
-          : product === "long-sleeve rash guard"
-            ? "rashguard"
-            : "jersey";
+      const garment = selected.garment;
       const result = await callConcept({
         data: {
           garment,
@@ -457,15 +511,17 @@ function StudioPage() {
               <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
                 01. Pick your garment
               </p>
-              <div className="grid grid-cols-3 gap-3">
-                {PRODUCTS.map((p) => (
+              <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+                {(allProducts ? PRODUCTS : PRODUCTS.slice(0, VISIBLE_PRODUCTS)).map((p) => (
                   <button
                     key={p.id}
                     type="button"
                     onClick={() => {
                       setProduct(p.id);
                       setMockup(null);
+                      if (!("mask" in p)) setMode("describe");
                     }}
+                    aria-pressed={product === p.id}
                     className={`group border text-left transition-colors ${
                       product === p.id ? "border-crimson" : "border-bone/10 hover:border-bone/30"
                     }`}
@@ -474,16 +530,25 @@ function StudioPage() {
                       src={p.image}
                       alt={p.label}
                       loading="lazy"
-                      width={800}
-                      height={1000}
-                      className="aspect-[4/5] w-full object-cover"
+                      width={400}
+                      height={400}
+                      className={`aspect-square w-full ${"mask" in p ? "object-cover" : "bg-white object-contain p-1"}`}
                     />
-                    <span className="block px-3 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-bone">
+                    <span className="block px-2 py-2 font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-bone">
                       {p.label}
                     </span>
                   </button>
                 ))}
               </div>
+              <button
+                type="button"
+                onClick={() => setAllProducts((v) => !v)}
+                className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gold transition-colors hover:text-bone"
+              >
+                {allProducts
+                  ? "Show fewer products"
+                  : `More products (+${PRODUCTS.length - VISIBLE_PRODUCTS}) →`}
+              </button>
             </Reveal>
 
             <Reveal delay={100}>
@@ -502,11 +567,17 @@ function StudioPage() {
                     type="button"
                     role="tab"
                     aria-selected={mode === m}
+                    disabled={m === "upload" && !("mask" in selected)}
+                    title={
+                      m === "upload" && !("mask" in selected)
+                        ? "Logo preview is available for Team Jersey, Rash Guard and Fight Shorts"
+                        : undefined
+                    }
                     onClick={() => {
                       setMode(m);
                       setError(null);
                     }}
-                    className={`px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors ${
+                    className={`px-4 py-3 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
                       mode === m
                         ? "bg-primary text-primary-foreground"
                         : "text-smoke hover:text-bone"
@@ -516,6 +587,12 @@ function StudioPage() {
                   </button>
                 ))}
               </div>
+              {!("mask" in selected) && (
+                <p className="mb-4 text-xs text-smoke">
+                  {selected.label}: design with AI. Logo upload preview is available for Team
+                  Jersey, Rash Guard and Fight Shorts.
+                </p>
+              )}
               {mode === "describe" ? (
                 <div className="space-y-6">
                   {(
@@ -706,7 +783,9 @@ function StudioPage() {
                   alt={
                     mockup
                       ? `AI mockup of your design on ${selected.label}`
-                      : `Blank ${selected.label}`
+                      : "mask" in selected
+                        ? `Blank ${selected.label}`
+                        : `${selected.label} from our catalogue`
                   }
                   width={800}
                   height={1000}
@@ -714,7 +793,9 @@ function StudioPage() {
                 />
                 <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-bone backdrop-blur">
                   {!mockup
-                    ? `Blank ${selected.label}`
+                    ? "mask" in selected
+                      ? `Blank ${selected.label}`
+                      : `${selected.label} from our catalogue`
                     : mockupKind === "concept"
                       ? "Your AI design"
                       : mockupKind === "preview"
