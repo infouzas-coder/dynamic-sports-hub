@@ -184,9 +184,9 @@
   }
 
   .font-display {
-    font-style: italic;
-    font-weight: 800;
-    letter-spacing: 0.01em;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.005em;
   }
 
   ::selection {
@@ -223,8 +223,8 @@ html.theme-anim *::after {
     gap: 0.6rem;
     padding: 0.95rem 2rem;
     font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 800;
+    font-style: normal;
+    font-weight: 700;
     font-size: 1.05rem;
     line-height: 1;
     letter-spacing: 0.06em;
@@ -438,7 +438,7 @@ html.theme-anim *::after {
     flex: none;
     padding: 0.45rem 0.75rem;
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 700;
     font-size: 0.95rem;
     letter-spacing: 0.05em;
@@ -474,7 +474,7 @@ html.theme-anim *::after {
   .nav-link {
     position: relative;
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-weight: 700;
     font-size: 1.05rem;
     letter-spacing: 0.06em;

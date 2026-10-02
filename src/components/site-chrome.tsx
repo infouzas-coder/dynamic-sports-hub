@@ -88,7 +88,7 @@ export function SiteHeader() {
                       <Link
                         key={c.slug}
                         to={c.slug}
-                        className="group flex items-center justify-between px-4 py-3 font-display text-lg font-bold italic uppercase tracking-wide text-bone/80 transition-all hover:bg-ash hover:pl-5 hover:text-gold"
+                        className="group flex items-center justify-between px-4 py-3 font-display text-lg font-semibold uppercase tracking-wide text-bone/80 transition-all hover:bg-ash hover:pl-5 hover:text-gold"
                       >
                         {c.name}
                         <span className="text-gold opacity-0 transition-opacity group-hover:opacity-100">
