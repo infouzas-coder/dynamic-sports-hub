@@ -8,7 +8,7 @@ curl -sS -c jar -b jar -L -o /dev/null "$SHARE"
 python3 - <<'PY' > urls.txt
 import json, urllib.parse
 for k, v in json.load(open("scripts/gen/prompts.json")).items():
-    print(k, "/api/gen-image?name=" + k + "&w=1344&h=896&prompt=" + urllib.parse.quote(v))
+    print(k, "/api/gen-image?name=" + k + "&w=768&h=960&prompt=" + urllib.parse.quote(v))
 PY
 while read -r name path; do
   [ -f "generated/$name.jpg" ] && continue
