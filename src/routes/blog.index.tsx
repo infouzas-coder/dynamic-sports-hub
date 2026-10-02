@@ -72,13 +72,13 @@ function BlogIndex() {
       </section>
 
       <section className="bg-coal py-16">
-        <div className="mx-auto grid max-w-7xl gap-px bg-bone/10 px-0 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl gap-px px-0 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((p, i) => (
             <Reveal key={p.slug} delay={(i % 3) * 70}>
               <Link
                 to="/blog/$slug"
                 params={{ slug: p.slug }}
-                className="group flex h-full flex-col bg-coal transition-colors hover:bg-ash"
+                className="group flex h-full flex-col bg-coal ring-1 ring-bone/10 transition-colors hover:bg-ash"
               >
                 <div className="aspect-[16/10] overflow-hidden">
                   <img

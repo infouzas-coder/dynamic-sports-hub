@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, House, Mail } from "lucide-react";
 import { SocialRow, WhatsAppIcon } from "./SocialIcons";
 import { AlibabaBadge } from "./AlibabaBadge";
+import { PartnerStrip } from "./PartnerStrip";
 import { ThemeToggle } from "./ThemeToggle";
 import { RotatingCta } from "./RotatingCta";
 import { WhatsAppButton } from "./WhatsAppButton";
@@ -325,10 +326,11 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-bone/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-6 md:flex-row md:items-center md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-6 lg:flex-row lg:items-center lg:justify-between">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
             Made in Sialkot, Pakistan · Showrooms in Sialkot &amp; Melbourne · Worldwide shipping
           </p>
+          <PartnerStrip />
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
             © 2026 UZAS Sports
           </p>
