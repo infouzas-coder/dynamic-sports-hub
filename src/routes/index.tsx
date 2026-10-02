@@ -78,7 +78,7 @@ function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={80}>
-            <h1 className="font-display text-[clamp(3.25rem,10vw,9rem)] leading-[0.82] tracking-tight text-bone">
+            <h1 className="max-w-[14ch] font-display text-[clamp(2.6rem,5.6vw,5.75rem)] leading-[0.92] tracking-tight text-bone">
               ONE FACTORY.
               <br />
               SIX WAYS TO
