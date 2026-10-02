@@ -2,7 +2,7 @@
 # Calls the image-gen preview route for each prompt and saves the results into generated/
 set -u
 BASE="https://dynamic-sports-j27j8zhsh-uzas.vercel.app"
-SHARE="$BASE/?_vercel_share=dGPeE7msxSF8LmMppt9JQHwXUCHdVzZe"
+SHARE="$BASE/?_vercel_share=hrpiRoA2IDupmyYDIHqrWa7gV8AxrP6C"
 mkdir -p generated
 curl -sS -c jar -b jar -L -o /dev/null "$SHARE"
 python3 - <<'PY' > urls.txt
