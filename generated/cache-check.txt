@@ -1,0 +1,36 @@
+== /gloves try 1
+age: 0
+x-vercel-cache: MISS
+x-vercel-id: iad1::iad1::6s4xq-1790921372897-1f08f6262d76
+== /gloves try 2
+age: 3
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::hz288-1790921374997-cab75050839c
+== /gloves try 3
+age: 5
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::fmz4s-1790921377062-ea8d9f1845ed
+== /about try 1
+age: 0
+x-vercel-cache: MISS
+x-vercel-id: iad1::iad1::srxhk-1790921379135-4e28e58b0498
+== /about try 2
+age: 2
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::xs9hw-1790921381218-8645221519d3
+== /about try 3
+age: 4
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::dxcht-1790921383276-20c37234d988
+== / try 1
+age: 0
+x-vercel-cache: MISS
+x-vercel-id: iad1::iad1::4tztq-1790921385354-0d7543ac7213
+== / try 2
+age: 2
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::r52tj-1790921387443-07d9c550e449
+== / try 3
+age: 4
+x-vercel-cache: HIT
+x-vercel-id: iad1::iad1::brz8k-1790921389488-ad33aeb20afe
