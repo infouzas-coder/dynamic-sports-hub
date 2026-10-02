@@ -614,3 +614,11 @@ html.theme-anim *::after {
     padding-right: 0.9rem;
   }
 }
+
+/* Catalogue product cards: compact titles on phones (two cards per row) */
+@media (max-width: 639px) {
+  .cat-card h3.font-display {
+    font-size: 0.98rem;
+    line-height: 1.15;
+  }
+}

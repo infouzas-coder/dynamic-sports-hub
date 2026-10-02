@@ -3,6 +3,7 @@ import { absUrl, ORG, SITE_URL } from "@/lib/seo";
 import { FaqSection, faqJsonLd } from "@/components/FaqSection";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
+import { CatalogueGrid } from "@/components/CatalogueGrid";
 import { CATEGORIES, type Category } from "@/lib/site-data";
 
 export function CategoryTemplate({ category }: { category: Category }) {
@@ -38,40 +39,25 @@ export function CategoryTemplate({ category }: { category: Category }) {
               {category.intro}
             </p>
           </Reveal>
+          <Reveal delay={220}>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#products" className="btn btn-gold btn-sm">
+                See products
+              </a>
+              <a
+                href={category.pdf}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost btn-sm"
+              >
+                View catalogue
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* PRODUCT BREAKDOWN */}
-      <section className="bg-coal py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <Reveal>
-            <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.3em] text-crimson">
-              (a) Product breakdown
-            </p>
-            <h2 className="max-w-[20ch] font-display text-4xl leading-[0.95] tracking-tight text-bone md:text-5xl">
-              WHAT WE MAKE IN THIS LINE
-            </h2>
-            <p className="mt-4 max-w-[60ch] text-sm text-smoke">
-              A few of the {category.name.toLowerCase()} products we make. Every one can be
-              customised with your colours, sizing and branding. See the catalogue below for the
-              full range.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 gap-px bg-bone/10 md:grid-cols-3">
-            {category.products.map((p, i) => (
-              <Reveal key={p.name} delay={i * 70}>
-                <div className="h-full bg-coal p-7">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-crimson">
-                    Product {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-3 font-display text-2xl tracking-tight text-bone">{p.name}</h3>
-                  <p className="mt-2 text-sm text-smoke">{p.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CatalogueGrid category={category} />
 
       {/* CUSTOMIZATION */}
       <section className="border-t border-bone/10 bg-background py-20">
@@ -111,7 +97,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
             </h2>
           </Reveal>
           <Reveal delay={100}>
-            <div className="mt-8 border border-bone/10 bg-background">
+            <div className="mt-8 hidden border border-bone/10 bg-background md:block">
               <object
                 data={category.pdf}
                 type="application/pdf"
