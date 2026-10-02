@@ -4,16 +4,16 @@ import { Reveal } from "@/components/Reveal";
 import { POSTS, readingMinutes } from "@/lib/blog-posts";
 import { absUrl, ORG } from "@/lib/seo";
 
-const TITLE = "Blog | Team Kit, Sublimation & Custom Sportswear Guides | Uzas Sports";
+const TITLE = "Blog | Team Kit, Sublimation & Custom Sportswear Guides | UZAS Sports";
 const DESC =
-  "Practical guides on sublimated team kits, custom jerseys, martial arts uniforms, patches and paintball gear from the Uzas Sports factory team.";
+  "Practical guides on sublimated team kits, custom jerseys, martial arts uniforms, patches and paintball gear from the UZAS Sports factory team.";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { property: "og:title", content: "Uzas Sports Blog" },
+      { property: "og:title", content: "UZAS Sports Blog" },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absUrl("/blog") },
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/blog/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Blog",
-          name: "Uzas Sports Blog",
+          name: "UZAS Sports Blog",
           url: absUrl("/blog"),
           publisher: ORG,
           blogPost: POSTS.map((p) => ({

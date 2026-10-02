@@ -51,7 +51,7 @@ export function CatalogueGrid({ category }: { category: Category }) {
               <div className="aspect-square overflow-hidden bg-white">
                 <img
                   src={p.image}
-                  alt={`${p.name}, Uzas Sports article ${p.code}`}
+                  alt={`${p.name}, UZAS Sports article ${p.code}`}
                   loading="lazy"
                   width={640}
                   height={640}

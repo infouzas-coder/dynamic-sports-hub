@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { absUrl, ORG } from "@/lib/seo";
+import { absUrl, ORG, WEBSITE } from "@/lib/seo";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import heroPoster from "@/assets/hero-poster.jpg";
@@ -10,13 +10,13 @@ import uzasLogo from "@/assets/uzas-logo.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Uzas Sports | Sportswear & Combat Gear Manufacturer Since 2005" },
+      { title: "UZAS Sports | Sportswear & Combat Gear Manufacturer Since 2005" },
       {
         name: "description",
         content:
-          "Uzas Sports is a Sialkot-based manufacturer established in 2005, making apparel, paintball gear, martial arts gear, gloves, custom patches and sublimation clothing, all made in-house.",
+          "UZAS Sports makes custom sportswear, team kits, martial arts uniforms, boxing gloves, paintball gear and patches in our own Sialkot factory since 2005. Showrooms in Sialkot and Melbourne. No minimum order.",
       },
-      { property: "og:title", content: "Uzas Sports | Six Product Lines, One Factory" },
+      { property: "og:title", content: "UZAS Sports | Six Product Lines, One Factory" },
       {
         property: "og:description",
         content:
@@ -32,6 +32,7 @@ export const Route = createFileRoute("/")({
         type: "application/ld+json",
         children: JSON.stringify({ "@context": "https://schema.org", ...ORG }),
       },
+      { type: "application/ld+json", children: JSON.stringify(WEBSITE) },
     ],
   }),
   component: HomePage,
@@ -88,7 +89,7 @@ function HomePage() {
           </Reveal>
           <Reveal delay={160}>
             <p className="mt-8 max-w-[50ch] text-pretty text-base text-bone/70 md:text-lg">
-              Uzas Sports manufactures performance apparel, paintball gear, martial arts uniforms,
+              UZAS Sports manufactures performance apparel, paintball gear, martial arts uniforms,
               gloves, custom patches and sublimated clothing. Everything is designed, printed, cut
               and stitched in our own factory since 2005.
             </p>
@@ -306,7 +307,7 @@ function InstagramFeed() {
         {/* Instagram's profile embed carries the 6 latest posts: 2 rows of 3 square tiles */}
         <div className="relative w-full overflow-hidden bg-coal" style={{ aspectRatio: "3 / 2" }}>
           <iframe
-            title="Uzas Sports on Instagram"
+            title="UZAS Sports on Instagram"
             src={`${IG_URL}embed`}
             loading="lazy"
             scrolling="no"

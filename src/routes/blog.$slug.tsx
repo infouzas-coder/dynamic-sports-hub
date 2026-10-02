@@ -27,7 +27,7 @@ export const Route = createFileRoute("/blog/$slug")({
           datePublished: post.date,
           dateModified: post.date,
           mainEntityOfPage: url,
-          author: { "@type": "Organization", name: "Uzas Sports", url: absUrl("/") },
+          author: { "@type": "Organization", name: "UZAS Sports", url: absUrl("/") },
           publisher: ORG,
         }),
       },
@@ -60,7 +60,7 @@ export const Route = createFileRoute("/blog/$slug")({
     }
     return {
       meta: [
-        { title: `${post.seoTitle} | Uzas Sports` },
+        { title: `${post.seoTitle} | UZAS Sports` },
         { name: "description", content: post.description },
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.description },

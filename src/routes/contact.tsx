@@ -11,13 +11,13 @@ import { SocialRow } from "@/components/SocialIcons";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Uzas Sports | Sportswear Manufacturer in Sialkot" },
+      { title: "Contact UZAS Sports | Sportswear Manufacturer in Sialkot" },
       {
         name: "description",
         content:
-          "Contact Uzas Sports for wholesale or general inquiries. Sportswear, combat sports gear, gloves and patches manufactured in Sialkot, Pakistan since 2005.",
+          "Contact UZAS Sports for wholesale or general inquiries. Sportswear, combat sports gear, gloves and patches manufactured in Sialkot, Pakistan since 2005.",
       },
-      { property: "og:title", content: "Contact Uzas Sports" },
+      { property: "og:title", content: "Contact UZAS Sports" },
       {
         property: "og:description",
         content: "Wholesale inquiries and general questions, straight to our Sialkot factory team.",

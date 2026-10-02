@@ -4,12 +4,23 @@ export const SITE_URL: string = (
   import.meta.env["VITE_SITE_URL"] || "https://dynamic-sports-hub.vercel.app"
 ).replace(/\/$/, "");
 
-export const absUrl = (path: string) => (/^https?:\/\//.test(path) ? path : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`);
+export const absUrl = (path: string) =>
+  /^https?:\/\//.test(path) ? path : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
+
+// Matches the Google Maps listing so Google links the knowledge panel to this site
+const SIALKOT_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "Building 21/436, Factory Area, Fazal Market, Mujahid Road, Prem Nagar",
+  addressLocality: "Sialkot",
+  addressRegion: "Punjab",
+  postalCode: "51310",
+  addressCountry: "PK",
+};
 
 export const ORG = {
   "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
-  name: "Uzas Sports",
+  name: "UZAS Sports",
   url: SITE_URL,
   email: "info@uzassports.com",
   foundingDate: "2005",
@@ -17,17 +28,25 @@ export const ORG = {
     "Manufacturer of custom sublimated team kits, performance apparel, paintball gear, martial arts uniforms, gloves and custom patches, based in Sialkot, Pakistan.",
   logo: `${SITE_URL}/favicon.png`,
   slogan: "Where expectations meet quality",
-  address: { "@type": "PostalAddress", addressLocality: "Sialkot", addressRegion: "Punjab", addressCountry: "PK" },
+  alternateName: ["UZAS", "Uzas Sports", "UZAS Sports & ActiveWear"],
+  telephone: "+923211104552",
+  address: SIALKOT_ADDRESS,
   location: [
     {
       "@type": "Place",
-      name: "Uzas Sports factory and showroom",
-      address: { "@type": "PostalAddress", addressLocality: "Sialkot", addressRegion: "Punjab", addressCountry: "PK" },
+      name: "UZAS Sports factory and showroom",
+      telephone: "+923211104552",
+      address: SIALKOT_ADDRESS,
     },
     {
       "@type": "Place",
-      name: "Uzas Sports Melbourne showroom",
-      address: { "@type": "PostalAddress", addressLocality: "Hadfield", addressRegion: "VIC", addressCountry: "AU" },
+      name: "UZAS Sports Melbourne showroom",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Hadfield",
+        addressRegion: "VIC",
+        addressCountry: "AU",
+      },
     },
   ],
   contactPoint: {
@@ -52,4 +71,15 @@ export const ORG = {
     "https://www.facebook.com/uzalabel",
     "https://pk.linkedin.com/in/uzas-sports",
   ],
+};
+
+// Tells Google which name to show for the site in search results
+export const WEBSITE = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "UZAS Sports",
+  alternateName: ["UZAS", "uzassports.com"],
+  url: `${SITE_URL}/`,
+  publisher: { "@id": `${SITE_URL}/#organization` },
 };

@@ -16,13 +16,13 @@ import { CARRIERS, CATEGORIES, LOCATIONS, TEAM, type TeamMember } from "@/lib/si
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Uzas Sports | Sialkot Sportswear Manufacturer Since 2005" },
+      { title: "About UZAS Sports | Sialkot Sportswear Manufacturer Since 2005" },
       {
         name: "description",
         content:
-          "Uzas Sports is a Sialkot-based sportswear and combat sports gear manufacturer established in 2005, producing six specialist product lines fully in-house.",
+          "UZAS Sports is a Sialkot-based sportswear and combat sports gear manufacturer established in 2005, producing six specialist product lines fully in-house.",
       },
-      { property: "og:title", content: "About Uzas Sports | Manufacturing Since 2005" },
+      { property: "og:title", content: "About UZAS Sports | Manufacturing Since 2005" },
       {
         property: "og:description",
         content:
@@ -66,7 +66,7 @@ function AboutPage() {
               TWENTY YEARS ON ONE FLOOR
             </h1>
             <p className="mt-7 max-w-[58ch] text-pretty text-base text-bone/70 md:text-lg">
-              Uzas Sports started in 2005 in Sialkot, the city that has been stitching the world's
+              UZAS Sports started in 2005 in Sialkot, the city that has been stitching the world's
               sporting goods for over a century. We began with gloves and combat sports gear and
               grew into six specialist lines, all still made under our own roof.
             </p>
@@ -108,7 +108,7 @@ function AboutPage() {
                 rel="noopener noreferrer"
                 className="btn btn-ghost btn-sm"
               >
-                <Linkedin className="h-4 w-4" /> Uzas Sports on LinkedIn
+                <Linkedin className="h-4 w-4" /> UZAS Sports on LinkedIn
               </a>
             </div>
           </Reveal>

@@ -328,7 +328,7 @@ export function SiteFooter() {
             Made in Sialkot, Pakistan · Showrooms in Sialkot &amp; Melbourne · Worldwide shipping
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">
-            © 2026 Uzas Sports
+            © 2026 UZAS Sports
           </p>
         </div>
       </div>

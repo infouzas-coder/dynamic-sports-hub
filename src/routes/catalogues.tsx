@@ -7,13 +7,13 @@ import { CATEGORIES } from "@/lib/site-data";
 export const Route = createFileRoute("/catalogues")({
   head: () => ({
     meta: [
-      { title: "Product Catalogues | Uzas Sports Manufacturer PDFs" },
+      { title: "Product Catalogues | UZAS Sports Manufacturer PDFs" },
       {
         name: "description",
         content:
-          "Download all six Uzas Sports catalogues: apparel, paintball, martial arts, gloves, custom patches and sublimation clothing. Full product ranges in PDF.",
+          "Download all six UZAS Sports catalogues: apparel, paintball, martial arts, gloves, custom patches and sublimation clothing. Full product ranges in PDF.",
       },
-      { property: "og:title", content: "Uzas Sports Catalogues" },
+      { property: "og:title", content: "UZAS Sports Catalogues" },
       {
         property: "og:description",
         content: "All six product-line catalogues in one place, free to download as PDF.",
@@ -44,7 +44,7 @@ function CataloguesPage() {
               <span className="text-crimson">EVERY PAGE</span>
             </h1>
             <p className="mt-6 max-w-[54ch] text-pretty text-base text-smoke md:text-lg">
-              Six catalogues covering the full Uzas Sports range. Download, share with your team,
+              Six catalogues covering the full UZAS Sports range. Download, share with your team,
               and send us the item codes you want quoted.
             </p>
           </Reveal>

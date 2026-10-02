@@ -1,4 +1,4 @@
-# Uzas Sports: search engines and AI assistants are welcome to read the public site.
+# UZAS Sports: search engines and AI assistants are welcome to read the public site.
 User-agent: *
 Allow: /
 Disallow: /api/

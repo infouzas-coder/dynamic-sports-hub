@@ -12,13 +12,13 @@ import { FaqSection, faqJsonLd } from "@/components/FaqSection";
 export const Route = createFileRoute("/wholesale")({
   head: () => ({
     meta: [
-      { title: "Wholesale Sportswear for Gyms & Academies | Uzas Sports" },
+      { title: "Wholesale Sportswear for Gyms & Academies | UZAS Sports" },
       {
         name: "description",
         content:
           "Wholesale manufacturing for gyms, academies and clubs. Custom team branding, no minimum order, free samples and 2–4 week turnaround direct from our Sialkot factory.",
       },
-      { property: "og:title", content: "For Gyms & Academies | Wholesale by Uzas Sports" },
+      { property: "og:title", content: "For Gyms & Academies | Wholesale by UZAS Sports" },
       {
         property: "og:description",
         content:

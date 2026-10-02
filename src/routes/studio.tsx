@@ -49,13 +49,13 @@ import maskPatch from "@/assets/blank-patch-mask.png";
 export const Route = createFileRoute("/studio")({
   head: () => ({
     meta: [
-      { title: "AI Mockup Studio | Uzas Sports" },
+      { title: "AI Mockup Studio | UZAS Sports" },
       {
         name: "description",
         content:
-          "Upload your design and see an AI-generated mockup on real Uzas Sports gear: fight shorts, rash guards and team jerseys. Get an instant quote on any quantity.",
+          "Upload your design and see an AI-generated mockup on real UZAS Sports gear: fight shorts, rash guards and team jerseys. Get an instant quote on any quantity.",
       },
-      { property: "og:title", content: "AI Mockup Studio | Uzas Sports" },
+      { property: "og:title", content: "AI Mockup Studio | UZAS Sports" },
       { property: "og:url", content: absUrl("/studio") },
       {
         property: "og:description",
@@ -920,7 +920,7 @@ function StudioPage() {
                     <div className="text-center">
                       <img
                         src={uzasLogo}
-                        alt="Uzas Sports"
+                        alt="UZAS Sports"
                         className="mx-auto mb-5 h-24 w-auto animate-pulse-slow drop-shadow-[0_0_18px_rgba(227,191,41,0.45)]"
                       />
                       <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-smoke">
@@ -978,7 +978,7 @@ function StudioPage() {
                         a.download = `uzas-design-${selected.label.toLowerCase().replace(/\s+/g, "-")}.jpg`;
                         a.click();
                       }}
-                      href={`mailto:info@uzassports.com?subject=${encodeURIComponent(`Professional mockup request: ${selected.label}`)}&body=${encodeURIComponent(`Hi Uzas Sports,\n\nI made a design in your AI Studio and would like a professional mockup and a quote. My design image is attached.\n\nGarment: ${selected.label}\n${mode === "describe" ? `Design: ${description}\n` : ""}Quantity:\nDeadline:\n\nThanks`)}`}
+                      href={`mailto:info@uzassports.com?subject=${encodeURIComponent(`Professional mockup request: ${selected.label}`)}&body=${encodeURIComponent(`Hi UZAS Sports,\n\nI made a design in your AI Studio and would like a professional mockup and a quote. My design image is attached.\n\nGarment: ${selected.label}\n${mode === "describe" ? `Design: ${description}\n` : ""}Quantity:\nDeadline:\n\nThanks`)}`}
                       className="btn btn-ghost btn-sm"
                     >
                       Email us

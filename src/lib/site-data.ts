@@ -40,10 +40,10 @@ export const CATEGORIES: Category[] = [
     cta: "contact",
     intro:
       "Training tees, hoodies, joggers, shorts and track sets, cut and sewn in our Sialkot facility on performance knits built to survive real training loads.",
-    title: "Custom Performance Apparel Manufacturer | Uzas Sports",
+    title: "Custom Performance Apparel Manufacturer | UZAS Sports",
     description:
       "Custom sportswear manufacturer since 2005. Training tees, hoodies, joggers and track sets produced in-house in Sialkot for gyms, brands and teams worldwide.",
-    ogTitle: "Performance Apparel | Manufactured by Uzas Sports",
+    ogTitle: "Performance Apparel | Manufactured by UZAS Sports",
     products: [
       {
         name: "Training T-Shirts",
@@ -92,10 +92,10 @@ export const CATEGORIES: Category[] = [
     cta: "contact",
     intro:
       "Tournament-grade paintball jerseys, pants, gloves, pod packs and protective gear. Built for abrasion resistance, airflow and full-team identity.",
-    title: "Custom Paintball Jerseys & Team Gear Manufacturer | Uzas Sports",
+    title: "Custom Paintball Jerseys & Team Gear Manufacturer | UZAS Sports",
     description:
       "Paintball equipment manufacturer producing custom tournament jerseys, pants, pod packs and gloves. Full sublimated team kits, made in-house in Sialkot.",
-    ogTitle: "Paintball Equipment | Manufactured by Uzas Sports",
+    ogTitle: "Paintball Equipment | Manufactured by UZAS Sports",
     products: [
       {
         name: "Paintball Jerseys",
@@ -144,7 +144,7 @@ export const CATEGORIES: Category[] = [
     title: "Custom Martial Arts Uniforms Manufacturer | BJJ Gis & Fight Wear",
     description:
       "Custom martial arts uniforms manufacturer since 2005. BJJ gis, karate and taekwondo uniforms, rash guards, fight shorts and belts for academies worldwide.",
-    ogTitle: "Martial Arts & Combat Sports | Manufactured by Uzas Sports",
+    ogTitle: "Martial Arts & Combat Sports | Manufactured by UZAS Sports",
     products: [
       {
         name: "BJJ Gi",
@@ -196,10 +196,10 @@ export const CATEGORIES: Category[] = [
     cta: "contact",
     intro:
       "Boxing, MMA, bag, tactical, mechanic and cycling gloves in leather and synthetic builds with multi-density foams and reinforced palms.",
-    title: "Custom Gloves Manufacturer: Boxing, MMA & Tactical | Uzas Sports",
+    title: "Custom Gloves Manufacturer: Boxing, MMA & Tactical | UZAS Sports",
     description:
       "Glove manufacturer producing custom boxing, MMA, bag, tactical and work gloves. Leather and synthetic builds, private-label ready, made in Sialkot since 2005.",
-    ogTitle: "Gloves | Manufactured by Uzas Sports",
+    ogTitle: "Gloves | Manufactured by UZAS Sports",
     products: [
       {
         name: "Boxing Gloves",
@@ -245,10 +245,10 @@ export const CATEGORIES: Category[] = [
     cta: "wholesale",
     intro:
       "Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or hook-and-loop backing, produced to tight tolerances at any volume.",
-    title: "Custom Embroidered Patches Wholesale Manufacturer | Uzas Sports",
+    title: "Custom Embroidered Patches Wholesale Manufacturer | UZAS Sports",
     description:
       "Wholesale custom patches manufacturer. Embroidered, woven, PVC, leather and chenille patches with iron-on, sew-on or velcro backing. No minimum order, free samples.",
-    ogTitle: "Custom Patches | Manufactured by Uzas Sports",
+    ogTitle: "Custom Patches | Manufactured by UZAS Sports",
     products: [
       {
         name: "Embroidered Patches",
@@ -300,7 +300,7 @@ export const CATEGORIES: Category[] = [
     title: "Custom Sublimation Clothing Manufacturer | Sublimated Teamwear",
     description:
       "Custom sublimation clothing manufacturer. All-over printed jerseys, rash guards, singlets and cycling kits. Wash-proof edge-to-edge print, any quantity.",
-    ogTitle: "Sublimation Clothing | Manufactured by Uzas Sports",
+    ogTitle: "Sublimation Clothing | Manufactured by UZAS Sports",
     products: [
       {
         name: "Sublimated Team Jerseys",

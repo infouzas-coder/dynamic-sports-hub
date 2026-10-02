@@ -46,7 +46,7 @@ export function SocialRow({ className = "" }: { className?: string }) {
           href={s.href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Uzas Sports on ${s.label}`}
+          aria-label={`UZAS Sports on ${s.label}`}
           title={s.label}
           className={`grid h-11 w-11 place-items-center rounded-full border border-bone/20 text-bone transition-all duration-300 hover:-translate-y-0.5 ${hover[s.icon]}`}
         >

@@ -17,7 +17,7 @@ export function CategoryTemplate({ category }: { category: Category }) {
       <section className="relative overflow-hidden border-b border-bone/10">
         <img
           src={category.image}
-          alt={`${category.name} manufactured by Uzas Sports`}
+          alt={`${category.name} manufactured by UZAS Sports`}
           width={1600}
           height={1000}
           className="absolute inset-0 h-full w-full object-cover opacity-60"
