@@ -1,0 +1,32 @@
+name: Fetch catalogues
+on:
+  push:
+    branches: [catalog-fetch]
+    paths: [".github/workflows/fetch-catalogues.yml"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - run: |
+          set -e
+          mkdir -p catalogues
+          for i in 1 2 3 4 5 6; do
+            curl -sSL -o "catalogues/catalogue$i.pdf" "https://uzassportscatalogues.netlify.app/catalogues/catalogue$i.pdf"
+            ls -la "catalogues/catalogue$i.pdf"
+            pdfinfo "catalogues/catalogue$i.pdf" | grep -E "Pages|Page size" || true
+            mkdir -p "catalogues/c$i"
+            pdftoppm -r 110 -jpeg -jpegopt quality=82 "catalogues/catalogue$i.pdf" "catalogues/c$i/p"
+            pdftotext -layout "catalogues/catalogue$i.pdf" "catalogues/c$i/text.txt" || true
+            size=$(stat -c %s "catalogues/catalogue$i.pdf")
+            if [ "$size" -gt 45000000 ]; then rm "catalogues/catalogue$i.pdf"; fi
+          done
+          du -sh catalogues/*
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898729+github-actions[bot]@users.noreply.github.com"
+          git add catalogues
+          git commit -m "Fetched catalogues" && git push
