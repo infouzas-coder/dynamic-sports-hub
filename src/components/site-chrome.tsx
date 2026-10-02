@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronDown, House, Mail } from "lucide-react";
 import { SocialRow, WhatsAppIcon } from "./SocialIcons";
+import { AlibabaBadge } from "./AlibabaBadge";
 import { ThemeToggle } from "./ThemeToggle";
 import { RotatingCta } from "./RotatingCta";
 import { WhatsAppButton } from "./WhatsAppButton";
@@ -320,6 +321,7 @@ export function SiteFooter() {
           >
             <Mail className="h-4 w-4" /> info@uzassports.com
           </a>
+          <AlibabaBadge className="mt-6" />
         </div>
       </div>
       <div className="border-t border-bone/10">

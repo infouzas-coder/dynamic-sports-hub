@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { absUrl, ORG, WEBSITE } from "@/lib/seo";
+import { AlibabaBadge } from "@/components/AlibabaBadge";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import heroPoster from "@/assets/hero-poster.jpg";
@@ -112,6 +113,9 @@ function HomePage() {
                 Browse catalogues <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+          </Reveal>
+          <Reveal delay={320}>
+            <AlibabaBadge className="mt-8" />
           </Reveal>
         </div>
       </section>

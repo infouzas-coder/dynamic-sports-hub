@@ -28,6 +28,7 @@ export const ORG = {
     "Manufacturer of custom sublimated team kits, performance apparel, paintball gear, martial arts uniforms, gloves and custom patches, based in Sialkot, Pakistan.",
   logo: `${SITE_URL}/favicon.png`,
   slogan: "Where expectations meet quality",
+  award: "Alibaba Premium Supplier",
   alternateName: ["UZAS", "Uzas Sports", "UZAS Sports & ActiveWear"],
   telephone: "+923211104552",
   address: SIALKOT_ADDRESS,
@@ -70,6 +71,7 @@ export const ORG = {
     "https://www.instagram.com/uzas_apparels/",
     "https://www.facebook.com/uzalabel",
     "https://pk.linkedin.com/in/uzas-sports",
+    "https://uzassports.trustpass.alibaba.com/",
   ],
 };
 

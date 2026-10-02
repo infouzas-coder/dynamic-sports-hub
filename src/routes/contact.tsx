@@ -7,6 +7,7 @@ import { submitContact } from "@/lib/forms.functions";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { Reveal } from "@/components/Reveal";
 import { SocialRow } from "@/components/SocialIcons";
+import { AlibabaBadge } from "@/components/AlibabaBadge";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -144,6 +145,7 @@ function ContactPage() {
                 </p>
                 <p>Factory: Sialkot, Punjab, Pakistan</p>
                 <SocialRow className="pt-3" />
+                <AlibabaBadge className="mt-4" />
               </div>
             </div>
           </Reveal>

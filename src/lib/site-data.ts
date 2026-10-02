@@ -339,6 +339,7 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
+export const ALIBABA_URL = "https://uzassports.trustpass.alibaba.com/";
 export const WHATSAPP_URL = "https://wa.me/message/NCHQVYIYJYWGG1";
 
 export const SOCIALS = [
