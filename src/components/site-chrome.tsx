@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, House, Mail } from "lucide-react";
 import { SocialRow, WhatsAppIcon } from "./SocialIcons";
 import { ThemeToggle } from "./ThemeToggle";
+import { RotatingCta } from "./RotatingCta";
 import { WhatsAppButton } from "./WhatsAppButton";
 import { CATEGORIES, WHATSAPP_URL } from "@/lib/site-data";
 import uzasLogo from "@/assets/uzas-logo.png";
@@ -118,16 +119,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2.5 sm:gap-3">
             <ThemeToggle />
-            <Link to="/contact" className="btn btn-gold btn-sm hidden sm:inline-flex">
-              Contact
-            </Link>
-            <Link
-              to="/studio"
-              hash="quote"
-              className="btn btn-gold btn-sm px-4 py-2.5 text-[0.85rem] sm:hidden"
-            >
-              Get a quote
-            </Link>
+            <RotatingCta />
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}

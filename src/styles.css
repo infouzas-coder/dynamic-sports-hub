@@ -521,3 +521,96 @@ html.theme-anim *::after {
     filter: drop-shadow(0 0 0.6px rgb(0 0 0 / 0.55)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.15));
   }
 }
+
+/* Phones: calmer type. Lighter weight and smaller display sizes so headings stay
+   strong but read cleanly on a small screen. Unlayered on purpose so it wins over
+   the Tailwind size utilities used on each heading. */
+@media (max-width: 639px) {
+  .font-display {
+    font-weight: 700;
+    letter-spacing: 0.005em;
+  }
+  h1.font-display {
+    font-size: clamp(2.15rem, 9.5vw, 2.6rem);
+    line-height: 0.98;
+  }
+  h2.font-display {
+    font-size: clamp(1.65rem, 7vw, 2rem);
+    line-height: 1.02;
+  }
+  h3.font-display {
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
+  p.font-display {
+    font-size: 1.15rem;
+  }
+  #mobile-menu .font-display {
+    font-size: 1.45rem;
+    font-weight: 600;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+  .btn {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+  .btn-sm {
+    font-size: 0.8rem;
+  }
+  .cat-chip {
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  details summary.font-display {
+    font-size: 1.1rem;
+  }
+}
+
+/* Rotating header call to action: label slides in and a gold flash sweeps across */
+.cta-rotate {
+  min-width: 9.6rem;
+}
+.cta-rotate-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  animation: cta-in 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.cta-flash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: skewX(-12deg);
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 75%) 50%, transparent 70%);
+  background-size: 250% 100%;
+  animation: btn-shine 0.9s ease forwards;
+}
+@keyframes cta-in {
+  from {
+    opacity: 0;
+    transform: translateY(60%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-rotate-inner,
+  .cta-flash {
+    animation: none;
+  }
+  .cta-flash {
+    display: none;
+  }
+}
+@media (max-width: 639px) {
+  .cta-rotate {
+    min-width: 8.4rem;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+}
