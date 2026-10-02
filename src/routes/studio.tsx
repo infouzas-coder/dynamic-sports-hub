@@ -21,18 +21,30 @@ import blankJersey from "@/assets/blank-jersey.jpg";
 import maskShorts from "@/assets/blank-shorts-mask.png";
 import maskRashguard from "@/assets/blank-rashguard-mask.png";
 import maskJersey from "@/assets/blank-jersey-mask.png";
-import imgPolo from "@/assets/products/sublimation-clothing/DC-02-901.jpg";
-import imgHoodie from "@/assets/products/apparel/UZ-35-13.jpg";
-import imgSinglet from "@/assets/products/sublimation-clothing/DC-02-1201.jpg";
-import imgCycling from "@/assets/products/sublimation-clothing/DC-02-1104.jpg";
-import imgKit from "@/assets/products/sublimation-clothing/DC-02-701.jpg";
-import imgHockey from "@/assets/products/sublimation-clothing/DC-02-505.jpg";
-import imgBaseball from "@/assets/products/sublimation-clothing/DC-02-326.jpg";
-import imgFootball from "@/assets/products/sublimation-clothing/DC-02-403.jpg";
-import imgPaintball from "@/assets/products/paintball/UZ-45-14.jpg";
-import imgLeggings from "@/assets/products/apparel/UZ-35-34.jpg";
-import imgGloves from "@/assets/products/martial-arts-combat-sports/UZ094.jpg";
-import imgPatch from "@/assets/products/custom-patches/8104.jpg";
+import blankKit from "@/assets/blank-kit.jpg";
+import maskKit from "@/assets/blank-kit-mask.png";
+import blankPolo from "@/assets/blank-polo.jpg";
+import maskPolo from "@/assets/blank-polo-mask.png";
+import blankHoodie from "@/assets/blank-hoodie.jpg";
+import maskHoodie from "@/assets/blank-hoodie-mask.png";
+import blankSinglet from "@/assets/blank-singlet.jpg";
+import maskSinglet from "@/assets/blank-singlet-mask.png";
+import blankCycling from "@/assets/blank-cycling.jpg";
+import maskCycling from "@/assets/blank-cycling-mask.png";
+import blankHockey from "@/assets/blank-hockey.jpg";
+import maskHockey from "@/assets/blank-hockey-mask.png";
+import blankBaseball from "@/assets/blank-baseball.jpg";
+import maskBaseball from "@/assets/blank-baseball-mask.png";
+import blankFootball from "@/assets/blank-football.jpg";
+import maskFootball from "@/assets/blank-football-mask.png";
+import blankPaintball from "@/assets/blank-paintball.jpg";
+import maskPaintball from "@/assets/blank-paintball-mask.png";
+import blankLeggings from "@/assets/blank-leggings.jpg";
+import maskLeggings from "@/assets/blank-leggings-mask.png";
+import blankGloves from "@/assets/blank-gloves.jpg";
+import maskGloves from "@/assets/blank-gloves-mask.png";
+import blankPatch from "@/assets/blank-patch.jpg";
+import maskPatch from "@/assets/blank-patch-mask.png";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({
@@ -58,13 +70,13 @@ export const Route = createFileRoute("/studio")({
   component: StudioPage,
 });
 
-// Products customers can design. Items with a `mask` also support "Use my logo" (live preview on a blank);
-// the rest are AI design only and show a photo from our catalogue.
+// Products customers can design. Each has a white blank on a dark background plus a fabric mask,
+// so both "Design with AI" and "Use my logo" (live colour + logo preview) work on every item.
 type StudioProduct = {
   id: string;
   label: string;
   image: string;
-  mask?: string;
+  mask: string;
   garment: ConceptGarmentId;
 };
 const PRODUCTS = [
@@ -89,23 +101,84 @@ const PRODUCTS = [
     mask: maskShorts,
     garment: "shorts",
   },
-  { id: "team kit (jersey and shorts)", label: "Team Kit", image: imgKit, garment: "kit" },
-  { id: "sports polo shirt", label: "Polo Shirt", image: imgPolo, garment: "polo" },
-  { id: "hoodie", label: "Hoodie", image: imgHoodie, garment: "hoodie" },
-  { id: "singlet / tank top", label: "Singlet", image: imgSinglet, garment: "singlet" },
-  { id: "cycling jersey", label: "Cycling Jersey", image: imgCycling, garment: "cycling" },
-  { id: "ice hockey jersey", label: "Hockey Jersey", image: imgHockey, garment: "hockey" },
-  { id: "baseball jersey", label: "Baseball Jersey", image: imgBaseball, garment: "baseball" },
+  {
+    id: "team kit (jersey and shorts)",
+    label: "Team Kit",
+    image: blankKit,
+    mask: maskKit,
+    garment: "kit",
+  },
+  {
+    id: "sports polo shirt",
+    label: "Polo Shirt",
+    image: blankPolo,
+    mask: maskPolo,
+    garment: "polo",
+  },
+  { id: "hoodie", label: "Hoodie", image: blankHoodie, mask: maskHoodie, garment: "hoodie" },
+  {
+    id: "singlet / tank top",
+    label: "Singlet",
+    image: blankSinglet,
+    mask: maskSinglet,
+    garment: "singlet",
+  },
+  {
+    id: "cycling jersey",
+    label: "Cycling Jersey",
+    image: blankCycling,
+    mask: maskCycling,
+    garment: "cycling",
+  },
+  {
+    id: "ice hockey jersey",
+    label: "Hockey Jersey",
+    image: blankHockey,
+    mask: maskHockey,
+    garment: "hockey",
+  },
+  {
+    id: "baseball jersey",
+    label: "Baseball Jersey",
+    image: blankBaseball,
+    mask: maskBaseball,
+    garment: "baseball",
+  },
   {
     id: "american football jersey",
     label: "Football Jersey",
-    image: imgFootball,
+    image: blankFootball,
+    mask: maskFootball,
     garment: "football",
   },
-  { id: "paintball jersey", label: "Paintball Jersey", image: imgPaintball, garment: "paintball" },
-  { id: "leggings", label: "Leggings", image: imgLeggings, garment: "leggings" },
-  { id: "boxing gloves", label: "Boxing Gloves", image: imgGloves, garment: "gloves" },
-  { id: "custom patch", label: "Custom Patch", image: imgPatch, garment: "patch" },
+  {
+    id: "paintball jersey",
+    label: "Paintball Jersey",
+    image: blankPaintball,
+    mask: maskPaintball,
+    garment: "paintball",
+  },
+  {
+    id: "leggings",
+    label: "Leggings",
+    image: blankLeggings,
+    mask: maskLeggings,
+    garment: "leggings",
+  },
+  {
+    id: "boxing gloves",
+    label: "Boxing Gloves",
+    image: blankGloves,
+    mask: maskGloves,
+    garment: "gloves",
+  },
+  {
+    id: "custom patch",
+    label: "Custom Patch",
+    image: blankPatch,
+    mask: maskPatch,
+    garment: "patch",
+  },
 ] as const satisfies readonly StudioProduct[];
 const VISIBLE_PRODUCTS = 6;
 
@@ -143,7 +216,7 @@ function fileToDataUrl(file: File): Promise<string> {
 
 // ---- Instant in-browser preview (no AI needed) ----
 type Spot = { x: number; y: number; w: number; rot?: number };
-// Logo positions as fractions of each blank garment photo (800x1000)
+// Logo positions as fractions of each blank photo (800x1000); left/right are the wearer's
 const SPOTS: Record<string, Record<string, Spot>> = {
   "sports team jersey": {
     Chest: { x: 0.5, y: 0.36, w: 0.3 },
@@ -167,6 +240,90 @@ const SPOTS: Record<string, Record<string, Spot>> = {
     "Right leg": { x: 0.66, y: 0.52, w: 0.13, rot: 4 },
     "Bottom left": { x: 0.28, y: 0.6, w: 0.07, rot: -8 },
     "Bottom right": { x: 0.73, y: 0.6, w: 0.07, rot: 8 },
+  },
+  "team kit (jersey and shorts)": {
+    Chest: { x: 0.5, y: 0.31, w: 0.16 },
+    "Left chest": { x: 0.6, y: 0.22, w: 0.07 },
+    "Left sleeve": { x: 0.27, y: 0.24, w: 0.06, rot: -15 },
+    "Right sleeve": { x: 0.73, y: 0.24, w: 0.06, rot: 15 },
+    "Shorts left": { x: 0.42, y: 0.76, w: 0.08 },
+    "Shorts right": { x: 0.58, y: 0.76, w: 0.08 },
+  },
+  "sports polo shirt": {
+    Chest: { x: 0.5, y: 0.47, w: 0.24 },
+    "Left chest": { x: 0.6, y: 0.33, w: 0.1 },
+    "Left sleeve": { x: 0.19, y: 0.33, w: 0.08, rot: -15 },
+    "Right sleeve": { x: 0.81, y: 0.33, w: 0.08, rot: 15 },
+    "Bottom left": { x: 0.38, y: 0.8, w: 0.1 },
+    "Bottom right": { x: 0.62, y: 0.8, w: 0.1 },
+  },
+  hoodie: {
+    Chest: { x: 0.5, y: 0.41, w: 0.22 },
+    "Left chest": { x: 0.6, y: 0.33, w: 0.1 },
+    Pocket: { x: 0.5, y: 0.64, w: 0.16 },
+    "Left sleeve": { x: 0.21, y: 0.58, w: 0.08, rot: 6 },
+    "Right sleeve": { x: 0.79, y: 0.58, w: 0.08, rot: -6 },
+  },
+  "singlet / tank top": {
+    Chest: { x: 0.5, y: 0.44, w: 0.28 },
+    "Left chest": { x: 0.6, y: 0.36, w: 0.1 },
+    "Bottom left": { x: 0.37, y: 0.78, w: 0.1 },
+    "Bottom right": { x: 0.63, y: 0.78, w: 0.1 },
+  },
+  "cycling jersey": {
+    Chest: { x: 0.5, y: 0.36, w: 0.26 },
+    "Left chest": { x: 0.6, y: 0.29, w: 0.09 },
+    "Left sleeve": { x: 0.22, y: 0.33, w: 0.07, rot: -15 },
+    "Right sleeve": { x: 0.78, y: 0.33, w: 0.07, rot: 15 },
+    "Bottom left": { x: 0.4, y: 0.8, w: 0.09 },
+    "Bottom right": { x: 0.6, y: 0.8, w: 0.09 },
+  },
+  "ice hockey jersey": {
+    Chest: { x: 0.5, y: 0.42, w: 0.3 },
+    "Left chest": { x: 0.6, y: 0.32, w: 0.1 },
+    "Left sleeve": { x: 0.17, y: 0.45, w: 0.08, rot: 6 },
+    "Right sleeve": { x: 0.83, y: 0.45, w: 0.08, rot: -6 },
+    "Bottom left": { x: 0.38, y: 0.78, w: 0.1 },
+    "Bottom right": { x: 0.62, y: 0.78, w: 0.1 },
+  },
+  "baseball jersey": {
+    Chest: { x: 0.5, y: 0.4, w: 0.3 },
+    "Left chest": { x: 0.6, y: 0.31, w: 0.1 },
+    "Left sleeve": { x: 0.2, y: 0.33, w: 0.08, rot: -15 },
+    "Right sleeve": { x: 0.8, y: 0.33, w: 0.08, rot: 15 },
+    "Bottom left": { x: 0.39, y: 0.78, w: 0.1 },
+    "Bottom right": { x: 0.61, y: 0.78, w: 0.1 },
+  },
+  "american football jersey": {
+    Chest: { x: 0.5, y: 0.42, w: 0.28 },
+    "Left sleeve": { x: 0.19, y: 0.32, w: 0.08, rot: -15 },
+    "Right sleeve": { x: 0.81, y: 0.32, w: 0.08, rot: 15 },
+    "Bottom left": { x: 0.4, y: 0.78, w: 0.1 },
+    "Bottom right": { x: 0.6, y: 0.78, w: 0.1 },
+  },
+  "paintball jersey": {
+    Chest: { x: 0.5, y: 0.37, w: 0.28 },
+    "Left chest": { x: 0.6, y: 0.3, w: 0.1 },
+    "Left sleeve": { x: 0.19, y: 0.6, w: 0.08, rot: 6 },
+    "Right sleeve": { x: 0.81, y: 0.6, w: 0.08, rot: -6 },
+    "Bottom left": { x: 0.38, y: 0.76, w: 0.1 },
+    "Bottom right": { x: 0.62, y: 0.76, w: 0.1 },
+  },
+  leggings: {
+    Waistband: { x: 0.5, y: 0.16, w: 0.12 },
+    "Left thigh": { x: 0.4, y: 0.38, w: 0.09 },
+    "Right thigh": { x: 0.6, y: 0.38, w: 0.09 },
+    "Left calf": { x: 0.41, y: 0.72, w: 0.07 },
+    "Right calf": { x: 0.59, y: 0.72, w: 0.07 },
+  },
+  "boxing gloves": {
+    "Left glove": { x: 0.31, y: 0.4, w: 0.18 },
+    "Right glove": { x: 0.69, y: 0.4, w: 0.18 },
+    "Left cuff": { x: 0.31, y: 0.66, w: 0.13 },
+    "Right cuff": { x: 0.69, y: 0.66, w: 0.13 },
+  },
+  "custom patch": {
+    Centre: { x: 0.5, y: 0.51, w: 0.42 },
   },
 };
 const COLOURS: Array<[name: string, rgb: [number, number, number]]> = [
@@ -348,7 +505,7 @@ function StudioPage() {
 
   // Live preview in upload mode: re-render whenever the garment, colour, logo or positions change
   useEffect(() => {
-    if (mode !== "upload" || !("mask" in selected)) return;
+    if (mode !== "upload") return;
     if (!designUrl && colour === 0) {
       setMockup(null);
       return;
@@ -356,7 +513,7 @@ function StudioPage() {
     let cancelled = false;
     renderPreview(
       selected.image,
-      selected.mask as string,
+      selected.mask,
       designUrl,
       COLOURS[colour]![1],
       activeSpots.map((n) => spotMap[n]!),
@@ -519,7 +676,13 @@ function StudioPage() {
                     onClick={() => {
                       setProduct(p.id);
                       setMockup(null);
-                      if (!("mask" in p)) setMode("describe");
+                      // Keep the chosen logo positions that exist on this product, else pick its first one
+                      const map = SPOTS[p.id] ?? {};
+                      setSpots((cur) => {
+                        const keep = cur.filter((n) => map[n]);
+                        const first = Object.keys(map)[0];
+                        return keep.length || !first ? keep : [first];
+                      });
                     }}
                     aria-pressed={product === p.id}
                     className={`group border text-left transition-colors ${
@@ -532,7 +695,7 @@ function StudioPage() {
                       loading="lazy"
                       width={400}
                       height={400}
-                      className={`aspect-square w-full ${"mask" in p ? "object-cover" : "bg-white object-contain p-1"}`}
+                      className="aspect-square w-full object-cover"
                     />
                     <span className="block px-2 py-2 font-mono text-[10px] uppercase leading-tight tracking-[0.12em] text-bone">
                       {p.label}
@@ -567,12 +730,6 @@ function StudioPage() {
                     type="button"
                     role="tab"
                     aria-selected={mode === m}
-                    disabled={m === "upload" && !("mask" in selected)}
-                    title={
-                      m === "upload" && !("mask" in selected)
-                        ? "Logo preview is available for Team Jersey, Rash Guard and Fight Shorts"
-                        : undefined
-                    }
                     onClick={() => {
                       setMode(m);
                       setError(null);
@@ -587,12 +744,6 @@ function StudioPage() {
                   </button>
                 ))}
               </div>
-              {!("mask" in selected) && (
-                <p className="mb-4 text-xs text-smoke">
-                  {selected.label}: design with AI. Logo upload preview is available for Team
-                  Jersey, Rash Guard and Fight Shorts.
-                </p>
-              )}
               {mode === "describe" ? (
                 <div className="space-y-6">
                   {(
@@ -783,9 +934,7 @@ function StudioPage() {
                   alt={
                     mockup
                       ? `AI mockup of your design on ${selected.label}`
-                      : "mask" in selected
-                        ? `Blank ${selected.label}`
-                        : `${selected.label} from our catalogue`
+                      : `Blank ${selected.label}`
                   }
                   width={800}
                   height={1000}
@@ -793,9 +942,7 @@ function StudioPage() {
                 />
                 <span className="absolute bottom-4 left-4 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-bone backdrop-blur">
                   {!mockup
-                    ? "mask" in selected
-                      ? `Blank ${selected.label}`
-                      : `${selected.label} from our catalogue`
+                    ? `Blank ${selected.label}`
                     : mockupKind === "concept"
                       ? "Your AI design"
                       : mockupKind === "preview"
